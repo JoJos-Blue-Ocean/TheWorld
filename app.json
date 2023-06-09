@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e49d8d78-95a8-4399-b3ae-e884c454dbbe"
+      }
+    },
+    "owner": "davidtran"
   }
 }
