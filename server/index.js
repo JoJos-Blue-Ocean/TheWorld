@@ -12,7 +12,6 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 // ROUTES
-
 app.use('/vinyl', router);
 
 const PORT = process.env.PORT || 3000;

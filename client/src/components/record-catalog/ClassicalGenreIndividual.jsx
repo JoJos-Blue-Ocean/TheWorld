@@ -3,7 +3,7 @@ import {
   StyleSheet, Text, View, Button, Image, TouchableOpacity,
 } from 'react-native';
 
-export default function RockGenreIndividual({ album }) {
+export default function ClassicalGenreIndividual({ album }) {
   const styles = StyleSheet.create({
     image: {
       width: 200,
