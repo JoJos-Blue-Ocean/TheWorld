@@ -4,6 +4,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
+    "server-dev": "npx nodemon server server/index.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"
@@ -15,6 +16,7 @@
     "@react-navigation/native-stack": "^6.9.12",
     "axios": "^1.4.0",
     "cors": "^2.8.5",
+    "disconnect": "^1.2.2",
     "dotenv": "^16.1.4",
     "expo": "~48.0.18",
     "expo-status-bar": "~1.4.4",
