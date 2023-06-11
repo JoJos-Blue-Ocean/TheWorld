@@ -10,7 +10,7 @@ import Messages from './client/src/components/messages/Messages';
 import Wishlist from './client/src/components/wishlist/Wishlist';
 
 export default function App() {
-  const [activePage, setActivePage] = useState('RecordCatalog');
+  const [activePage, setActivePage] = useState('Profile');
 
   const renderPage = () => {
     switch (activePage) {
@@ -30,7 +30,6 @@ export default function App() {
   };
   return (
     <View style={styles.container}>
-      <Text>Hello!</Text>
       {renderPage()}
       <View style={styles.navBar}>
         <Button title="RecordCatalog" onPress={() => setActivePage('RecordCatalog')} />
