@@ -4,7 +4,7 @@ import NavigationPane from '../NavigationPane';
 
 // TODO: implement navigation.navigate('Message', {name: 'Dio'}) or id
 
-export default function TradingPlatform() {
+export default function Profile() {
   return (
     <View style={styles.container}>
       <View className="profile-picture" style={styles.profilePicture}>
