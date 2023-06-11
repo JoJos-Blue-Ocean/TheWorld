@@ -29,8 +29,6 @@ export default function Profile() {
         <Text style={styles.bioText}>
           This is a bio! Enjoy my Bio! I love writing Bios. Bio Bio Bio Bio Bio
           Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio
-          Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio
-          Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio
           Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio
         </Text>
       </View>
