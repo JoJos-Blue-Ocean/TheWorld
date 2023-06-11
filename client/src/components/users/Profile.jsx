@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Image, Pressable, Alert } from 'react-native';
 import React, { useState } from 'react';
+import NavigationPane from '../NavigationPane';
 
 // TODO: implement navigation.navigate('Message', {name: 'Dio'}) or id
 
