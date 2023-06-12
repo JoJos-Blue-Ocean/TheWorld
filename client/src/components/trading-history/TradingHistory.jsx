@@ -25,9 +25,9 @@ const styles = StyleSheet.create({
   tradesHistoryMain: {
     position: 'absolute',
     top: '10%',
-    backgroundColor: 'grey',
     height: '80%',
     width: '100%',
+    backgroundColor: '#C0C0C0',
   },
 });
 

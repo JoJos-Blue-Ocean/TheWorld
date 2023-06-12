@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import {
   StyleSheet, Text, View, Image, Pressable,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
 const styles = StyleSheet.create({
   trade: {
     height: 120,
     width: '100%',
-    backgroundColor: '#C0C0C0',
+    backgroundColor: 'white',
     marginTop: '5%',
   },
   tradeIdContainer: {
     position: 'absolute',
     height: '15%',
     width: '100%',
-    backgroundColor: 'grey',
   },
   tradeId: {
     left: '5%',
@@ -99,19 +99,28 @@ export default function MakeListingTrade({
   date,
   status,
 }) {
+  const navigation = useNavigation();
+  const params = {
+    sellingAlbumImage,
+    sellingAlbumSongName,
+    sellingAlbumArtist,
+    desiredAlbumImage,
+    desiredAlbumSongName,
+    desiredAlbumArtist,
+  };
   return (
     <View style={styles.trade}>
       <View style={styles.tradeIdContainer}>
               <Text style={styles.date}>{date}</Text>
               <Text style={styles.tradeId}>Listing#{id}</Text>
       </View>
-      <View style={styles.statusContainer}>
+      {/*<View style={styles.statusContainer}>
         <Text style={{
           textAlign: 'center',
         }}>
           {status}
         </Text>
-      </View>
+      </View>*/}
       <Image source={sellingAlbumImage} style={styles.sellingAlbumImage}/>
       <Text style={styles.sellingAlbumSongName}>{sellingAlbumSongName}</Text>
       <Text style={styles.sellingAlbumArtist}>{sellingAlbumArtist}</Text>
@@ -119,7 +128,10 @@ export default function MakeListingTrade({
       <Image source={desiredAlbumImage} style={styles.desiredAlbumImage}/>
       <Text style={styles.desiredAlbumSongName}>{desiredAlbumSongName}</Text>
       <Text style={styles.desiredAlbumArtist}>{desiredAlbumArtist}</Text>
-      <Pressable style={styles.completeButton}>
+      <Pressable style={styles.completeButton}
+        onPress={() => {
+          navigation.navigate('Trade Completion Form', params);
+        }}>
         <Text style={{
           textAlign: 'center',
           fontSize: 10,

@@ -14,6 +14,7 @@ import Profile from './client/src/components/users/Profile';
 import Messages from './client/src/components/messages/Messages';
 import Wishlist from './client/src/components/wishlist/Wishlist';
 import NavigationPane from './client/src/components/NavigationPane';
+import CompleteTradeForm from './client/src/components/trading-history/CompleteTradeForm';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ export default function App() {
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="Messages" component={Messages} />
           <Stack.Screen name="WishList" component={Wishlist} />
+          <Stack.Screen name="Trade Completion Form" component={CompleteTradeForm} />
         </Stack.Navigator>
       </NavigationPane>
     </NavigationContainer>

@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     flexDirection: 'column',
-    backgroundColor: 'grey',
   },
   scroll: {
     flex: 1,

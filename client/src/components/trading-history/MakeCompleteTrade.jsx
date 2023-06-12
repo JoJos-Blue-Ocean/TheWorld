@@ -7,14 +7,13 @@ const styles = StyleSheet.create({
   trade: {
     height: 120,
     width: '100%',
-    backgroundColor: '#C0C0C0',
+    backgroundColor: 'white',
     marginTop: '3%',
   },
   tradeIdContainer: {
     position: 'absolute',
     height: '15%',
     width: '100%',
-    backgroundColor: 'grey',
   },
   tradeId: {
     left: '5%',
@@ -123,13 +122,13 @@ export default function MakeCompleteTrade({
               <Text style={styles.date}>{date}</Text>
               <Text style={styles.tradeId}>Listing#{id}</Text>
       </View>
-      <View style={styles.statusContainer}>
+      {/*<View style={styles.statusContainer}>
         <Text style={{
           textAlign: 'center',
         }}>
           {status}
         </Text>
-      </View>
+      </View>*/}
       <Image source={sellingAlbumImage} style={styles.sellingAlbumImage}/>
       <Text style={styles.sellingAlbumSongName}>{sellingAlbumSongName}</Text>
       <Text style={styles.sellingAlbumArtist}>{sellingAlbumArtist}</Text>
