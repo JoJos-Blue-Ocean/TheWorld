@@ -3,43 +3,51 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import NavigationPane from '../NavigationPane';
+import user from './MockUser.js';
+import { useNavigation } from '@react-navigation/core';
+
 
 // TODO: implement navigation.navigate('Message', {name: 'Dio'}) or id
 
-export default function Profile() {
+export default function Profile({ localUser }) {
+  const navigation = useNavigation();
+
+  const retrieveStats = () => {
+    // QUERY DATABASE FOR STATS
+  };
+
   return (
     <View style={styles.container}>
       <View className="pic-name" style={styles.picName}>
         <View className="profile-picture" style={styles.profilePicture}>
-          <Image source={require('../../../../assets/bob.png')} />
+          <Image source={user.profile_picture} />
         </View>
         <View className="info" style={styles.info}>
-          <Text className="name" style={styles.name}>Dilly Migdol</Text>
-          <Text className="location" style={styles.location}>Santa Clarita, CA</Text>
+          <Text className="name" style={styles.name}>{user.username}</Text>
+          <Text className="location" style={styles.location}>{user.location}</Text>
         </View>
       </View>
       <View className="stats-col" style={styles.statsBox}>
       <View className="profile-stats" style={styles.stats}>
         <Text style={styles.statsMeta}>
-          1337
+          {user.reviews}
           {' '}
           {'\n'}
           Reviews
           {'\n'}
         </Text>
         <Text style={styles.statsMeta}>
-          4.53
+          {user.rating}
           {' '}
           {'\n'}
           Rating
           {'\n'}
         </Text>
         <Text style={styles.statsMeta}>
-          134
+          {user.trades}
           {' '}
           {'\n'}
           Trades
-          {'\n'}
         </Text>
       </View>
       </View>
@@ -47,21 +55,20 @@ export default function Profile() {
       <Pressable
         style={styles.mButton}
         className="message-button"
-        onPress={() => Alert.alert('Message button pressed')}
+        onPress={() => navigation.navigate('Messages', { sender_id: user.id })}
       >
         <Text style={styles.buttonText}>Message</Text>
       </Pressable>
       <View className="bio" style={styles.bio}>
         <Text style={styles.bioText}>
-          This is a bio! Enjoy my Bio! I love writing Bios. Bio Bio Bio Bio Bio
-          Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio
-          Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio Bio
+          {user.biography}
         </Text>
       </View>
       <Pressable
         style={styles.wButton}
         className="message-button"
-        onPress={() => Alert.alert('Wishlist button pressed')}
+        // WILL CHANGE WHEN QUERIES ARE CREATED, CHANGE USER.ID TO CORRECT BODY REFERENCE
+        onPress={() => navigation.navigate('WishList', { user_id: user.id })}
       >
         <Text style={styles.buttonText}>Wishlist</Text>
       </Pressable>
@@ -111,6 +118,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bio: {
+    width: '90%',
+    height: '28%',
     marginTop: '10%',
     margin: '5%',
     justifyContent: 'center',
@@ -141,7 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#A30000',
   },
   wButton: {
-    paddingVertical: 10,
+    paddingVertical: 8,
     paddingHorizontal: 14,
     borderRadius: 4,
     width: '33%',
