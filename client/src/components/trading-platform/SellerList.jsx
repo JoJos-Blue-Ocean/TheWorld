@@ -4,14 +4,12 @@ import {
 } from 'react-native';
 import SellerTile from './SellerTile';
 
-export default function SellerList({ openTrades, albumDetails }) {
+export default function SellerList({ openTrades, master }) {
   return (
     <View>
       {openTrades.map(
-        (trade) => <SellerTile key={trade.id} trade={trade} albumDetails={albumDetails} />,
+        (trade) => <SellerTile key={trade.id} trade={trade} master={master} />,
       )}
-      {/* Have 2 maps just to test scrolling */}
-      {openTrades.map((trade) => <SellerTile key={trade.id} trade={trade} albumDetails={albumDetails} />)}
     </View>
   );
 }

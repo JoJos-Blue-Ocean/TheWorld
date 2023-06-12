@@ -60,75 +60,58 @@ const styles = StyleSheet.create({
 });
 
 export default function ActiveTradeDetails({ route }) {
-  const { trade, albumDetails } = route.params;
-  const [wantAlbum, setWantAlbum] = useState(null);
+  const { trade, master, wantMaster } = route.params;
 
-  useEffect(() => {
-    axios
-      .get(`https://api.discogs.com/releases/${trade.want_album_id}`, {
-        params: {
-          key: Constants.expoConfig.extra.discogsKey,
-          secret: Constants.expoConfig.extra.discogsSecret,
-        },
-      })
-      .then(({ data }) => {
-        setWantAlbum(data);
-      })
-      .catch((err) => console.error('OH NO: ', err));
-  }, []);
-
-  if (wantAlbum) {
-    return (
-      <View>
-        <ScrollView>
-          <View style={styles.headerContainer}>
-            <Image
-              style={styles.headerImage}
-              source={{ uri: albumDetails.images[0].uri }}
-            />
-            <Text style={styles.albumNameInHeader}>
-              {`${albumDetails.artists[0].name} - ${albumDetails.title}`}
+  return (
+    <View>
+      <ScrollView>
+        <View style={styles.headerContainer}>
+          <Image
+            style={styles.headerImage}
+            source={{ uri: master.images[0].uri }}
+          />
+          <Text style={styles.albumNameInHeader}>
+            {`${master.artists[0].name} - ${master.title}`}
+          </Text>
+        </View>
+        <View style={styles.sellerSection}>
+          <Image
+            style={styles.sellerIcon}
+            source={{ uri: trade.profile_picture }}
+          />
+          <View>
+            <Text>{`Owner: ${trade.username}`}</Text>
+            <Text>
+              {`Rating: ${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}
             </Text>
           </View>
-          <View style={styles.sellerSection}>
+        </View>
+        <View style={styles.detailsSection}>
+          <Text style={styles.heading}>Description</Text>
+          <Text>{trade.description ? trade.description : 'N/A'}</Text>
+        </View>
+        <View style={styles.detailsSection}>
+          <Text style={styles.heading}>Want</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image
-              style={styles.sellerIcon}
-              source={{ uri: trade.profile_picture }}
+              style={styles.albumThumbnail}
+              source={{ uri: wantMaster.images[0].uri }}
             />
             <View>
-              <Text>{`Owner: ${trade.username}`}</Text>
-              <Text>
-                {`Rating: ${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}
-              </Text>
+              <Text>{wantMaster.title}</Text>
+              <Text>{wantMaster.artists[0].name}</Text>
+              <Text>{wantMaster.year}</Text>
             </View>
           </View>
-          <View style={styles.detailsSection}>
-            <Text style={styles.heading}>Description</Text>
-            <Text>{trade.description ? trade.description : 'N/A'}</Text>
-          </View>
-          <View style={styles.detailsSection}>
-            <Text style={styles.heading}>Want</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image
-                style={styles.albumThumbnail}
-                source={{ uri: wantAlbum.thumb }}
-              />
-              <View>
-                <Text>{wantAlbum.title}</Text>
-                <Text>{wantAlbum.artists[0].name}</Text>
-                <Text>{wantAlbum.released}</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.buttonSection}>
-            <Button
-              title="Make offer"
-              onPress={() => Alert.alert('Button pressed')}
-              color="#A30000"
-            />
-          </View>
-        </ScrollView>
-      </View>
-    );
-  }
+        </View>
+        <View style={styles.buttonSection}>
+          <Button
+            title="Make offer"
+            onPress={() => Alert.alert('Button pressed')}
+            color="#A30000"
+          />
+        </View>
+      </ScrollView>
+    </View>
+  );
 }
