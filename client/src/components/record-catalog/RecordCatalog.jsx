@@ -6,35 +6,6 @@ import GenreEntries from './GenreEntries';
 
 export default function RecordCatalog() {
   const genres = ['rock', 'classical', 'hip-hop'];
-  // useEffect(() => {
-  //   axios.get('http://localhost:3000/vinyl', {
-  //     params: {
-  //       text: '',
-  //       genre: 'rock',
-  //     },
-  //   })
-  //     .then((response) => {
-  //       setRockAlbums(response.data.results);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   axios.get('http://localhost:3000/vinyl', {
-  //     params: {
-  //       text: '',
-  //       genre: 'classical',
-  //     },
-  //   })
-  //     .then((response) => {
-  //       setClassicalAlbums(response.data.results);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
   return (
 
@@ -52,6 +23,7 @@ export default function RecordCatalog() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    maginLeft: 20,
   },
   scrollViewContent: {
     paddingBottom: 60,

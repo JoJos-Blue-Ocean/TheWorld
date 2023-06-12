@@ -51,30 +51,37 @@ export default function RockGenreIndividual({ album }) {
             <Text style={styles.modalTitleText}>{collectionTitle}</Text>
             <Text style={styles.modalArtistText}>{artistTitle}</Text>
             {info.map((item, index) => (
-              <View key={item.position}>
+              <View key={item.position} style={styles.trackListItem}>
+                <Text style={styles.trackNumber}>
+                  {index + 1}
+                </Text>
                 <View style={styles.trackInfo}>
-                  <Text style={styles.modalText}>{`${index + 1}. ${item.title}`}</Text>
-                  <Text style={styles.modalText}>{item.duration}</Text>
+                  <Text style={styles.trackTitle}>{item.title}</Text>
+                  <Text style={styles.trackDuration}>{item.duration || '0:00'}</Text>
                 </View>
               </View>
             ))}
 
-            <Button
-              title="Trade"
+            <TouchableOpacity
+              style={styles.tradeButton}
               onPress={() => {
                 closeModal();
-                navigation.navigate('TradingPlatform', { master_id : album.master_id});
+                navigation.navigate('TradingPlatform', { master_id: album.master_id });
               }}
-              style={styles.tradeButton}
-            />
-            <Button
-              title="Add to Wishlist"
+            >
+              <Text style={styles.buttonText}>Trade</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.wishlistButton}
               onPress={() => {
-                // Handle trade button press
+                // Handle adding wishlist button press
               }}
-              style={styles.tradeButton}
-            />
-            <Button title="Close" onPress={closeModal} />
+            >
+              <Text style={styles.buttonText}>Add to Wishlist</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+              <Text style={styles.closeButtonText}>Back</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -114,7 +121,7 @@ const styles = StyleSheet.create({
     textAlign: 'start',
     marginBottom: 5,
     marginRight: 0,
-    width: 160, // Adjust the width to match the image width
+    width: 160,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
@@ -123,7 +130,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: 'start',
     color: '#666',
-    width: 160, // Adjust the width to match the image width
+    width: 160,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
@@ -160,17 +167,71 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
-  trackInfo: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-  },
   modalText: {
     flex: 1,
     marginBottom: 10,
   },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   tradeButton: {
     marginTop: 20,
+    backgroundColor: '#800000',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 160,
+  },
+  wishlistButton: {
+    marginTop: 10,
+    backgroundColor: '#800000',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 160,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    backgroundColor: 'transparent',
+    padding: 5,
+  },
+  closeButtonText: {
+    color: '#800000',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  trackListItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  trackNumber: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginRight: 8,
+    width: 20,
+  },
+  trackInfo: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  trackTitle: {
+    flex: 1,
+    marginRight: 8,
+    fontSize: 12,
+  },
+  trackDuration: {
+    fontSize: 12,
+    color: '#666',
   },
 });
