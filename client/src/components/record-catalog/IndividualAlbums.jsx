@@ -10,15 +10,15 @@ export default function IndividualAlbums({ album }) {
 
   // console.log('this is info', info);
 
-  const grabAlbumInfo = (id) => {
+  const grabAlbumInfo = () => {
     axios.get('http://localhost:3000/api/record-catalog/individualAlbum', {
       params: {
         id: album.master_id,
       },
     })
       .then((response) => {
-        // console.log('this is response', response);
-        setInfo(response);
+        console.log('this is response', response.data);
+        setInfo(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -26,7 +26,7 @@ export default function IndividualAlbums({ album }) {
   };
 
   const openModal = () => {
-    grabAlbumInfo(album.id);
+    grabAlbumInfo();
     setModalVisible(true);
   };
 
