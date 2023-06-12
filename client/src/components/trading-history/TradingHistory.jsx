@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, Text, View, Dimensions,
+  StyleSheet, Text, View,
 } from 'react-native';
 import YourListing from './YourListing';
 import NavigationPane from '../NavigationPane';
-
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +26,7 @@ const styles = StyleSheet.create({
     top: '10%',
     backgroundColor: 'grey',
     height: '80%',
+    width: '100%',
   },
 });
 
@@ -38,15 +37,15 @@ export default function TradingHistory() {
 
     <View style={styles.container}>
       <View style={styles.tabs}>
-        <View style={styles.tab} onClick={() => { setTab('Your Listing'); }}>
+        <View style={styles.tab} onPress={() => { setTab('Your Listing'); }}>
           <Text>Your Listing</Text>
         </View>
-        <View style={styles.tab} onClick={() => { setTab('Transaction History'); }}>
+        <View style={styles.tab} onPress={() => { setTab('Transaction History'); }}>
           <Text>Transaction History</Text>
         </View>
       </View>
       <View style={styles.tradesHistoryMain}>
-        <YourListing />
+        {(tab === 'Your Listing') && <YourListing />}
       </View>
     </View>
 
