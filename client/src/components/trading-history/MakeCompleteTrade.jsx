@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function MakeListingTrade({
+export default function MakeCompleteTrade({
   id,
   sellingAlbumImage,
   sellingAlbumSongName,
@@ -119,14 +119,6 @@ export default function MakeListingTrade({
       <Image source={desiredAlbumImage} style={styles.desiredAlbumImage}/>
       <Text style={styles.desiredAlbumSongName}>{desiredAlbumSongName}</Text>
       <Text style={styles.desiredAlbumArtist}>{desiredAlbumArtist}</Text>
-      <Pressable style={styles.completeButton}>
-        <Text style={{
-          textAlign: 'center',
-          fontSize: 10,
-        }}>
-          Mark As Sold
-        </Text>
-      </Pressable>
     </View>
   );
 }

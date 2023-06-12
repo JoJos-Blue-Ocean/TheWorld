@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, Text, View,
+  StyleSheet, Text, View, Pressable,
 } from 'react-native';
 import YourListing from './YourListing';
+import TransactionHistory from './TransactionHistory';
 import NavigationPane from '../NavigationPane';
 
 const styles = StyleSheet.create({
@@ -37,15 +38,16 @@ export default function TradingHistory() {
 
     <View style={styles.container}>
       <View style={styles.tabs}>
-        <View style={styles.tab} onPress={() => { setTab('Your Listing'); }}>
+        <Pressable style={styles.tab} onPress={() => { setTab('Your Listing'); }}>
           <Text>Your Listing</Text>
-        </View>
-        <View style={styles.tab} onPress={() => { setTab('Transaction History'); }}>
+        </Pressable>
+        <Pressable style={styles.tab} onPress={() => { setTab('Transaction History'); }}>
           <Text>Transaction History</Text>
-        </View>
+        </Pressable>
       </View>
       <View style={styles.tradesHistoryMain}>
         {(tab === 'Your Listing') && <YourListing />}
+        {(tab === 'Transaction History') && <TransactionHistory />}
       </View>
     </View>
 
