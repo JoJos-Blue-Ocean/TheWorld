@@ -6,10 +6,9 @@ import {
 
 export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
-  const [info, setInfo] = useState({});
+  const [info, setInfo] = useState([]);
 
-  // console.log('this is info', info);
-
+  console.log('this is INFO', info.tracklist);
   const grabAlbumInfo = () => {
     axios.get('http://localhost:3000/api/record-catalog/individualAlbum', {
       params: {
@@ -17,7 +16,6 @@ export default function IndividualAlbums({ album }) {
       },
     })
       .then((response) => {
-        console.log('this is response', response.data);
         setInfo(response.data);
       })
       .catch((err) => {
@@ -47,12 +45,13 @@ export default function IndividualAlbums({ album }) {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Image source={{ uri: album.cover_image }} style={styles.image} />
-            <Text style={styles.modalText}>{album.title}</Text>
-            <Text style={styles.modalText}>{album.tracklist}</Text>
-            <Text style={styles.modalText}>{album.duration}</Text>
-            <Text style={styles.modalText}>{album.published_date}</Text>
-            <Text style={styles.modalText}>{album.artist}</Text>
+            <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
+            <Text style={styles.modalTitleText}>{collectionTitle}</Text>
+            <Text style={styles.modalArtistText}>{artistTitle}</Text>
+            {/* <Text style={styles.modalText}>{info.tracklist}</Text>
+            <Text style={styles.modalText}>{info.duration}</Text>
+            <Text style={styles.modalText}>{info.published_date}</Text>
+            <Text style={styles.modalText}>{info.artist}</Text> */}
             <Button
               title="Trade"
               onPress={() => {
@@ -73,8 +72,10 @@ export default function IndividualAlbums({ album }) {
       </Modal>
       <TouchableOpacity onPress={openModal}>
         <Image source={{ uri: album.cover_image }} style={styles.image} />
-        <Text style={styles.titleText}>{collectionTitle}</Text>
-        <Text style={styles.artist}>{artistTitle}</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleText} numberOfLines={1}>{collectionTitle}</Text>
+          <Text style={styles.artist} numberOfLines={1}>{artistTitle}</Text>
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -86,8 +87,47 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 160,
+    height: 160,
+    resizeMode: 'cover',
+    borderRadius: 8,
+    marginBottom: 10,
+    marginRight: 20,
+    borderWidth: 2,
+    borderColor: '#ddd',
+  },
+  titleContainer: {
+    flexDirection: 'column',
+    marginBottom: 5,
+  },
+  titleText: {
+    fontWeight: 'bold',
+    fontSize: 11,
+    textAlign: 'start',
+    marginBottom: 5,
+    marginRight: 0,
+    width: 160, // Adjust the width to match the image width
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  artist: {
+    fontSize: 10,
+    textAlign: 'start',
+    color: '#666',
+    width: 160, // Adjust the width to match the image width
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalImage: {
+    width: 250,
+    height: 250,
     resizeMode: 'cover',
     borderRadius: 8,
     marginBottom: 10,
@@ -95,29 +135,24 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#ddd',
   },
-  titleContainer: {
-    flexDirection: 'row',
-  },
-  titleText: {
-    fontWeight: 'bold',
-    fontSize: 13,
-    textAlign: 'start',
-    marginBottom: 5,
-    marginRight: 0,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   modalContent: {
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 8,
     alignItems: 'center',
   },
+  modalTitleText: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 5,
+    textAlign: 'center',
+  },
+  modalArtistText: {
+    fontSize: 14,
+    marginBottom: 10,
+    textAlign: 'center',
+  },
   modalText: {
-
     marginBottom: 10,
   },
   tradeButton: {

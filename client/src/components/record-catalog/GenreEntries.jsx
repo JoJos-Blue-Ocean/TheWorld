@@ -47,9 +47,11 @@ export default function GenreEntries({ genre }) {
     fetchAlbums();
   }, []);
 
+  const capitalizedGenre = genre.charAt(0).toUpperCase() + genre.slice(1);
+
   return (
     <View>
-      <Text>{genre}</Text>
+      <Text style={styles.genreText}>{capitalizedGenre}</Text>
       <ScrollView
         horizontal
         style={styles.container}
@@ -68,5 +70,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     marginTop: 10,
+    marginBottom: 20,
+  },
+  genreText: {
+    fontWeight: 'bold',
+    fontSize: 20,
   },
 });
