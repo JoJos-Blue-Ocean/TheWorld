@@ -11,7 +11,8 @@ module.exports = {
     trades.created_at,
     users.username,
     users.profile_picture,
-    avg(ratings.rating) AS average_rating
+    avg(ratings.rating) AS average_rating,
+    count(ratings.rating) AS ratings_count
     FROM trades
     JOIN users ON trades.seller_id=users.id
     JOIN ratings ON trades.seller_id=ratings.recipient_id
