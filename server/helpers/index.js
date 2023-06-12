@@ -35,6 +35,9 @@ module.exports = {
         res.sendStatus(500);
       });
   },
+  searchAlbumTitle: (req, res) => {
+    axios.get(`https://api.discogs.com/database/search?q=${req.query.text}&title=${req.query.title}&key=${consumerKey}&secret=${consumerSecret}&page=${req.query.page}&per_page=10`)
+  }
   // getReleaseInfo: (req, res) => {
   //   axios.get(`https://api.discogs.com/releases/${response.data.main_release}?token=${token}`)
   //     .then((result) => {

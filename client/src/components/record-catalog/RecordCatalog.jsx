@@ -3,43 +3,20 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import NavigationPane from '../NavigationPane';
 import GenreEntries from './GenreEntries';
+import SearchBar from './SearchBar';
 
 export default function RecordCatalog() {
   const genres = ['rock', 'classical', 'hip-hop'];
-  // useEffect(() => {
-  //   axios.get('http://localhost:3000/vinyl', {
-  //     params: {
-  //       text: '',
-  //       genre: 'rock',
-  //     },
-  //   })
-  //     .then((response) => {
-  //       setRockAlbums(response.data.results);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   axios.get('http://localhost:3000/vinyl', {
-  //     params: {
-  //       text: '',
-  //       genre: 'classical',
-  //     },
-  //   })
-  //     .then((response) => {
-  //       setClassicalAlbums(response.data.results);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
+  const categories = ['title', 'artist'];
+  const [searchState, setSearchState] = useState(false);
 
   return (
 
     <View>
-      {genres.map((genre) => <GenreEntries genre={genre} key={genre} />)}
+      <SearchBar setSearchState={setSearchState} />
+      {searchState
+        ? categories.map((category) => <SearchEntries category={category} key={category} />)
+        : genres.map((genre) => <GenreEntries genre={genre} key={genre} />)}
     </View>
   );
 }

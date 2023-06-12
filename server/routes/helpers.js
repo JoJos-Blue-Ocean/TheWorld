@@ -3,5 +3,6 @@ const helpers = require('../helpers');
 
 router.get('/allAlbums', helpers.getAlbums);
 router.get('/individualAlbum', helpers.getAlbumInfo);
+router.get('/searchAlbumTitle', helpers.searchAlbumTitle);
 
 module.exports = router;

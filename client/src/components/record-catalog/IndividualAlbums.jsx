@@ -4,11 +4,11 @@ import {
   StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity,
 } from 'react-native';
 
-export default function RockGenreIndividual({ album }) {
+export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [info, setInfo] = useState({});
 
-  console.log('this is info', info);
+  // console.log('this is info', info);
 
   const grabAlbumInfo = (id) => {
     axios.get('http://localhost:3000/api/record-catalog/individualAlbum', {
@@ -17,7 +17,7 @@ export default function RockGenreIndividual({ album }) {
       },
     })
       .then((response) => {
-        console.log('this is response', response);
+        // console.log('this is response', response);
         setInfo(response);
       })
       .catch((err) => {
