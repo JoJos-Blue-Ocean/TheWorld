@@ -12,7 +12,9 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 // ROUTES
-app.use('/vinyl', router);
+
+app.use('/vinyl', router.helpers);
+app.use('/api/trading-platform', router.tradingPlatform);
 
 const PORT = process.env.PORT || 3000;
 
