@@ -12,6 +12,8 @@ const token = 'mrsOtFtkMeCRTyFvAFJFPoxRPcCXUMKmICIkypqC';
 // });
 
 module.exports = {
+
+  //  master id
   getAlbums: (req, res) => {
     axios.get(`https://api.discogs.com/database/search?q=${req.query.text}&genre=${req.query.genre}&key=${consumerKey}&secret=${consumerSecret}&page=${req.query.page}&per_page=10`)
       .then((response) => {
@@ -33,14 +35,14 @@ module.exports = {
         res.sendStatus(500);
       });
   },
-  getReleaseInfo: (req, res) => {
-    axios.get(`https://api.discogs.com/releases/${response.data.main_release}?token=${token}`)
-      .then((result) => {
-        res.send(result.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.sendStatus(500);
-      });
-  },
+  // getReleaseInfo: (req, res) => {
+  //   axios.get(`https://api.discogs.com/releases/${response.data.main_release}?token=${token}`)
+  //     .then((result) => {
+  //       res.send(result.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       res.sendStatus(500);
+  //     });
+  // },
 };
