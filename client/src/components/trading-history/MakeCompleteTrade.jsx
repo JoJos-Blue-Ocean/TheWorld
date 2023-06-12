@@ -5,8 +5,8 @@ import {
 
 const styles = StyleSheet.create({
   trade: {
-    height: '30%',
-    width: '90%',
+    height: 120,
+    width: '100%',
     backgroundColor: '#C0C0C0',
     marginTop: '3%',
   },
@@ -77,14 +77,30 @@ const styles = StyleSheet.create({
     width: '20%',
     backgroundColor: 'grey',
   },
-  completeButton: {
+  buyerImage: {
+    position: 'absolute',
+    top: '35%',
+    left: '80%',
+    height: '50%',
+    width: '18%',
+  },
+  buyerName: {
     position: 'absolute',
     bottom: 0,
     right: 0,
+    fontSize: 12,
+  },
+  messageButton: {
+    position: 'absolute',
+    bottom: '12%',
+    right: '15%',
+    height: '10%',
+    width: '10%',
     backgroundColor: '#800000',
-    height: '5%',
-    width: '20%',
-    margin: '2%',
+  },
+  message: {
+    textAlign: 'center',
+    fontSize: 10,
   },
 });
 
@@ -98,6 +114,8 @@ export default function MakeCompleteTrade({
   desiredAlbumArtist,
   date,
   status,
+  buyerName,
+  buyerImage,
 }) {
   return (
     <View style={styles.trade}>
@@ -116,9 +134,16 @@ export default function MakeCompleteTrade({
       <Text style={styles.sellingAlbumSongName}>{sellingAlbumSongName}</Text>
       <Text style={styles.sellingAlbumArtist}>{sellingAlbumArtist}</Text>
       <Text style={styles.for}>for</Text>
-      <Image source={desiredAlbumImage} style={styles.desiredAlbumImage}/>
+      <Image source={desiredAlbumImage} style={styles.desiredAlbumImage} />
       <Text style={styles.desiredAlbumSongName}>{desiredAlbumSongName}</Text>
       <Text style={styles.desiredAlbumArtist}>{desiredAlbumArtist}</Text>
+      <Image source={buyerImage} style={styles.buyerImage} />
+      <Text style={styles.buyerName}>{buyerName}</Text>
+      <Pressable style={styles.messageButton}>
+        <Text style={styles.message}>
+          message
+        </Text>
+      </Pressable>
     </View>
   );
 }

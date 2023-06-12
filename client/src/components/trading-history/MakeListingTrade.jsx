@@ -5,10 +5,10 @@ import {
 
 const styles = StyleSheet.create({
   trade: {
-    height: '30%',
-    width: '90%',
+    height: 120,
+    width: '100%',
     backgroundColor: '#C0C0C0',
-    marginTop: '3%',
+    marginTop: '5%',
   },
   tradeIdContainer: {
     position: 'absolute',
