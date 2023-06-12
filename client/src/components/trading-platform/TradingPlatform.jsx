@@ -45,7 +45,7 @@ export default function TradingPlatform() {
 
   useEffect(() => {
     axios
-      .get(`${Constants.expoConfig.extra.apiUrl}/api/trading-platform/27031743/open-trades`)
+      .get('http://localhost:3000/api/trading-platform/27031743/open-trades')
       .then(({ data }) => setOpenTrades(data))
       .catch((err) => console.error('OH NO: ', err));
   }, []);
