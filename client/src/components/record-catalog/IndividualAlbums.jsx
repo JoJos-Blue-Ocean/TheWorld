@@ -4,19 +4,21 @@ import {
   StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity,
 } from 'react-native';
 
-export default function IndividualAlbums({ album }) {
+export default function RockGenreIndividual({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [info, setInfo] = useState({});
 
-  const grabAlbumInfo = () => {
+  console.log('this is info', info);
+
+  const grabAlbumInfo = (id) => {
     axios.get('http://localhost:3000/vinyl/individualAlbum', {
       params: {
         id: album.master_id,
       },
     })
       .then((response) => {
-        console.log('this is response', response.data);
-        setInfo(response.data);
+        console.log('this is response', response);
+        setInfo(response);
       })
       .catch((err) => {
         console.log(err);
@@ -24,13 +26,17 @@ export default function IndividualAlbums({ album }) {
   };
 
   const openModal = () => {
-    grabAlbumInfo();
+    grabAlbumInfo(album.id);
     setModalVisible(true);
   };
 
   const closeModal = () => {
     setModalVisible(false);
   };
+
+  const splitTitle = album.title.split(' - ');
+  const collectionTitle = splitTitle[1] || '';
+  const artistTitle = splitTitle[0] || '';
 
   return (
     <View>
@@ -67,16 +73,37 @@ export default function IndividualAlbums({ album }) {
       </Modal>
       <TouchableOpacity onPress={openModal}>
         <Image source={{ uri: album.cover_image }} style={styles.image} />
+        <Text style={styles.titleText}>{collectionTitle}</Text>
+        <Text style={styles.artist}>{artistTitle}</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
   image: {
     width: 200,
     height: 200,
     resizeMode: 'cover',
+    borderRadius: 8,
+    marginBottom: 10,
+    marginRight: 8,
+    borderWidth: 2,
+    borderColor: '#ddd',
+  },
+  titleContainer: {
+    flexDirection: 'row',
+  },
+  titleText: {
+    fontWeight: 'bold',
+    fontSize: 13,
+    textAlign: 'start',
+    marginBottom: 5,
+    marginRight: 0,
   },
   modalContainer: {
     flex: 1,
@@ -90,6 +117,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalText: {
+
     marginBottom: 10,
   },
   tradeButton: {
