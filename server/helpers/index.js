@@ -1,8 +1,15 @@
 require('dotenv').config();
 const axios = require('axios');
+// const Discogs = require('disconnect').Client;
 
 const consumerKey = 'ZvHBoFkrLyXPIeKeOXNT';
 const consumerSecret = 'hxwocTTpjbwSyqxpzxmPrOvCskCxiPrF';
+const token = 'mrsOtFtkMeCRTyFvAFJFPoxRPcCXUMKmICIkypqC';
+
+// const dis = new Discogs({
+//   consumerKey,
+//   consumerSecret,
+// });
 
 module.exports = {
   getAlbums: (req, res) => {
@@ -16,10 +23,20 @@ module.exports = {
       });
   },
   getAlbumInfo: (req, res) => {
-    console.log(req.query.release_id);
-    axios.get(`https://api.discogs.com/releases/${req.query.release_id}`)
+    console.log(req.query.id);
+    axios.get(`https://api.discogs.com/masters/${req.query.id}?token=${token}`)
       .then((response) => {
         res.send(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+      });
+  },
+  getReleaseInfo: (req, res) => {
+    axios.get(`https://api.discogs.com/releases/${response.data.main_release}?token=${token}`)
+      .then((result) => {
+        res.send(result.data);
       })
       .catch((err) => {
         console.log(err);

@@ -8,15 +8,15 @@ export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [info, setInfo] = useState({});
 
-  const grabAlbumInfo = (id) => {
+  const grabAlbumInfo = () => {
     axios.get('http://localhost:3000/vinyl/individualAlbum', {
       params: {
-        release_id: id,
+        id: album.master_id,
       },
     })
       .then((response) => {
-        console.log('this is response', response);
-        setInfo(response);
+        console.log('this is response', response.data);
+        setInfo(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -24,7 +24,7 @@ export default function IndividualAlbums({ album }) {
   };
 
   const openModal = () => {
-    grabAlbumInfo(album.master_id);
+    grabAlbumInfo();
     setModalVisible(true);
   };
 
