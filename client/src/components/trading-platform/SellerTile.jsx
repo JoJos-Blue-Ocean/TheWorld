@@ -1,8 +1,12 @@
+import axios from 'axios';
 import React from 'react';
 import {
   StyleSheet, Text, View, Image, Dimensions, Button,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import Constants from 'expo-constants';
+
+const { useState, useEffect } = React;
 
 const styles = StyleSheet.create({
   tileContainer: {
@@ -40,8 +44,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function SellerTile({ trade, albumDetails }) {
+export default function SellerTile({ trade, master }) {
+  const [wantMaster, setWantMaster] = useState(null);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    axios
+      .get(`https://api.discogs.com/masters/${trade.want_album_id}`, {
+        params: {
+          key: Constants.expoConfig.extra.discogsKey,
+          secret: Constants.expoConfig.extra.discogsSecret,
+        },
+      })
+      .then(({ data }) => {
+        setWantMaster(data);
+      })
+      .catch((err) => console.error('OH NO: ', err));
+  }, []);
 
   return (
     <View style={styles.tileContainer}>
@@ -63,10 +82,16 @@ export default function SellerTile({ trade, albumDetails }) {
         </View>
       </View>
       <View style={styles.rightSection}>
-        <Button
-          title="D"
-          onPress={() => navigation.navigate('ActiveTradeDetails', { trade, albumDetails })}
-        />
+        {
+          wantMaster
+            ? (
+              <Button
+                title="D"
+                onPress={() => navigation.navigate('ActiveTradeDetails', { trade, master, wantMaster })}
+              />
+            )
+            : null
+        }
       </View>
     </View>
   );
