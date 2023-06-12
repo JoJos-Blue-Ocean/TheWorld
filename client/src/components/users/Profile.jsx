@@ -1,4 +1,6 @@
-import { StyleSheet, Text, View, Image, Pressable, Alert } from 'react-native';
+import {
+  StyleSheet, Text, View, Image, Pressable, Alert,
+} from 'react-native';
 import React, { useState } from 'react';
 import NavigationPane from '../NavigationPane';
 
@@ -7,23 +9,47 @@ import NavigationPane from '../NavigationPane';
 export default function Profile() {
   return (
     <View style={styles.container}>
-      <View className="profile-picture" style={styles.profilePicture}>
-        <Image source={require('../../../../assets/bob.png')} />
+      <View className="pic-name" style={styles.picName}>
+        <View className="profile-picture" style={styles.profilePicture}>
+          <Image source={require('../../../../assets/bob.png')} />
+        </View>
+        <View className="info" style={styles.info}>
+          <Text className="name" style={styles.name}>Dilly Migdol</Text>
+          <Text className="location" style={styles.location}>Santa Clarita, CA</Text>
+        </View>
       </View>
+      <View className="stats-col" style={styles.statsBox}>
       <View className="profile-stats" style={styles.stats}>
-        <Text style={styles.statsMeta}>1337 {"\n"}Reviews{"\n"}</Text>
-        <Text style={styles.statsMeta}>4.53 {"\n"}Rating{"\n"}</Text>
-        <Text style={styles.statsMeta}>134 {"\n"}Trades{"\n"}</Text>
+        <Text style={styles.statsMeta}>
+          1337
+          {' '}
+          {'\n'}
+          Reviews
+          {'\n'}
+        </Text>
+        <Text style={styles.statsMeta}>
+          4.53
+          {' '}
+          {'\n'}
+          Rating
+          {'\n'}
+        </Text>
+        <Text style={styles.statsMeta}>
+          134
+          {' '}
+          {'\n'}
+          Trades
+          {'\n'}
+        </Text>
       </View>
-      <View className="info" style={styles.info}>
-        <Text className="name" style={styles.name}>Dilly Migdol</Text>
-        <Text className="location" style={styles.location}>Santa Clarita, CA</Text>
       </View>
+
       <Pressable
-      style={styles.mButton}
-      className="message-button"
-      onPress={() => Alert.alert('Message button pressed')}
-      ><Text style={styles.buttonText}>Message</Text>
+        style={styles.mButton}
+        className="message-button"
+        onPress={() => Alert.alert('Message button pressed')}
+      >
+        <Text style={styles.buttonText}>Message</Text>
       </Pressable>
       <View className="bio" style={styles.bio}>
         <Text style={styles.bioText}>
@@ -33,10 +59,11 @@ export default function Profile() {
         </Text>
       </View>
       <Pressable
-      style={styles.wButton}
-      className="message-button"
-      onPress={() => Alert.alert('Wishlist button pressed')}
-      ><Text style={styles.buttonText}>Dilly's Wishlist</Text>
+        style={styles.wButton}
+        className="message-button"
+        onPress={() => Alert.alert('Wishlist button pressed')}
+      >
+        <Text style={styles.buttonText}>Wishlist</Text>
       </Pressable>
     </View>
 
@@ -51,6 +78,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
+  picName: {
+    width: '66%',
+    alignItems: 'center',
+  },
+  statsBox: {
+    width: '33%',
+  },
   profilePicture: {
     overflow: 'hidden',
     borderWidth: 4,
@@ -59,25 +93,21 @@ const styles = StyleSheet.create({
     width: 125,
     height: 125,
     alignItems: 'center',
-    marginLeft: '10%',
     marginTop: '12%',
-    marginRight: '15%',
   },
   stats: {
-    width: '27%',
+    width: '50%',
     marginTop: '11%',
     marginLeft: '2%',
     marginRight: '11%',
     paddingBottom: '2%',
   },
   statsMeta: {
-    lineHeight: 19,
+    lineHeight: 17,
     textAlign: 'left',
-    paddingRight: '18%',
-    fontSize: 19,
+    fontSize: 17,
   },
   info: {
-    marginLeft: '10%',
     alignItems: 'center',
   },
   bio: {
@@ -96,29 +126,33 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 26,
+    alignItems: 'center',
   },
   location: {
     fontSize: 15,
   },
   mButton: {
-    paddingVertical: 12,
+    paddingVertical: 6,
     paddingHorizontal: 14,
-    marginLeft: '14%',
     borderRadius: 4,
     elevation: 3,
+    marginLeft: 'auto',
+    marginRight: '10%',
     backgroundColor: '#A30000',
   },
   wButton: {
-    paddingVertical: 12,
+    paddingVertical: 10,
     paddingHorizontal: 14,
     borderRadius: 4,
-    marginLeft: '27%',
+    width: '33%',
+    marginLeft: '33%',
+    marginRight: '33%',
     elevation: 3,
     backgroundColor: '#A30000',
-
+    alignItems: 'center',
   },
   buttonText: {
     color: '#C0C0C0',
     fontSize: 20,
-  }
+  },
 });
