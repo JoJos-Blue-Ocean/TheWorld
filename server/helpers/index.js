@@ -35,9 +35,16 @@ module.exports = {
         res.sendStatus(500);
       });
   },
-  searchAlbumTitle: (req, res) => {
-    axios.get(`https://api.discogs.com/database/search?q=${req.query.text}&title=${req.query.title}&key=${consumerKey}&secret=${consumerSecret}&page=${req.query.page}&per_page=10`)
-  }
+  searchAlbumCategory: (req, res) => {
+    axios.get(`https://api.discogs.com/database/search?q=&${req.query.category}=${req.query.search}&key=${consumerKey}&secret=${consumerSecret}&page=${req.query.page}&per_page=10`)
+      .then((response) => {
+        res.send(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+      });
+  },
   // getReleaseInfo: (req, res) => {
   //   axios.get(`https://api.discogs.com/releases/${response.data.main_release}?token=${token}`)
   //     .then((result) => {

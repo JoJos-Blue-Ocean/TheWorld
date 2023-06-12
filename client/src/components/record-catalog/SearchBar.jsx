@@ -4,8 +4,7 @@ import {
   StyleSheet, TextInput, View, Text,
 } from 'react-native';
 
-export default function SearchBar({setSearchState}) {
-  const [search, setSearch] = useState('');
+export default function SearchBar({ setSearchState, search, setSearch }) {
   const styles = StyleSheet.create({
     input: {
       height: 40,
@@ -16,8 +15,9 @@ export default function SearchBar({setSearchState}) {
   });
 
   const searchChanger = (e) => {
+    const text = e.target.value;
     setSearch(e.target.value);
-    if (search) {
+    if (text.length > 0 && search !== text) {
       setSearchState(true);
     } else {
       setSearchState(false);
