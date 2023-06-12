@@ -12,7 +12,7 @@ export default function GenreEntries({ genre }) {
 
   const fetchAlbums = () => {
     setLoading(true);
-    axios.get('http://localhost:3000/vinyl', {
+    axios.get('http://localhost:3000/api/record-catalog/allAlbums', {
       params: {
         text: '',
         genre,

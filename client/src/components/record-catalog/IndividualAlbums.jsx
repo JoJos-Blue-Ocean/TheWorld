@@ -11,7 +11,7 @@ export default function RockGenreIndividual({ album }) {
   console.log('this is info', info);
 
   const grabAlbumInfo = (id) => {
-    axios.get('http://localhost:3000/vinyl/individualAlbum', {
+    axios.get('http://localhost:3000/api/record-catalog/individualAlbum', {
       params: {
         id: album.master_id,
       },
