@@ -1,3 +1,10 @@
+DROP TABLE IF EXISTS trades CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS ratings CASCADE;
+DROP TABLE IF EXISTS messages CASCADE;
+DROP TABLE IF EXISTS wishlist CASCADE;
+DROP TABLE IF EXISTS notifications CASCADE;
+
 CREATE TABLE "users" (
   "id" serial PRIMARY KEY,
   "email" text UNIQUE NOT NULL,
@@ -13,7 +20,7 @@ CREATE TABLE "trades" (
   "seller_id" integer NOT NULL,
   "have_album_id" integer NOT NULL,
   "want_album_id" integer NOT NULL,
-  "buyer_id" integer NOT NULL,
+  "buyer_id" integer,
   "status" text NOT NULL DEFAULT 'open',
   "description" text,
   "created_at" timestamp DEFAULT 'now()'
