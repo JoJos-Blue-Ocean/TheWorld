@@ -8,7 +8,7 @@ export default function Profile() {
   return (
     <View style={styles.container}>
       <View className="profile-picture" style={styles.profilePicture}>
-        <Image source={require('/Users/dillonmigdol/Desktop/HackReactor/JoJosBlueOcean/TheWorld/assets/bob.png')} />
+        <Image source={require('../../../../assets/bob.png')} />
       </View>
       <View className="profile-stats" style={styles.stats}>
         <Text style={styles.statsMeta}>1337 {"\n"}Reviews{"\n"}</Text>

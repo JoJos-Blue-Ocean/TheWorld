@@ -8,7 +8,7 @@ import NavigationPane from '../NavigationPane';
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  main: {
+  container: {
     flex: 1,
     top: '10%',
     backgroundColor: '#F5F5F5',
@@ -25,8 +25,9 @@ const styles = StyleSheet.create({
   },
   tradesHistoryMain: {
     position: 'absolute',
+    top: '10%',
     backgroundColor: 'grey',
-    flex: 1,
+    height: '80%',
   },
 });
 
@@ -35,7 +36,7 @@ export default function TradingHistory() {
 
   return (
 
-    <View style={styles.main}>
+    <View style={styles.container}>
       <View style={styles.tabs}>
         <View style={styles.tab} onClick={() => { setTab('Your Listing'); }}>
           <Text>Your Listing</Text>

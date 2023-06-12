@@ -12,6 +12,7 @@ export default function YourListing() {
 const styles = StyleSheet.create({
   trades: {
     position: 'absolute',
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
   },
