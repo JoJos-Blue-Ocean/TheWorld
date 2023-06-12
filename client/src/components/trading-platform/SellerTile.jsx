@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-  StyleSheet, Text, View, Image, Dimensions, Button, Alert
+  StyleSheet, Text, View, Image, Dimensions, Button,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
 const styles = StyleSheet.create({
   tileContainer: {
@@ -39,7 +40,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function SellerTile({ trade }) {
+export default function SellerTile({ trade, albumDetails }) {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.tileContainer}>
       <View style={styles.leftSection}>
@@ -62,7 +65,7 @@ export default function SellerTile({ trade }) {
       <View style={styles.rightSection}>
         <Button
           title="D"
-          onPress={() => Alert.alert('Button clicked')}
+          onPress={() => navigation.navigate('ActiveTradeDetails', { trade, albumDetails })}
         />
       </View>
     </View>
