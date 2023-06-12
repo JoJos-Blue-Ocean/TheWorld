@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './client/src/components/login/LoginStart';
 import TradingPlatform from './client/src/components/trading-platform/TradingPlatform';
+import ActiveTradeDetails from './client/src/components/trading-platform/ActiveTradeDetails';
 import TradingHistory from './client/src/components/trading-history/TradingHistory';
 import RecordCatalog from './client/src/components/record-catalog/RecordCatalog';
 import Profile from './client/src/components/users/Profile';
@@ -25,6 +26,7 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="TradingPlatform" component={TradingPlatform} />
+          <Stack.Screen name="ActiveTradeDetails" component={ActiveTradeDetails} />
           <Stack.Screen name="TradingHistory" component={TradingHistory} />
           <Stack.Screen name="RecordCatalog" component={RecordCatalog} />
           <Stack.Screen name="Profile" component={Profile} />

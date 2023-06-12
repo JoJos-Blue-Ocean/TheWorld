@@ -40,32 +40,46 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function TradingPlatform() {
+export default function TradingPlatform({ route }) {
+  const { master_id } = route.params;
+  const [master, setMaster] = useState(null);
   const [openTrades, setOpenTrades] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${Constants.expoConfig.extra.apiUrl}/api/trading-platform/27031743/open-trades`)
+      .get(`https://api.discogs.com/masters/${master_id}`, {
+        params: {
+          key: Constants.expoConfig.extra.discogsKey,
+          secret: Constants.expoConfig.extra.discogsSecret,
+        },
+      })
+      .then(({ data }) => setMaster(data))
+      .catch((err) => console.error('OH NO: ', err));
+
+    axios
+      .get(`${Constants.expoConfig.extra.apiUrl}/api/trading-platform/${master_id}/open-trades`)
       .then(({ data }) => setOpenTrades(data))
       .catch((err) => console.error('OH NO: ', err));
   }, []);
 
-  return (
-    <View>
-      <View style={styles.albumHeader}>
-        <Image
-          style={styles.albumThumbnail}
-          source={{ uri: 'https://i.discogs.com/f8_B05PM2c1GRREU9cQNr1pYBr2C_7qmvVhLM48NYXo/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI3MDMx/NzQzLTE2ODM5Nzk2/MjEtMzE1My5qcGVn.jpeg' }}
-        />
-        <View style={styles.albumDetails}>
-          <Text style={styles.title}>Random Access Memories (10th Anniversary Edition)</Text>
-          <Text style={styles.releaseDate}>Released 5/12/23</Text>
-          <Text style={styles.forTrade}>{`${openTrades.length} copies to trade`}</Text>
+  if (master) {
+    return (
+      <View>
+        <View style={styles.albumHeader}>
+          <Image
+            style={styles.albumThumbnail}
+            source={{ uri: master.images[0].uri }}
+          />
+          <View style={styles.master}>
+            <Text style={styles.title}>{`${master.artists[0].name} - ${master.title}`}</Text>
+            <Text style={styles.releaseDate}>{`Released: ${master.year}`}</Text>
+            <Text style={styles.forTrade}>{`${openTrades.length} copies to trade`}</Text>
+          </View>
         </View>
+        <ScrollView>
+          <SellerList openTrades={openTrades} master={master} />
+        </ScrollView>
       </View>
-      <ScrollView>
-        <SellerList openTrades={openTrades} />
-      </ScrollView>
-    </View>
-  );
+    );
+  }
 }
