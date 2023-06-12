@@ -5,33 +5,28 @@ import {
 import { useNavigation } from '@react-navigation/core';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
-import NavigationPane from '../NavigationPane';
 
 export default function Login({ route }) {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignUp = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log('Signed up with', user);
-      })
-      .catch(err => alert(err.message))
-  };
 
   const handleLogIn = () => {
-    console.log(auth);
+    console.log(new Date());
+    console.log('AUTH', auth);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        //need to add axios post to add user to database
-        navigation.navigate('RecordCatalog', { email: user.email });
+        navigation.navigate('RecordCatalog', { uid: user.uid });
         console.log('Logged In with', user);
       })
-      .catch(err => alert(err.message))
+      .catch(err => alert(err.message));
   };
+
+  const switchToRegister = () => {
+    navigation.navigate('Register');
+  }
 
   return (
 
@@ -44,7 +39,7 @@ export default function Login({ route }) {
         <TextInput
           placeholder="Email"
           value={email}
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={(text) => { setEmail(text)}}
           style={styles.input}
         />
         <TextInput
@@ -58,13 +53,13 @@ export default function Login({ route }) {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          onPress={() => { handleLogIn(); }}
+          onPress={() => { console.log('EMAIL', email); console.log('PASSWORD', password); handleLogIn(); }}
           style={styles.button}
         >
           <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => handleSignUp()}
+          onPress={() => switchToRegister()}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Sign Up</Text>

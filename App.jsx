@@ -6,7 +6,8 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Login from './client/src/components/login/LoginStart';
+import Login from './client/src/components/login/Login';
+import Register from './client/src/components/login/Register';
 import TradingPlatform from './client/src/components/trading-platform/TradingPlatform';
 import TradingHistory from './client/src/components/trading-history/TradingHistory';
 import RecordCatalog from './client/src/components/record-catalog/RecordCatalog';
@@ -23,6 +24,7 @@ export default function App() {
       <NavigationPane>
         <Stack.Navigator>
           <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
+          <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
           <Stack.Screen name="TradingPlatform" component={TradingPlatform} />
           <Stack.Screen name="TradingHistory" component={TradingHistory} />
           <Stack.Screen name="RecordCatalog" component={RecordCatalog} />
