@@ -48,8 +48,8 @@ export default function TradingPlatform() {
     axios
       .get('https://api.discogs.com/releases/27031743', {
         params: {
-          key: 'lluWRnvvevttDpTuaCMH',
-          secret: 'qQjcdOrANZEwVygmUdQfUUOXKUCHtVLq',
+          key: Constants.expoConfig.extra.discogsKey,
+          secret: Constants.expoConfig.extra.discogsSecret,
         },
       })
       .then(({ data }) => setAlbumDetails(data))

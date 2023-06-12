@@ -3,6 +3,7 @@ import React from 'react';
 import {
   StyleSheet, Text, View, Image, Dimensions, ScrollView, Button, Alert,
 } from 'react-native';
+import Constants from 'expo-constants';
 
 const { useState, useEffect } = React;
 
@@ -66,8 +67,8 @@ export default function ActiveTradeDetails({ route }) {
     axios
       .get(`https://api.discogs.com/releases/${trade.want_album_id}`, {
         params: {
-          key: 'lluWRnvvevttDpTuaCMH',
-          secret: 'qQjcdOrANZEwVygmUdQfUUOXKUCHtVLq',
+          key: Constants.expoConfig.extra.discogsKey,
+          secret: Constants.expoConfig.extra.discogsSecret,
         },
       })
       .then(({ data }) => {
