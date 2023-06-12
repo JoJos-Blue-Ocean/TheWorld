@@ -36,6 +36,7 @@ export default function NavigationPane({ children }) {
         <Button title="M" onPress={() => navigation.navigate('Messages')} />
         <Button title="P" onPress={() => navigation.navigate('Profile')} />
         <Button title="L" onPress={() => navigation.navigate('Login')} />
+        <Button title="W" onPress={() => navigation.navigate('WishList')} />
       </View>
     </View>
   );
