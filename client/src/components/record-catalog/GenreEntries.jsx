@@ -43,17 +43,19 @@ export default function GenreEntries({ genre }) {
   }, []);
 
   return (
-    <ScrollView
-      horizontal
-      style={styles.container}
-      onScroll={handleScroll}
-      scrollEventThrottle={16}
-    >
+    <View>
       <Text>{genre}</Text>
-      {albums.map((album) => (
-        <IndividualAlbums key={album.id} album={album} />
-      ))}
-    </ScrollView>
+      <ScrollView
+        horizontal
+        style={styles.container}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+      >
+        {albums.map((album) => (
+          <IndividualAlbums key={album.master_id} album={album} />
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 

@@ -6,7 +6,7 @@ const consumerSecret = 'hxwocTTpjbwSyqxpzxmPrOvCskCxiPrF';
 
 module.exports = {
   getAlbums: (req, res) => {
-    axios.get(`https://api.discogs.com/database/search?q=${req.query.text}&key=${consumerKey}&secret=${consumerSecret}&genre=${req.query.genre}&page=${req.query.page}&per_page=10`)
+    axios.get(`https://api.discogs.com/database/search?q=${req.query.text}&genre=${req.query.genre}&key=${consumerKey}&secret=${consumerSecret}&page=${req.query.page}&per_page=10`)
       .then((response) => {
         res.send(response.data);
       })

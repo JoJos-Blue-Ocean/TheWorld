@@ -24,7 +24,7 @@ export default function IndividualAlbums({ album }) {
   };
 
   const openModal = () => {
-    grabAlbumInfo(album.id);
+    grabAlbumInfo(album.master_id);
     setModalVisible(true);
   };
 
