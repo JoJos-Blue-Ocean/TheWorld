@@ -3,12 +3,14 @@ import axios from 'axios';
 import {
   StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
 export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [info, setInfo] = useState([]);
+  const navigation = useNavigation();
 
-  console.log('this is INFO', info.tracklist);
+  console.log('this is INFO', info);
   const grabAlbumInfo = () => {
     axios.get('http://localhost:3000/api/record-catalog/individualAlbum', {
       params: {
@@ -16,7 +18,7 @@ export default function IndividualAlbums({ album }) {
       },
     })
       .then((response) => {
-        setInfo(response.data);
+        setInfo(response.data.tracklist);
       })
       .catch((err) => {
         console.log(err);
@@ -48,14 +50,20 @@ export default function IndividualAlbums({ album }) {
             <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
             <Text style={styles.modalTitleText}>{collectionTitle}</Text>
             <Text style={styles.modalArtistText}>{artistTitle}</Text>
-            {/* <Text style={styles.modalText}>{info.tracklist}</Text>
-            <Text style={styles.modalText}>{info.duration}</Text>
-            <Text style={styles.modalText}>{info.published_date}</Text>
-            <Text style={styles.modalText}>{info.artist}</Text> */}
+            {info.map((item, index) => (
+              <View key={item.position}>
+                <View style={styles.trackInfo}>
+                  <Text style={styles.modalText}>{`${index + 1}. ${item.title}`}</Text>
+                  <Text style={styles.modalText}>{item.duration}</Text>
+                </View>
+              </View>
+            ))}
+
             <Button
               title="Trade"
               onPress={() => {
-                // Handle trade button press
+                closeModal();
+                navigation.navigate('TradingPlatform', { master_id : album.master_id});
               }}
               style={styles.tradeButton}
             />
@@ -152,7 +160,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
+  trackInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+  },
   modalText: {
+    flex: 1,
     marginBottom: 10,
   },
   tradeButton: {
