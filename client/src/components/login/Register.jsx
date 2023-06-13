@@ -25,13 +25,15 @@ export default function Login({ route }) {
           uid: user.uid,
         };
         console.log('NEW USER OBJ:', newUser);
-        // axios.post('/api/register', newUser)
-        //   .then(() => {
-        //     alert('You have been registered!');
-        //     navigation.navigate('Login');
-        //   });
-        alert('You have been registered!');
-        navigation.navigate('Login');
+        axios.post('/api/register', newUser)
+          .then((result) => {
+            if (result.data === 200) {
+              alert('You have been registered!');
+              navigation.navigate('Login');
+            }
+          });
+        // alert('You have been registered!');
+        // navigation.navigate('Login');
       })
       .catch((err) => alert(err.message));
   };
@@ -39,7 +41,6 @@ export default function Login({ route }) {
   const switchToLogin = () => {
     navigation.navigate('Login');
   };
-
 
   return (
 
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
   },
   buttonOutline: {
     backgroundColor: '#C0C0C0',
-    //marginTop: 30,
+    // marginTop: 30,
     borderColor: '#800000',
     borderWidth: 1,
   },
@@ -144,5 +145,5 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 30,
-  }
+  },
 });
