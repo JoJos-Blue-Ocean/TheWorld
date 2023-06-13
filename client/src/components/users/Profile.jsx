@@ -1,73 +1,162 @@
 import {
-  StyleSheet, Text, View, Image, Pressable, Alert,
+  StyleSheet, Text, View, Image, Pressable, Modal,
+  TextInput, Alert,
 } from 'react-native';
-import React, { useState } from 'react';
-import NavigationPane from '../NavigationPane';
-import user from './MockUser.js';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
-
+import NavigationPane from '../NavigationPane';
 
 // TODO: implement navigation.navigate('Message', {name: 'Dio'}) or id
 
-export default function Profile({ localUser }) {
+export default function Profile() {
+  const user = {
+    id: 2,
+  };
+
+  const [curUser, setCurUser] = useState({});
+  const [modalState, setModalState] = useState(false);
+
   const navigation = useNavigation();
 
   const retrieveStats = () => {
     // QUERY DATABASE FOR STATS
+    axios.get(`http://localhost:3000/api/profile/${2}`)
+      .then((results) => {
+        console.log(results.data[0]);
+        setCurUser(results.data[0]);
+      })
+      .catch((err) => console.log('error: ', err));
   };
+
+  const openModal = () => {
+    setModalState(true);
+  };
+
+  const closeModal = () => {
+    setModalState(false);
+  };
+
+  useEffect(() => {
+    retrieveStats();
+  }, []);
 
   return (
     <View style={styles.container}>
+      <Modal
+        visible={modalState}
+        animationType="slide"
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalContainer}>
+          <Pressable
+            style={styles.cButton}
+            onPress={() => closeModal()}
+          >
+            <Text style={{ fontSize: '35', fontWeight: 'bold' }}>X</Text>
+          </Pressable>
+          <Text style={styles.modalHeader}>Settings</Text>
+          <View style={styles.modalForms}>
+            <Pressable className="settings-picture"
+              onPress={() => Alert.alert('W.I.P Keep ur pic for now :)')}
+              >
+              <Text style={styles.modalsubHeader}>Change Profile Picture</Text>
+              <View className="profile-picture" style={styles.modalprofile_picture}>
+                <Image source={{ uri: curUser.profile_picture }} style={styles.modalImg} />
+                <View style={styles.modalPfpBuddy}>
+                  <Text style={styles.modalPfpBuddyTxt}>
+                    +
+                  </Text>
+                </View>
+              </View>
+            </Pressable>
+            <View className="settings-location">
+              <Text style={styles.modalsubHeader}>Change Location</Text>
+              <TextInput
+                style={styles.modalLocationInput}
+                maxLength={25}
+                placeholder={curUser.location}
+              />
+              <Text style={{ fontSize: 15, marginLeft: '60%', color: '#757575' }}>Max 25 chars</Text>
+              <View className="settings-bio">
+                <Text style={styles.modalsubHeader}>Change Bio</Text>
+                <TextInput
+                  className="bio-input"
+                  style={styles.modalBioInput}
+                  multiline
+                  numberOfLines={4}
+                  maxLength={150}
+                  placeholder={curUser.biography}
+                />
+                <Text style={{ fontSize: 15, marginLeft: '60%', color: '#757575' }}>Max 150 chars</Text>
+              </View>
+              <Pressable
+                style={styles.confButton}
+                className="confirm-button"
+                onPress={() => Alert.alert('W.I.P to query db for update')}
+              >
+                <Text style={styles.buttonText}>Confirm</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <Pressable
+        style={styles.sButton}
+        onPress={() => openModal()}
+      >
+        <Text style={{ fontSize: '50', lineHeight: '29', fontWeight: 'bold' }}>...</Text>
+      </Pressable>
       <View className="pic-name" style={styles.picName}>
-        <View className="profile-picture" style={styles.profilePicture}>
-          <Image source={user.profile_picture} />
+        <View className="profile-picture" style={styles.profile_picture}>
+          <Image source={{ uri: curUser.profile_picture }} style={styles.img} />
         </View>
         <View className="info" style={styles.info}>
-          <Text className="name" style={styles.name}>{user.username}</Text>
-          <Text className="location" style={styles.location}>{user.location}</Text>
+          <Text className="name" style={styles.name}>{curUser.username}</Text>
+          <Text className="location" style={styles.location}>{curUser.location}</Text>
         </View>
       </View>
       <View className="stats-col" style={styles.statsBox}>
-      <View className="profile-stats" style={styles.stats}>
-        <Text style={styles.statsMeta}>
-          {user.reviews}
-          {' '}
-          {'\n'}
-          Reviews
-          {'\n'}
-        </Text>
-        <Text style={styles.statsMeta}>
-          {user.rating}
-          {' '}
-          {'\n'}
-          Rating
-          {'\n'}
-        </Text>
-        <Text style={styles.statsMeta}>
-          {user.trades}
-          {' '}
-          {'\n'}
-          Trades
-        </Text>
-      </View>
+        <View className="profile-stats" style={styles.stats}>
+          <Text style={styles.statsMeta}>
+            {curUser.reviews}
+            {' '}
+            {'\n'}
+            Reviews
+            {'\n'}
+          </Text>
+          <Text style={styles.statsMeta}>
+            {Math.trunc(curUser.average_rating * 100) / 100}
+            {' '}
+            {'\n'}
+            Rating
+            {'\n'}
+          </Text>
+          <Text style={styles.statsMeta}>
+            {curUser.trades}
+            {' '}
+            {'\n'}
+            Trades
+          </Text>
+        </View>
       </View>
 
       <Pressable
         style={styles.mButton}
         className="message-button"
-        onPress={() => navigation.navigate('Messages', { sender_id: user.id })}
+        onPress={() => navigation.navigate('Messages', { sender_id: curUser.id })}
       >
         <Text style={styles.buttonText}>Message</Text>
       </Pressable>
       <View className="bio" style={styles.bio}>
         <Text style={styles.bioText}>
-          {user.biography}
+          {curUser.biography}
         </Text>
       </View>
       <Pressable
         style={styles.wButton}
         className="message-button"
-        // WILL CHANGE WHEN QUERIES ARE CREATED, CHANGE USER.ID TO CORRECT BODY REFERENCE
+        // WILL CHANGE WHEN QUERIES ARE CREATED, CHANGE curUser.ID TO CORRECT BODY REFERENCE
         onPress={() => navigation.navigate('WishList', { user_id: user.id })}
       >
         <Text style={styles.buttonText}>Wishlist</Text>
@@ -92,11 +181,9 @@ const styles = StyleSheet.create({
   statsBox: {
     width: '33%',
   },
-  profilePicture: {
-    overflow: 'hidden',
+  img: {
     borderWidth: 4,
     borderRadius: 100,
-    borderColor: '#757575',
     width: 125,
     height: 125,
     alignItems: 'center',
@@ -107,10 +194,9 @@ const styles = StyleSheet.create({
     marginTop: '11%',
     marginLeft: '2%',
     marginRight: '11%',
-    paddingBottom: '2%',
   },
   statsMeta: {
-    lineHeight: 17,
+    lineHeight: 18,
     textAlign: 'left',
     fontSize: 17,
   },
@@ -120,7 +206,8 @@ const styles = StyleSheet.create({
   bio: {
     width: '90%',
     height: '28%',
-    marginTop: '10%',
+    marginTop: '5%',
+    marginBottom: '2%',
     margin: '5%',
     justifyContent: 'center',
     paddingTop: '5%',
@@ -140,6 +227,7 @@ const styles = StyleSheet.create({
   location: {
     fontSize: 15,
   },
+  // ###### BUTTONS ######
   mButton: {
     paddingVertical: 6,
     paddingHorizontal: 14,
@@ -163,5 +251,83 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#C0C0C0',
     fontSize: 20,
+  },
+  sButton: {
+    marginLeft: '85%',
+    marginTop: '2%',
+  },
+  // ###### MODAL ######
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  modalHeader: {
+    fontSize: '25',
+    marginBottom: '2%',
+  },
+  modalForms: {
+    width: '90%',
+  },
+  cButton: {
+    marginLeft: '85%',
+    marginTop: '7%',
+  },
+  modalsubHeader: {
+    margin: '5%',
+    textAlign: 'center',
+    fontSize: 21,
+  },
+  modalBioInput: {
+    borderWidth: 1,
+    borderRadius: 10,
+    height: 100,
+    padding: '1%',
+    marginLeft: '10%',
+    marginRight: '10%',
+  },
+  modalprofile_picture: {
+    marginLeft: '33%',
+    marginRight: '33%',
+  },
+  modalPfpBuddy: {
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    backgroundColor: '#757575',
+    borderRadius: 15,
+  },
+  modalPfpBuddyTxt: {
+    lineHeight: 40,
+    textAlign: 'center',
+    paddingHorizontal: '5%',
+    fontSize: 40,
+    color: '#F5F5F5',
+  },
+  modalImg: {
+    borderWidth: 4,
+    borderRadius: 100,
+    width: 125,
+    height: 125,
+  },
+  modalLocationInput: {
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: '1%',
+    marginLeft: '15%',
+    marginRight: '15%',
+  },
+  confButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 4,
+    width: '33%',
+    marginLeft: '33%',
+    marginTop: '10%',
+    marginRight: '33%',
+    elevation: 3,
+    backgroundColor: '#A30000',
+    alignItems: 'center',
   },
 });
