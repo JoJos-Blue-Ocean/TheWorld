@@ -13,7 +13,6 @@ export default function Login({ route }) {
 
 
   const handleLogIn = () => {
-    console.log(new Date());
     console.log('AUTH', auth);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
@@ -26,7 +25,7 @@ export default function Login({ route }) {
 
   const switchToRegister = () => {
     navigation.navigate('Register');
-  }
+  };
 
   return (
 
