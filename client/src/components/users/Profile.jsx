@@ -7,21 +7,51 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
 import NavigationPane from '../NavigationPane';
 
-// TODO: implement navigation.navigate('Message', {name: 'Dio'}) or id
+// TODO: implement route.user_uid in props
 
-export default function Profile() {
+export default function Profile({ route }) {
+/*
+  Condition render: If the User clicks on a different user, recieve the user_uid
+  of said user in nav and render their stats
+
+*/
+
   const user = {
     id: 2,
   };
 
   const [curUser, setCurUser] = useState({});
+  const [bioChange, setBio] = useState('');
+  const [locationChange, setLocation] = useState('');
+  const [pfpChange, setPfp] = useState('');
+  const [foreign, setForeign] = useState(false);
   const [modalState, setModalState] = useState(false);
 
   const navigation = useNavigation();
 
+  const changeSettings = (changes) => {
+    // Update uid
+    console.log(changes)
+    axios.put(`http://localhost:3000/api/profile/cliuo1dcs000208i9hga217k5`, {
+      user: {
+        uid: 'cliuo1dcs000208i9hga217k5',
+        profile_picture: changes.pfpChange || curUser.profile_picture,
+        biography: changes.bioChange || curUser.biography,
+        location: changes.locationChange || curUser.location,
+      },
+    }).then((results) => {
+      retrieveStats();
+      setLocation('');
+      setBio('');
+      setPfp('');
+      closeModal();
+    })
+      .catch((err) => console.error('ERROR: ', err));
+  };
+
   const retrieveStats = () => {
     // QUERY DATABASE FOR STATS
-    axios.get(`http://localhost:3000/api/profile/${2}`)
+    axios.get(`http://localhost:3000/api/profile/cliuo1dcs000208i9hga217k5`)
       .then((results) => {
         console.log(results.data[0]);
         setCurUser(results.data[0]);
@@ -38,6 +68,8 @@ export default function Profile() {
   };
 
   useEffect(() => {
+    // If other user's profile, retrieve their stats
+    // else retrieve your stats
     retrieveStats();
   }, []);
 
@@ -57,12 +89,25 @@ export default function Profile() {
           </Pressable>
           <Text style={styles.modalHeader}>Settings</Text>
           <View style={styles.modalForms}>
-            <Pressable className="settings-picture"
+            <Pressable
+              className="settings-picture"
               onPress={() => Alert.alert('W.I.P Keep ur pic for now :)')}
-              >
+            >
               <Text style={styles.modalsubHeader}>Change Profile Picture</Text>
               <View className="profile-picture" style={styles.modalprofile_picture}>
-                <Image source={{ uri: curUser.profile_picture }} style={styles.modalImg} />
+                {curUser.profile_picture ? (
+                  <Image
+                    source={{ uri: curUser.profile_picture }}
+                    style={styles.modalImg}
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <Image
+                    source={require('../../../../assets/bob.png')}
+                    style={styles.modalImg}
+                    resizeMode="cover"
+                  />
+                )}
                 <View style={styles.modalPfpBuddy}>
                   <Text style={styles.modalPfpBuddyTxt}>
                     +
@@ -76,6 +121,7 @@ export default function Profile() {
                 style={styles.modalLocationInput}
                 maxLength={25}
                 placeholder={curUser.location}
+                onChangeText={(newText) => setLocation(newText)}
               />
               <Text style={{ fontSize: 15, marginLeft: '60%', color: '#757575' }}>Max 25 chars</Text>
               <View className="settings-bio">
@@ -87,13 +133,14 @@ export default function Profile() {
                   numberOfLines={4}
                   maxLength={150}
                   placeholder={curUser.biography}
+                  onChangeText={(newText) => setBio(newText)}
                 />
                 <Text style={{ fontSize: 15, marginLeft: '60%', color: '#757575' }}>Max 150 chars</Text>
               </View>
               <Pressable
                 style={styles.confButton}
                 className="confirm-button"
-                onPress={() => Alert.alert('W.I.P to query db for update')}
+                onPress={() => {changeSettings({bioChange: bioChange, locationChange: locationChange, pfpChange: pfpChange})}}
               >
                 <Text style={styles.buttonText}>Confirm</Text>
               </Pressable>
@@ -101,15 +148,43 @@ export default function Profile() {
           </View>
         </View>
       </Modal>
-      <Pressable
-        style={styles.sButton}
-        onPress={() => openModal()}
-      >
-        <Text style={{ fontSize: '50', lineHeight: '29', fontWeight: 'bold' }}>...</Text>
-      </Pressable>
+      {
+        !foreign ? (
+          (
+            <Pressable
+              style={styles.sButton}
+              onPress={() => openModal()}
+            >
+              <Text style={{ fontSize: '50', lineHeight: '29', fontWeight: 'bold' }}>...</Text>
+            </Pressable>
+          )) : (
+            <View style={styles.sButton}>
+              <Text style={{
+                fontSize: '50', lineHeight: '29', fontWeight: 'bold', color: '#F5F5F5',
+              }}
+              >
+                ...
+              </Text>
+            </View>
+        )
+
+      }
+
       <View className="pic-name" style={styles.picName}>
         <View className="profile-picture" style={styles.profile_picture}>
-          <Image source={{ uri: curUser.profile_picture }} style={styles.img} />
+          {curUser.profile_picture ? (
+            <Image
+              source={{ uri: curUser.profile_picture }}
+              style={styles.modalImg}
+              resizeMode="cover"
+            />
+          ) : (
+            <Image
+              source={require('../../../../assets/bob.png')}
+              style={styles.modalImg}
+              resizeMode="cover"
+            />
+          )}
         </View>
         <View className="info" style={styles.info}>
           <Text className="name" style={styles.name}>{curUser.username}</Text>
