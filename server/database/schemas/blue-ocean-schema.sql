@@ -40,7 +40,7 @@ CREATE TABLE "messages" (
   "id" serial PRIMARY KEY,
   "sender_id" text NOT NULL,
   "recipient_id" text NOT NULL,
-  "trade_id" integer NOT NULL,
+  "trade_id" integer,
   "body" text NOT NULL,
   "created_at" timestamp DEFAULT 'now()'
 );
