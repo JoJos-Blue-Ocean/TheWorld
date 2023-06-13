@@ -14,6 +14,7 @@ import Profile from './client/src/components/users/Profile';
 import Messages from './client/src/components/messages/Messages';
 import Wishlist from './client/src/components/wishlist/Wishlist';
 import NavigationPane from './client/src/components/NavigationPane';
+import Test from './client/src/components/wishlist/Test';
 
 const Stack = createNativeStackNavigator();
 
@@ -107,4 +108,3 @@ export default function App() {
   );
 }
 */
- 
