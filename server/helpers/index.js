@@ -15,8 +15,10 @@ module.exports = {
 
   //  master id
   getAlbums: (req, res) => {
-    axios.get(`https://api.discogs.com/database/search?q=${req.query.text}&genre=${req.query.genre}&key=${consumerKey}&secret=${consumerSecret}&page=${req.query.page}&per_page=10`)
+    axios.get(`https://api.discogs.com/database/search?q=&type=release${req.query.text}&genre=${req.query.genre}&key=${consumerKey}&secret=${consumerSecret}&page=${req.query.page}&per_page=10`)
       .then((response) => {
+        // const filtered = response.data.results.filter((album) => album.master_id);
+        // response.data.results = filtered;
         res.send(response.data);
       })
       .catch((err) => {
@@ -36,8 +38,10 @@ module.exports = {
       });
   },
   searchAlbumCategory: (req, res) => {
-    axios.get(`https://api.discogs.com/database/search?q=&${req.query.category}=${req.query.search}&key=${consumerKey}&secret=${consumerSecret}&page=${req.query.page}&per_page=10`)
+    axios.get(`https://api.discogs.com/database/search?q=${req.query.search}&type=release${req.query.category}=${req.query.search}&key=${consumerKey}&secret=${consumerSecret}&page=${req.query.page}&per_page=10`)
       .then((response) => {
+        // const filtered = response.data.results.filter((album) => album.master_id);
+        // response.data.results = filtered;
         res.send(response.data);
       })
       .catch((err) => {

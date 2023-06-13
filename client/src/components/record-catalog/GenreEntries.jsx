@@ -59,7 +59,7 @@ export default function GenreEntries({ genre }) {
         scrollEventThrottle={16}
       >
         {albums.map((album) => (
-          <IndividualAlbums key={album.master_id} album={album} />
+          <IndividualAlbums key={album.id} album={album} />
         ))}
       </ScrollView>
     </View>

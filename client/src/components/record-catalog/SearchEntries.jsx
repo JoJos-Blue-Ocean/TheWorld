@@ -48,7 +48,7 @@ export default function SearchEntries({ search, category }) {
       setPage(1);
       setAlbums([]);
       grabAlbums();
-    }, 1000);
+    }, 500);
     setTimeoutId(newTimeoutId);
     return () => clearTimeout(newTimeoutId);
   }, [search]);
@@ -63,7 +63,7 @@ export default function SearchEntries({ search, category }) {
         scrollEventThrottle={16}
       >
         {albums.map((album) => (
-          <IndividualAlbums key={album.master_id} album={album} />
+          <IndividualAlbums key={album.id} album={album} />
         ))}
       </ScrollView>
     </View>
