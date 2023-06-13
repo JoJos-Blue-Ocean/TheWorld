@@ -103,7 +103,7 @@ export default function CompleteTradeForm({ route }) {
       <Text style={styles.selectTrader}>Who did you trade with?</Text>
       <TextInput style={styles.traderSearchBar} />
       <Text style={styles.rateTrader}>Please Give This Person a Rating</Text>
-      {/*<View><StarRating rating={3.5} /></View>*/}
+      <View><StarRating rating={3.5} /></View>
       <Pressable
         style={styles.completeButton}
         onPress={() => {
