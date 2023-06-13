@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import {
-  StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity,
+  StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import { AntDesign } from '@expo/vector-icons'; // Import the required icon
 
 export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -47,41 +48,43 @@ export default function IndividualAlbums({ album }) {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
-            <Text style={styles.modalTitleText}>{collectionTitle}</Text>
-            <Text style={styles.modalArtistText}>{artistTitle}</Text>
-            {info.map((item, index) => (
-              <View key={item.position} style={styles.trackListItem}>
-                <Text style={styles.trackNumber}>
-                  {index + 1}
-                </Text>
-                <View style={styles.trackInfo}>
-                  <Text style={styles.trackTitle}>{item.title}</Text>
-                  <Text style={styles.trackDuration}>{item.duration || '0:00'}</Text>
+            <ScrollView>
+              <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
+              <Text style={styles.modalTitleText}>{collectionTitle}</Text>
+              <Text style={styles.modalArtistText}>{artistTitle}</Text>
+              {info.map((item, index) => (
+                <View key={item.position} style={styles.trackListItem}>
+                  <Text style={styles.trackNumber}>
+                    {index + 1}
+                  </Text>
+                  <View style={styles.trackInfo}>
+                    <Text style={styles.trackTitle}>{item.title}</Text>
+                    <Text style={styles.trackDuration}>{item.duration || '0:00'}</Text>
+                  </View>
                 </View>
-              </View>
-            ))}
+              ))}
 
-            <TouchableOpacity
-              style={styles.tradeButton}
-              onPress={() => {
-                closeModal();
-                navigation.navigate('TradingPlatform', { master_id: album.master_id });
-              }}
-            >
-              <Text style={styles.buttonText}>Trade</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.wishlistButton}
-              onPress={() => {
-                // Handle adding wishlist button press
-              }}
-            >
-              <Text style={styles.buttonText}>Add to Wishlist</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-              <Text style={styles.closeButtonText}>Back</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.tradeButton}
+                onPress={() => {
+                  closeModal();
+                  navigation.navigate('TradingPlatform', { master_id: album.master_id });
+                }}
+              >
+                <Text style={styles.buttonText}>Trade</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.wishlistButton}
+                onPress={() => {
+                  // Handle adding wishlist button press
+                }}
+              >
+                <Text style={styles.buttonText}>Add to Wishlist</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+                <AntDesign name="close" size={24} color="#800000" />
+              </TouchableOpacity>
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -95,6 +98,7 @@ export default function IndividualAlbums({ album }) {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -139,14 +143,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 40,
+    marginBottom: 20,
   },
   modalImage: {
     width: 250,
     height: 250,
     resizeMode: 'cover',
     borderRadius: 8,
+    marginTop: 50,
     marginBottom: 10,
-    marginRight: 8,
+    marginRight: 'auto',
+    marginLeft: 'auto',
     borderWidth: 2,
     borderColor: '#ddd',
   },
@@ -154,18 +162,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   modalTitleText: {
     fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 5,
-    textAlign: 'center',
+    textAlign: 'flex-start',
   },
   modalArtistText: {
     fontSize: 14,
     marginBottom: 10,
-    textAlign: 'center',
+    textAlign: 'flex-start',
   },
   modalText: {
     flex: 1,
@@ -185,6 +193,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 160,
+    alignSelf: 'center', // Center horizontally
   },
   wishlistButton: {
     marginTop: 10,
@@ -195,6 +204,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 160,
+    alignSelf: 'center', // Center horizontally
   },
   closeButton: {
     position: 'absolute',
@@ -202,16 +212,23 @@ const styles = StyleSheet.create({
     left: 10,
     backgroundColor: 'transparent',
     padding: 5,
+    borderRadius: 8,
+    borderWidth: 2,
+    alignSelf: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   closeButtonText: {
     color: '#800000',
     fontSize: 24,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   trackListItem: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 8,
+    width: 350,
   },
   trackNumber: {
     fontSize: 12,
