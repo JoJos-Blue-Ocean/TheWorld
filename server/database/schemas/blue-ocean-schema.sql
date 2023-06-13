@@ -89,8 +89,6 @@ CREATE INDEX ON "messages" ("trade_id");
 
 CREATE INDEX ON "wishlist" ("user_id");
 
-CREATE INDEX ON "wishlist" ("album_id");
-
 CREATE INDEX ON "notifications" ("sender_id");
 
 CREATE INDEX ON "notifications" ("recipient_id");
