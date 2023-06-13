@@ -46,7 +46,7 @@ export default function IndividualAlbums({ album }) {
       })
       .then(() => {
         setInfo({
-          user_id: 'abc1234',
+          user_id: 'cliuo26c1000608i96syehksd',
           album_id: album.master_id,
           artist_name: artistTitle,
           album_name: collectionTitle,
