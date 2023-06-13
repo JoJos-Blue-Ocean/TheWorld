@@ -46,6 +46,7 @@ export default function RecordCatalog() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    maginLeft: 20,
   },
   scrollViewContent: {
     paddingBottom: 60,
