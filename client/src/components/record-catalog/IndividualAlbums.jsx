@@ -1,30 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import {
-  StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView
+  StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { AntDesign } from '@expo/vector-icons'; // Import the required icon
 
 export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
-  const [info, setInfo] = useState([]);
+  const [info, setInfo] = useState({});
+  const [trackList, setTrackList] = useState([]);
   const navigation = useNavigation();
-
-  console.log('this is INFO', info);
-  const grabAlbumInfo = () => {
-    axios.get('http://localhost:3000/api/record-catalog/individualAlbum', {
-      params: {
-        id: album.master_id,
-      },
-    })
-      .then((response) => {
-        setInfo(response.data.tracklist);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const openModal = () => {
     grabAlbumInfo();
@@ -35,9 +21,43 @@ export default function IndividualAlbums({ album }) {
     setModalVisible(false);
   };
 
+  const addWishlist = () => {
+    axios.post('http://localhost:3000/wishlist', info)
+      .then((response) => {
+        console.log('Successfully posted', response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const splitTitle = album.title.split(' - ');
   const collectionTitle = splitTitle[1] || '';
   const artistTitle = splitTitle[0] || '';
+
+  const grabAlbumInfo = () => {
+    axios.get('http://localhost:3000/api/record-catalog/individualAlbum', {
+      params: {
+        id: album.master_id,
+      },
+    })
+      .then((response) => {
+        setTrackList(response.data.tracklist);
+      })
+      .then(() => {
+        setInfo({
+          user_id: 'cliuo26c1000608i96syehksd',
+          album_id: album.master_id,
+          artist_name: artistTitle,
+          album_name: collectionTitle,
+          genre: album.genre,
+          image: album.cover_image,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <View>
@@ -52,7 +72,7 @@ export default function IndividualAlbums({ album }) {
               <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
               <Text style={styles.modalTitleText}>{collectionTitle}</Text>
               <Text style={styles.modalArtistText}>{artistTitle}</Text>
-              {info.map((item, index) => (
+              {trackList.map((item, index) => (
                 <View key={item.position} style={styles.trackListItem}>
                   <Text style={styles.trackNumber}>
                     {index + 1}
@@ -75,9 +95,7 @@ export default function IndividualAlbums({ album }) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.wishlistButton}
-                onPress={() => {
-                  // Handle adding wishlist button press
-                }}
+                onPress={addWishlist}
               >
                 <Text style={styles.buttonText}>Add to Wishlist</Text>
               </TouchableOpacity>
@@ -98,7 +116,6 @@ export default function IndividualAlbums({ album }) {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
