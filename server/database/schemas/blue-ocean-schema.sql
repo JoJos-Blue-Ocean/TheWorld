@@ -40,7 +40,6 @@ CREATE TABLE "messages" (
   "id" serial PRIMARY KEY,
   "sender_id" text NOT NULL,
   "recipient_id" text NOT NULL,
-  "trade_id" integer NOT NULL,
   "body" text NOT NULL,
   "created_at" timestamp DEFAULT 'now()'
 );
@@ -85,8 +84,6 @@ CREATE INDEX ON "messages" ("sender_id");
 
 CREATE INDEX ON "messages" ("recipient_id");
 
-CREATE INDEX ON "messages" ("trade_id");
-
 CREATE INDEX ON "wishlist" ("user_id");
 
 CREATE INDEX ON "notifications" ("sender_id");
@@ -106,8 +103,6 @@ ALTER TABLE "ratings" ADD FOREIGN KEY ("trade_id") REFERENCES "trades" ("id");
 ALTER TABLE "messages" ADD FOREIGN KEY ("sender_id") REFERENCES "users" ("uid");
 
 ALTER TABLE "messages" ADD FOREIGN KEY ("recipient_id") REFERENCES "users" ("uid");
-
-ALTER TABLE "messages" ADD FOREIGN KEY ("trade_id") REFERENCES "trades" ("id");
 
 ALTER TABLE "wishlist" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("uid");
 
