@@ -3,12 +3,14 @@ import axios from 'axios';
 import {
   StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
-export default function RockGenreIndividual({ album }) {
+export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [info, setInfo] = useState([]);
+  const navigation = useNavigation();
 
-  console.log('this is INFO', info.tracklist);
+  console.log('this is INFO', info);
   const grabAlbumInfo = () => {
     axios.get('http://localhost:3000/api/record-catalog/individualAlbum', {
       params: {
@@ -16,7 +18,7 @@ export default function RockGenreIndividual({ album }) {
       },
     })
       .then((response) => {
-        setInfo(response.data);
+        setInfo(response.data.tracklist);
       })
       .catch((err) => {
         console.log(err);
@@ -48,25 +50,38 @@ export default function RockGenreIndividual({ album }) {
             <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
             <Text style={styles.modalTitleText}>{collectionTitle}</Text>
             <Text style={styles.modalArtistText}>{artistTitle}</Text>
-            {/* <Text style={styles.modalText}>{info.tracklist}</Text>
-            <Text style={styles.modalText}>{info.duration}</Text>
-            <Text style={styles.modalText}>{info.published_date}</Text>
-            <Text style={styles.modalText}>{info.artist}</Text> */}
-            <Button
-              title="Trade"
-              onPress={() => {
-                // Handle trade button press
-              }}
+            {info.map((item, index) => (
+              <View key={item.position} style={styles.trackListItem}>
+                <Text style={styles.trackNumber}>
+                  {index + 1}
+                </Text>
+                <View style={styles.trackInfo}>
+                  <Text style={styles.trackTitle}>{item.title}</Text>
+                  <Text style={styles.trackDuration}>{item.duration || '0:00'}</Text>
+                </View>
+              </View>
+            ))}
+
+            <TouchableOpacity
               style={styles.tradeButton}
-            />
-            <Button
-              title="Add to Wishlist"
               onPress={() => {
-                // Handle trade button press
+                closeModal();
+                navigation.navigate('TradingPlatform', { master_id: album.master_id });
               }}
-              style={styles.tradeButton}
-            />
-            <Button title="Close" onPress={closeModal} />
+            >
+              <Text style={styles.buttonText}>Trade</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.wishlistButton}
+              onPress={() => {
+                // Handle adding wishlist button press
+              }}
+            >
+              <Text style={styles.buttonText}>Add to Wishlist</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+              <Text style={styles.closeButtonText}>Back</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -106,7 +121,7 @@ const styles = StyleSheet.create({
     textAlign: 'start',
     marginBottom: 5,
     marginRight: 0,
-    width: 160, // Adjust the width to match the image width
+    width: 160,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
@@ -115,7 +130,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: 'start',
     color: '#666',
-    width: 160, // Adjust the width to match the image width
+    width: 160,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
@@ -153,9 +168,70 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalText: {
+    flex: 1,
     marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   tradeButton: {
     marginTop: 20,
+    backgroundColor: '#800000',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 160,
+  },
+  wishlistButton: {
+    marginTop: 10,
+    backgroundColor: '#800000',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 160,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    backgroundColor: 'transparent',
+    padding: 5,
+  },
+  closeButtonText: {
+    color: '#800000',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  trackListItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  trackNumber: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginRight: 8,
+    width: 20,
+  },
+  trackInfo: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  trackTitle: {
+    flex: 1,
+    marginRight: 8,
+    fontSize: 12,
+  },
+  trackDuration: {
+    fontSize: 12,
+    color: '#666',
   },
 });
