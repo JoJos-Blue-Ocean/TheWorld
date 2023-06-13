@@ -48,11 +48,11 @@ CREATE TABLE "messages" (
 CREATE TABLE "wishlist" (
   "id" serial PRIMARY KEY,
   "user_id" text,
+  "album_id" text,
   "artist_name" text NOT NULL,
   "album_name" text NOT NULL,
-  "label_name" text NOT NULL,
   "genre" text NOT NULL,
-  "image" text NOT NULL,
+  "image" text,
   "created_at" timestamp DEFAULT 'now()'
 );
 
