@@ -4,7 +4,7 @@ import {
   StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { AntDesign } from '@expo/vector-icons'; // Import the required icon
+import { AntDesign } from '@expo/vector-icons';
 
 export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -101,10 +101,6 @@ export default function IndividualAlbums({ album }) {
 
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    paddingHorizontal: 10,
-  },
   image: {
     width: 160,
     height: 160,
@@ -193,7 +189,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 160,
-    alignSelf: 'center', // Center horizontally
+    alignSelf: 'center',
   },
   wishlistButton: {
     marginTop: 10,
@@ -204,7 +200,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 160,
-    alignSelf: 'center', // Center horizontally
+    alignSelf: 'center',
   },
   closeButton: {
     position: 'absolute',
