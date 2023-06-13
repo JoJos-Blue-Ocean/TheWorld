@@ -16,7 +16,6 @@ import Messages from './client/src/components/messages/Messages';
 import Wishlist from './client/src/components/wishlist/Wishlist';
 import NavigationPane from './client/src/components/NavigationPane';
 import CompleteTradeForm from './client/src/components/trading-history/CompleteTradeForm';
-import Test from './client/src/components/wishlist/Test';
 
 const Stack = createNativeStackNavigator();
 
