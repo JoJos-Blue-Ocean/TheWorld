@@ -13,7 +13,9 @@ app.use(express.json());
 
 // ROUTES
 
-app.use('/vinyl', router);
+app.use('/api/record-catalog', router.helpers);
+app.use('/api/trading-platform', router.tradingPlatform);
+app.use('/api/profile', router.profile);
 
 const PORT = process.env.PORT || 3000;
 
