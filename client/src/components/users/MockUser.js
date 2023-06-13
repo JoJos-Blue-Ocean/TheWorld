@@ -1,6 +1,6 @@
 
 const user = {
-  id: 1,
+  id: 2,
   email: 'test@test.com',
   username: 'Dilly',
   profile_picture: (require('../../../../assets/bob.png')),
