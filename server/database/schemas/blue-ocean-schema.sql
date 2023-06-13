@@ -48,7 +48,6 @@ CREATE TABLE "messages" (
 CREATE TABLE "wishlist" (
   "id" serial PRIMARY KEY,
   "user_id" text,
-  "album_id" integer NOT NULL,
   "artist_name" text NOT NULL,
   "album_name" text NOT NULL,
   "label_name" text NOT NULL,
@@ -89,8 +88,6 @@ CREATE INDEX ON "messages" ("recipient_id");
 CREATE INDEX ON "messages" ("trade_id");
 
 CREATE INDEX ON "wishlist" ("user_id");
-
-CREATE INDEX ON "wishlist" ("album_id");
 
 CREATE INDEX ON "notifications" ("sender_id");
 
