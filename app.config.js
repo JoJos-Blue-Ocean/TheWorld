@@ -33,6 +33,8 @@ module.exports = {
         projectId: 'e49d8d78-95a8-4399-b3ae-e884c454dbbe',
       },
       apiUrl: process.env.API_URL,
+      discogsKey: process.env.DISCOGS_CONSUMER_KEY,
+      discogsSecret: process.env.DISCOGS_CONSUMER_SECRET,
     },
     owner: 'davidtran',
   },

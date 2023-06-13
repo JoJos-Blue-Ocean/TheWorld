@@ -1,33 +1,54 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet, Text, View, ScrollView,
+} from 'react-native';
 import NavigationPane from '../NavigationPane';
-import RockGenre from './RockGenre';
-
+import GenreEntries from './GenreEntries';
+import SearchBar from './SearchBar';
+import SearchEntries from './SearchEntries';
 
 export default function RecordCatalog() {
-  const [rockAlbums, setRockAlbums] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:3000/vinyl', {
-      params: {
-        text: '',
-        genre: 'rock',
-      },
-    })
-      .then((response) => {
-        setRockAlbums(response.data.results);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const genres = ['rock', 'classical', 'hip-hop'];
+  const categories = ['release_title', 'artist'];
+  const [search, setSearch] = useState('');
+  const [searchState, setSearchState] = useState(false);
 
   return (
 
-    <View>
-      <Text> This is the Record Catalog main page</Text>
-      <RockGenre rockAlbums={rockAlbums} />
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <SearchBar search={search} setSearch={setSearch} setSearchState={setSearchState} />
+        {searchState ? (
+          <Text>
+            Search Result for "
+            {search}
+            "
+          </Text>
+        ) : null }
+        {searchState
+          ? categories.map((category) => (
+            <SearchEntries
+              search={search}
+              category={category}
+              key={category}
+            />
+          ))
+          : genres.map((genre) => (
+            <GenreEntries genre={genre} key={genre} />
+          ))}
+      </ScrollView>
+      <NavigationPane />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    maginLeft: 20,
+  },
+  scrollViewContent: {
+    paddingBottom: 60,
+  },
+});

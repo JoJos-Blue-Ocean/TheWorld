@@ -8,12 +8,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './client/src/components/login/LoginStart';
 import TradingPlatform from './client/src/components/trading-platform/TradingPlatform';
+import ActiveTradeDetails from './client/src/components/trading-platform/ActiveTradeDetails';
 import TradingHistory from './client/src/components/trading-history/TradingHistory';
 import RecordCatalog from './client/src/components/record-catalog/RecordCatalog';
 import Profile from './client/src/components/users/Profile';
 import Messages from './client/src/components/messages/Messages';
 import Wishlist from './client/src/components/wishlist/Wishlist';
 import NavigationPane from './client/src/components/NavigationPane';
+import CompleteTradeForm from './client/src/components/trading-history/CompleteTradeForm';
 import Test from './client/src/components/wishlist/Test';
 
 const Stack = createNativeStackNavigator();
@@ -25,11 +27,13 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="TradingPlatform" component={TradingPlatform} />
+          <Stack.Screen name="ActiveTradeDetails" component={ActiveTradeDetails} />
           <Stack.Screen name="TradingHistory" component={TradingHistory} />
           <Stack.Screen name="RecordCatalog" component={RecordCatalog} />
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="Messages" component={Messages} />
           <Stack.Screen name="WishList" component={Wishlist} />
+          <Stack.Screen name="Trade Completion Form" component={CompleteTradeForm} />
         </Stack.Navigator>
       </NavigationPane>
     </NavigationContainer>
