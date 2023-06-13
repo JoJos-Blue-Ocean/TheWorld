@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import {
-  StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity,
+  StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import { AntDesign } from '@expo/vector-icons'; // Import the required icon
 
-export default function RockGenreIndividual({ album }) {
+export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [info, setInfo] = useState([]);
   const navigation = useNavigation();
@@ -47,34 +48,43 @@ export default function RockGenreIndividual({ album }) {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
-            <Text style={styles.modalTitleText}>{collectionTitle}</Text>
-            <Text style={styles.modalArtistText}>{artistTitle}</Text>
-            {info.map((item, index) => (
-              <View key={item.position}>
-                <View style={styles.trackInfo}>
-                  <Text style={styles.modalText}>{`${index + 1}. ${item.title}`}</Text>
-                  <Text style={styles.modalText}>{item.duration}</Text>
+            <ScrollView>
+              <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
+              <Text style={styles.modalTitleText}>{collectionTitle}</Text>
+              <Text style={styles.modalArtistText}>{artistTitle}</Text>
+              {info.map((item, index) => (
+                <View key={item.position} style={styles.trackListItem}>
+                  <Text style={styles.trackNumber}>
+                    {index + 1}
+                  </Text>
+                  <View style={styles.trackInfo}>
+                    <Text style={styles.trackTitle}>{item.title}</Text>
+                    <Text style={styles.trackDuration}>{item.duration || '0:00'}</Text>
+                  </View>
                 </View>
-              </View>
-            ))}
+              ))}
 
-            <Button
-              title="Trade"
-              onPress={() => {
-                closeModal();
-                navigation.navigate('TradingPlatform', { master_id : album.master_id});
-              }}
-              style={styles.tradeButton}
-            />
-            <Button
-              title="Add to Wishlist"
-              onPress={() => {
-                // Handle trade button press
-              }}
-              style={styles.tradeButton}
-            />
-            <Button title="Close" onPress={closeModal} />
+              <TouchableOpacity
+                style={styles.tradeButton}
+                onPress={() => {
+                  closeModal();
+                  navigation.navigate('TradingPlatform', { master_id: album.master_id });
+                }}
+              >
+                <Text style={styles.buttonText}>Trade</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.wishlistButton}
+                onPress={() => {
+                  // Handle adding wishlist button press
+                }}
+              >
+                <Text style={styles.buttonText}>Add to Wishlist</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+                <AntDesign name="close" size={24} color="#800000" />
+              </TouchableOpacity>
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -88,6 +98,7 @@ export default function RockGenreIndividual({ album }) {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -114,7 +125,7 @@ const styles = StyleSheet.create({
     textAlign: 'start',
     marginBottom: 5,
     marginRight: 0,
-    width: 160, // Adjust the width to match the image width
+    width: 160,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
@@ -123,7 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: 'start',
     color: '#666',
-    width: 160, // Adjust the width to match the image width
+    width: 160,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
@@ -132,14 +143,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 40,
+    marginBottom: 20,
   },
   modalImage: {
     width: 250,
     height: 250,
     resizeMode: 'cover',
     borderRadius: 8,
+    marginTop: 50,
     marginBottom: 10,
-    marginRight: 8,
+    marginRight: 'auto',
+    marginLeft: 'auto',
     borderWidth: 2,
     borderColor: '#ddd',
   },
@@ -147,30 +162,93 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   modalTitleText: {
     fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 5,
-    textAlign: 'center',
+    textAlign: 'flex-start',
   },
   modalArtistText: {
     fontSize: 14,
     marginBottom: 10,
-    textAlign: 'center',
-  },
-  trackInfo: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
+    textAlign: 'flex-start',
   },
   modalText: {
     flex: 1,
     marginBottom: 10,
   },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   tradeButton: {
     marginTop: 20,
+    backgroundColor: '#800000',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 160,
+    alignSelf: 'center', // Center horizontally
+  },
+  wishlistButton: {
+    marginTop: 10,
+    backgroundColor: '#800000',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 160,
+    alignSelf: 'center', // Center horizontally
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    backgroundColor: 'transparent',
+    padding: 5,
+    borderRadius: 8,
+    borderWidth: 2,
+    alignSelf: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    color: '#800000',
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  trackListItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+    width: 350,
+  },
+  trackNumber: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginRight: 8,
+    width: 20,
+  },
+  trackInfo: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  trackTitle: {
+    flex: 1,
+    marginRight: 8,
+    fontSize: 12,
+  },
+  trackDuration: {
+    fontSize: 12,
+    color: '#666',
   },
 });

@@ -1,21 +1,22 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
-  Text, StyleSheet, View, ScrollView,
+  StyleSheet, Text, View, Button, ScrollView,
 } from 'react-native';
 import IndividualAlbums from './IndividualAlbums';
 
-export default function GenreEntries({ genre }) {
+export default function SearchEntries({ search, category }) {
   const [albums, setAlbums] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [timeoutId, setTimeoutId] = useState(null);
 
-  const fetchAlbums = () => {
+  const grabAlbums = () => {
     setLoading(true);
-    axios.get('http://localhost:3000/api/record-catalog/allAlbums', {
+    axios.get('http://localhost:3000/api/record-catalog/searchAlbumCategory', {
       params: {
-        text: '',
-        genre,
+        category,
+        search,
         page,
       },
     })
@@ -26,12 +27,8 @@ export default function GenreEntries({ genre }) {
         setPage((prevPage) => prevPage + 1);
         setLoading(false);
       })
-      .then(() => {
-        // console.log(`${genre} :`, albums);
-      })
       .catch((err) => {
         console.log(err);
-        setLoading(false);
       });
   };
 
@@ -39,19 +36,26 @@ export default function GenreEntries({ genre }) {
     const { layoutMeasurement, contentOffset, contentSize } = e.nativeEvent;
     const isEndReached = layoutMeasurement.width + contentOffset.x >= contentSize.width - 50;
     if (isEndReached && !loading) {
-      fetchAlbums();
+      grabAlbums();
     }
   };
 
-  useEffect(() => {
-    fetchAlbums();
-  }, []);
+  const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1);
 
-  const capitalizedGenre = genre.charAt(0).toUpperCase() + genre.slice(1);
+  useEffect(() => {
+    clearTimeout(timeoutId);
+    const newTimeoutId = setTimeout(() => {
+      setPage(1);
+      setAlbums([]);
+      grabAlbums();
+    }, 500);
+    setTimeoutId(newTimeoutId);
+    return () => clearTimeout(newTimeoutId);
+  }, [search]);
 
   return (
     <View>
-      <Text style={styles.genreText}>{capitalizedGenre}</Text>
+      <Text style={styles.genreText}>{capitalizedCategory}</Text>
       <ScrollView
         horizontal
         style={styles.container}

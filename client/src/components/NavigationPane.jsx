@@ -1,9 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/core';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, View, Button } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,22 +17,59 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
+  activeButton: {
+    color: '#800000',
+  },
 });
 
-// eslint-disable-next-line no-unused-vars
 export default function NavigationPane({ children }) {
   const navigation = useNavigation();
+  const [activeButton, setActiveButton] = useState('Login');
+
+  const handlePress = (button) => {
+    setActiveButton(button);
+    navigation.navigate(button);
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Hello!</Text>
-      { children }
+      {children}
       <View style={styles.navBar}>
-        <Button title="RC" onPress={() => navigation.navigate('RecordCatalog')} />
-        <Button title="TH" onPress={() => navigation.navigate('TradingHistory')} />
-        <Button title="TP" onPress={() => navigation.navigate('TradingPlatform')} />
-        <Button title="M" onPress={() => navigation.navigate('Messages')} />
-        <Button title="P" onPress={() => navigation.navigate('Profile')} />
-        <Button title="L" onPress={() => navigation.navigate('Login')} />
+        <Button
+          title="RC"
+          onPress={() => handlePress('RecordCatalog')}
+          color={activeButton === 'RecordCatalog' ? '#800000' : '#808080'}
+        />
+        <Button
+          title="TH"
+          onPress={() => handlePress('TradingHistory')}
+          color={activeButton === 'TradingHistory' ? '#800000' : '#808080'}
+        />
+        <Button
+          title="TP"
+          onPress={() => handlePress('TradingPlatform')}
+          color={activeButton === 'TradingPlatform' ? '#800000' : '#808080'}
+        />
+        <Button
+          title="M"
+          onPress={() => handlePress('Messages')}
+          color={activeButton === 'Messages' ? '#800000' : '#808080'}
+        />
+        <Button
+          title="P"
+          onPress={() => handlePress('Profile')}
+          color={activeButton === 'Profile' ? '#800000' : '#808080'}
+        />
+        <Button
+          title="L"
+          onPress={() => handlePress('Login')}
+          color={activeButton === 'Login' ? '#800000' : '#808080'}
+        />
+        <Button
+          title="W"
+          onPress={() => handlePress('WishList')}
+          color={activeButton === 'WishList' ? '#800000' : '#808080'}
+        />
       </View>
     </View>
   );
