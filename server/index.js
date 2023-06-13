@@ -16,6 +16,7 @@ app.use(express.json());
 app.use('/api/record-catalog', router.helpers);
 app.use('/api/trading-platform', router.tradingPlatform);
 app.use('/api/profile', router.profile);
+app.use('/api/messages', router.messages);
 
 const PORT = process.env.PORT || 3000;
 
