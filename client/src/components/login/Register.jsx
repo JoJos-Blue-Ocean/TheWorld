@@ -25,15 +25,12 @@ export default function Login({ route }) {
           uid: user.uid,
         };
         console.log('NEW USER OBJ:', newUser);
-        axios.post('/api/register', newUser)
-          .then((result) => {
-            if (result.data === 200) {
-              alert('You have been registered!');
-              navigation.navigate('Login');
-            }
+        // console.log(`${process.env.API_URL}/api/register`);
+        axios.post('http://localhost:3000/api/register', newUser)
+          .then(() => {
+            alert('You have been registered!');
+            navigation.navigate('Login');
           });
-        // alert('You have been registered!');
-        // navigation.navigate('Login');
       })
       .catch((err) => alert(err.message));
   };
