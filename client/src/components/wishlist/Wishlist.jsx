@@ -5,7 +5,6 @@ import {
   StyleSheet, Text, View, Image, Button, Alert, ScrollView, SafeAreaView, Dimensions, FlatList,
 } from 'react-native';
 import NavigationPane from '../NavigationPane';
-// import square from './square.png';
 
 // wishlist component
 export default function Wishlist() {
@@ -26,9 +25,7 @@ export default function Wishlist() {
       paddingLeft: 30,
       marginVertical: 20,
       flexDirection: 'row',
-      // display: 'flex',
       flexWrap: 'wrap',
-      // justifyContent: 'center',
       alignItems: 'center',
       gap: 30,
       width: '100%',
@@ -90,14 +87,6 @@ export default function Wishlist() {
       title: 'Fifth Album',
     },
   ];
-
-  // const removeFromWhishList = (index) => {
-  //   const newList = DATA.filter((item) => {
-
-  //     return
-  //   });
-
-  // };
 
   return (
     <View style={styles.mainContainer}>

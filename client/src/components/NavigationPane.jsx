@@ -65,6 +65,11 @@ export default function NavigationPane({ children }) {
           onPress={() => handlePress('Login')}
           color={activeButton === 'Login' ? '#800000' : '#808080'}
         />
+        <Button
+          title="W"
+          onPress={() => handlePress('WishList')}
+          color={activeButton === 'WishList' ? '#800000' : '#808080'}
+        />
       </View>
     </View>
   );
