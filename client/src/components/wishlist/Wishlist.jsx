@@ -1,14 +1,17 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable global-require */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   StyleSheet, Text, View, Image, Button, Alert, ScrollView, SafeAreaView, Dimensions, FlatList,
 } from 'react-native';
 import NavigationPane from '../NavigationPane';
 
 // wishlist component
-export default function Wishlist() {
-  const [visible, setVisible] = useState(true);
+export default function Wishlist({ navigation, route }) {
+  // const [visible, setVisible] = useState(true);
+  // console.log('route param', route.params);
+  const [list, setWishList] = useState([]);
 
   const styles = StyleSheet.create({
     mainContainer: {
@@ -88,20 +91,38 @@ export default function Wishlist() {
     },
   ];
 
+  const getWishListData = function (callback) {
+    axios.get('http://localhost:3000/api/wishlist', { params: { user_id: 1 } }).then(({ data }) => {
+      // console.log('Data', data);
+      callback(data);
+    }).catch((error) => {
+      console.log('Wishlist data cannot be retrieved from the server', error);
+    });
+  };
+
+  useEffect(() => {
+    getWishListData((data) => {
+      setWishList(data);
+      console.log('wishlist:', data);
+    });
+  }, []);
+
   return (
     <View style={styles.mainContainer}>
       <View>
         <Text> This is the wishlist main page</Text>
       </View>
       <View style={styles.container}>
-        { mockData.map((data, index) => (
+        { list.map((data, index) => (
           <View key={index} style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Image
               style={styles.tinyImage}
-              source={require('./square.png')}
+              source={data.image}
             />
             <Text>
-              {DATA[index].title}
+              {data.album_name}
+              {data.artist_name}
+              {data.genre}
             </Text>
             <Button title="Remove" onPress={() => Alert.alert('Removed item')} />
           </View>
