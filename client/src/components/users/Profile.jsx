@@ -3,10 +3,10 @@ import {
   TextInput, Alert,
 } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
-import UserContext from '../UserContext';
 import axios from 'axios';
-import {launchImageLibrary} from 'react-native-image-picker'
+import { launchImageLibrary } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/core';
+import UserContext from '../UserContext';
 import NavigationPane from '../NavigationPane';
 
 // TODO: implement route.user_uid in props
@@ -25,7 +25,7 @@ export default function Profile({ route }) {
   const [foreign, setForeign] = useState(false);
   const [modalState, setModalState] = useState(false);
 
-  const navigation = useNavigation({route});
+  const navigation = useNavigation({ route });
 
   const changeSettings = (changes) => {
     // Update uid
