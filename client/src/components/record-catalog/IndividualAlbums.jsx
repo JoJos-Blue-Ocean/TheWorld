@@ -15,15 +15,6 @@ export default function IndividualAlbums({ album }) {
   console.log('this is ModalVisible', modalVisible);
   console.log('this is info', info);
 
-  const openModal = () => {
-    grabAlbumInfo();
-    setModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-
   const addWishlist = () => {
     axios.post('http://localhost:3000/wishlist', info)
       .then((response) => {
@@ -61,6 +52,16 @@ export default function IndividualAlbums({ album }) {
         console.log(err);
       });
   };
+
+  const openModal = () => {
+    grabAlbumInfo();
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
 
   return (
     <View>
