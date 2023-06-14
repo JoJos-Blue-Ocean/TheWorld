@@ -86,6 +86,16 @@ const styles = StyleSheet.create({
     top: '72%',
     flexDirection: 'row',
   },
+  forContainer: {
+    position: 'absolute',
+    width: '30%',
+    left: '25%',
+    top: '29%',
+  },
+  for: {
+    textAlign: 'center',
+    fontSize: 18,
+  },
 });
 
 export default function CompleteTradeForm({ route }) {
@@ -102,10 +112,13 @@ export default function CompleteTradeForm({ route }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Complete Trade?</Text>
-      <Image source={sellingAlbumImage} style={styles.sellingAlbumImage} />
+      <Image source={{ uri: sellingAlbumImage }} style={styles.sellingAlbumImage} />
       <Text style={styles.sellingAlbumSongName}>{sellingAlbumSongName}</Text>
       <Text style={styles.sellingAlbumArtist}>{sellingAlbumArtist}</Text>
-      <Image source={desiredAlbumImage} style={styles.desiredAlbumImage} />
+      <View style={styles.forContainer}>
+        <Text style={styles.for}>Trading For</Text>
+      </View>
+      <Image source={{ uri: desiredAlbumImage }} style={styles.desiredAlbumImage} />
       <Text style={styles.desiredAlbumSongName}>{desiredAlbumSongName}</Text>
       <Text style={styles.desiredAlbumArtist}>{desiredAlbumArtist}</Text>
       <Text style={styles.selectTrader}>Who did you trade with?</Text>

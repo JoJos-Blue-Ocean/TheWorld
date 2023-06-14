@@ -33,4 +33,20 @@ module.exports = {
     return pool
       .query(query, values);
   },
+  updateToComplete(id, buyerId) {
+    const query = `UPDATE trades
+    SET status = 'complete', buyer_id = $1
+    WHERE id = $2`;
+    const values = [buyerId, id];
+    return pool
+      .query(query, values);
+  },
+  insertRating(senderId, recipientId, tradeId, rating) {
+    const query = `INSERT INTO ratings
+    (sender_id, recipient_id, trade_id, rating)
+    VALUES ($1, $2, $3, $4)`;
+    const values = [senderId, recipientId, tradeId, rating];
+    return pool
+      .query(query, values);
+  },
 };
