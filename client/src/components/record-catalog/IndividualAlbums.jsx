@@ -4,13 +4,16 @@ import {
   StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { AntDesign } from '@expo/vector-icons'; // Import the required icon
+import { AntDesign } from '@expo/vector-icons';
 
 export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [info, setInfo] = useState({});
   const [trackList, setTrackList] = useState([]);
   const navigation = useNavigation();
+
+  console.log('this is ModalVisible', modalVisible);
+  console.log('this is info', info);
 
   const openModal = () => {
     grabAlbumInfo();
@@ -120,7 +123,6 @@ export default function IndividualAlbums({ album }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    paddingHorizontal: 10,
   },
   image: {
     width: 160,
@@ -205,23 +207,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: '#800000',
     paddingVertical: 10,
-    paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
     width: 160,
-    alignSelf: 'center', // Center horizontally
+    alignSelf: 'center',
   },
   wishlistButton: {
     marginTop: 10,
     backgroundColor: '#800000',
     paddingVertical: 10,
-    paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
     width: 160,
-    alignSelf: 'center', // Center horizontally
+    alignSelf: 'center',
   },
   closeButton: {
     position: 'absolute',
