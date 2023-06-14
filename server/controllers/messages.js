@@ -14,7 +14,7 @@ module.exports = {
       .then((results) => res.json(results));
   },
   sendMessage(req, res) {
-    const { senderId, recipientId, body } = req.query;
+    const { senderId, recipientId, body } = req.body;
     models
       .sendMessage(senderId, recipientId, body)
       .then(() => res.sendStatus(201));
