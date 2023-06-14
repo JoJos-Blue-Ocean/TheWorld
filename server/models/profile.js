@@ -4,6 +4,7 @@ module.exports = {
   getProfile(useruid) {
     const query = ` SELECT
     users.username,
+    users.uid,
     users.profile_picture,
     users.biography,
     users.location,
@@ -25,6 +26,7 @@ module.exports = {
     JOIN ratings on users.uid=recipient_id
     WHERE users.uid=$1
     GROUP BY
+    users.uid,
     users.username,
     users.profile_picture,
     users.biography,
