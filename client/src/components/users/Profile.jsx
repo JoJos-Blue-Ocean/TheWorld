@@ -27,10 +27,10 @@ export default function Profile({ route }) {
 
   const changeSettings = (changes) => {
     // Update uid
-    console.log(changes)
-    axios.put(`http://localhost:3000/api/profile/cliuo1dcs000208i9hga217k5`, {
+    console.log(changes);
+    axios.put('http://localhost:3000/api/profile/a', {
       user: {
-        uid: route.params.uid || 'cliuo1dcs000208i9hga217k5',
+        uid: route.params.uid || 'a',
         profile_picture: changes.pfpChange || curUser.profile_picture,
         biography: changes.bioChange || curUser.biography,
         location: changes.locationChange || curUser.location,
@@ -46,11 +46,11 @@ export default function Profile({ route }) {
   };
 
   const retrieveStats = () => {
-    // QUERY DATABASE FOR STATS
-    axios.get(`http://localhost:3000/api/profile/cliuo1dcs000208i9hga217k5`)
+  //  QUERY DATABASE FOR STATS
+    axios.get('http://localhost:3000/api/profile/a')
       .then((results) => {
-        console.log(results.data);
-        setCurUser(results.data[0]);
+        console.log('retrieve stats data', results.data);
+        // setCurUser(results.data[0]);
       })
       .catch((err) => console.log('error: ', err));
   };
@@ -136,7 +136,7 @@ export default function Profile({ route }) {
               <Pressable
                 style={styles.confButton}
                 className="confirm-button"
-                onPress={() => {changeSettings({bioChange: bioChange, locationChange: locationChange, pfpChange: pfpChange})}}
+                onPress={() => { changeSettings({ bioChange, locationChange, pfpChange }); }}
               >
                 <Text style={styles.buttonText}>Confirm</Text>
               </Pressable>
