@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import {
   StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView,
@@ -6,6 +6,7 @@ import {
 import Constants from 'expo-constants';
 import { WebView } from 'react-native-webview';
 import { useNavigation } from '@react-navigation/core';
+import UserContext from ‘../UserContext’;
 import { AntDesign } from '@expo/vector-icons'; // Import the required icon
 
 export default function IndividualAlbums({ album }) {
@@ -13,6 +14,7 @@ export default function IndividualAlbums({ album }) {
   const [info, setInfo] = useState({});
   const [trackList, setTrackList] = useState([]);
   const [enableWishlist, setEnableWishlist] = useState(false);
+  const [uid, setUid] = useContext(UserContext);
   const [youtubeId, setYoutubeId] = useState('');
   const navigation = useNavigation();
 
@@ -26,7 +28,7 @@ export default function IndividualAlbums({ album }) {
   const checkWishlist = () => {
     axios.get('http://localhost:3000/api/wishlist/check', {
       params: {
-        user_id: 'cliuo26c1000608i96syehksd',
+        user_id: uid,
         album_id: album.master_id,
       },
     })
@@ -49,7 +51,7 @@ export default function IndividualAlbums({ album }) {
       })
       .then(() => {
         setInfo({
-          user_id: 'Wz0NzFeqFeXxmnKwo3jR9TaWu2v2',
+          user_id: uid,
           album_id: album.master_id,
           artist_name: artistTitle,
           album_name: collectionTitle,
