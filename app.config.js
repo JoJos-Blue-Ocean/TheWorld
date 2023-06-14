@@ -35,6 +35,7 @@ module.exports = {
       apiUrl: process.env.API_URL,
       discogsKey: process.env.DISCOGS_CONSUMER_KEY,
       discogsSecret: process.env.DISCOGS_CONSUMER_SECRET,
+      youtubeAPIKey: process.env.youtubeAPIKey,
     },
     owner: 'davidtran',
   },
