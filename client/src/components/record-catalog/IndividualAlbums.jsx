@@ -13,6 +13,19 @@ export default function IndividualAlbums({ album }) {
   const [enableWishlist, setEnableWishlist] = useState(false);
   const navigation = useNavigation();
 
+  console.log('this is ModalVisible', modalVisible);
+  console.log('this is info', info);
+
+  const addWishlist = () => {
+    axios.post('http://localhost:3000/wishlist', info)
+      .then((response) => {
+        console.log('Successfully posted', response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const splitTitle = album.title.split(' - ');
   const collectionTitle = splitTitle[1] || '';
   const artistTitle = splitTitle[0] || '';
@@ -59,7 +72,6 @@ export default function IndividualAlbums({ album }) {
   const openModal = () => {
     grabAlbumInfo();
     setModalVisible(true);
-    checkWishlist();
   };
 
   const closeModal = () => {
@@ -137,10 +149,6 @@ export default function IndividualAlbums({ album }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    paddingHorizontal: 10,
-  },
   image: {
     width: 160,
     height: 160,
@@ -224,7 +232,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: '#800000',
     paddingVertical: 10,
-    paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
@@ -235,7 +242,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: '#800000',
     paddingVertical: 10,
-    paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',

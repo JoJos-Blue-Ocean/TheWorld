@@ -8,7 +8,7 @@ import {
 import MakeListingTrade from './MakeListingTrade';
 import adaptiveIcon from '../../../../assets/favicon.png';
 
-export default function YourListing() {
+export default function YourListing({ list, userId }) {
   const exampleTrades = [{
     id: 1,
     sellingAlbumImage: adaptiveIcon,
@@ -81,18 +81,21 @@ export default function YourListing() {
     <View style={styles.trades} contentContainerStyle={styles.contentContainer}>
       <ScrollView>
         {
-          exampleTrades.map((trade) => (
+          list.map((trade) => (
             <MakeListingTrade
               key={trade.id}
               id={trade.id}
-              sellingAlbumImage={trade.sellingAlbumImage}
-              sellingAlbumSongName={trade.sellingAlbumSongName}
-              sellingAlbumArtist={trade.sellingAlbumArtist}
-              desiredAlbumImage={trade.desiredAlbumImage}
-              desiredAlbumSongName={trade.desiredAlbumSongName}
-              desiredAlbumArtist={trade.desiredAlbumArtist}
-              date={trade.date}
+              sellingAlbumImage={exampleTrades[0].sellingAlbumImage}
+              sellingAlbumSongName={exampleTrades[0].sellingAlbumSongName}
+              sellingAlbumArtist={exampleTrades[0].sellingAlbumArtist}
+              desiredAlbumImage={exampleTrades[0].desiredAlbumImage}
+              desiredAlbumSongName={exampleTrades[0].desiredAlbumSongName}
+              desiredAlbumArtist={exampleTrades[0].desiredAlbumArtist}
+              date={trade.created_at}
               status={trade.status}
+              tradingAlbumId={trade.have_album_id}
+              desiredAlbumId={trade.want_album_id}
+              userId={userId}
             />
           ))
         }
