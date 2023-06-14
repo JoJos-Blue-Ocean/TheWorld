@@ -6,4 +6,9 @@ module.exports = {
     models.getProfile(user)
       .then((results) => res.json(results));
   },
+  updateProfile(req, res) {
+    const user = req.body.user;
+    models.updateProfile(user)
+      .then((results) => res.json(results));
+  },
 };
