@@ -14,7 +14,7 @@ module.exports = {
     avg(ratings.rating) AS average_rating,
     count(ratings.rating) AS ratings_count
     FROM trades
-    JOIN users ON trades.seller_id=users.id
+    JOIN users ON trades.seller_id=users.uid
     JOIN ratings ON trades.seller_id=ratings.recipient_id
     WHERE have_album_id=$1
     AND status=$2

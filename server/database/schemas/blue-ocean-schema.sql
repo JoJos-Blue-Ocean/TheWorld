@@ -18,10 +18,10 @@ CREATE TABLE "users" (
 
 CREATE TABLE "trades" (
   "id" serial PRIMARY KEY,
-  "seller_id" integer NOT NULL,
+  "seller_id" text NOT NULL,
   "have_album_id" integer NOT NULL,
   "want_album_id" integer NOT NULL,
-  "buyer_id" integer,
+  "buyer_id" text,
   "status" text NOT NULL DEFAULT 'open',
   "description" text,
   "created_at" timestamp DEFAULT 'now()'
@@ -29,8 +29,8 @@ CREATE TABLE "trades" (
 
 CREATE TABLE "ratings" (
   "id" serial PRIMARY KEY,
-  "sender_id" integer NOT NULL,
-  "recipient_id" integer NOT NULL,
+  "sender_id" text NOT NULL,
+  "recipient_id" text NOT NULL,
   "trade_id" integer NOT NULL,
   "rating" integer,
   "created_at" timestamp DEFAULT 'now()'
@@ -38,29 +38,27 @@ CREATE TABLE "ratings" (
 
 CREATE TABLE "messages" (
   "id" serial PRIMARY KEY,
-  "sender_id" integer NOT NULL,
-  "recipient_id" integer NOT NULL,
-  "trade_id" integer NOT NULL,
+  "sender_id" text NOT NULL,
+  "recipient_id" text NOT NULL,
   "body" text NOT NULL,
   "created_at" timestamp DEFAULT 'now()'
 );
 
 CREATE TABLE "wishlist" (
   "id" serial PRIMARY KEY,
-  "user_id" integer,
-  "album_id" integer NOT NULL,
+  "user_id" text,
+  "album_id" text,
   "artist_name" text NOT NULL,
   "album_name" text NOT NULL,
-  "label_name" text NOT NULL,
   "genre" text NOT NULL,
-  "image" text NOT NULL,
+  "image" text,
   "created_at" timestamp DEFAULT 'now()'
 );
 
 CREATE TABLE "notifications" (
   "id" serial PRIMARY KEY,
   "sender_id" integer,
-  "recipient_id" integer,
+  "recipient_id" text,
   "body" text NOT NULL,
   "type" text NOT NULL,
   "created_at" timestamp DEFAULT 'now()'
@@ -86,32 +84,26 @@ CREATE INDEX ON "messages" ("sender_id");
 
 CREATE INDEX ON "messages" ("recipient_id");
 
-CREATE INDEX ON "messages" ("trade_id");
-
 CREATE INDEX ON "wishlist" ("user_id");
-
-CREATE INDEX ON "wishlist" ("album_id");
 
 CREATE INDEX ON "notifications" ("sender_id");
 
 CREATE INDEX ON "notifications" ("recipient_id");
 
-ALTER TABLE "trades" ADD FOREIGN KEY ("seller_id") REFERENCES "users" ("id");
+ALTER TABLE "trades" ADD FOREIGN KEY ("seller_id") REFERENCES "users" ("uid");
 
-ALTER TABLE "trades" ADD FOREIGN KEY ("buyer_id") REFERENCES "users" ("id");
+ALTER TABLE "trades" ADD FOREIGN KEY ("buyer_id") REFERENCES "users" ("uid");
 
-ALTER TABLE "ratings" ADD FOREIGN KEY ("sender_id") REFERENCES "users" ("id");
+ALTER TABLE "ratings" ADD FOREIGN KEY ("sender_id") REFERENCES "users" ("uid");
 
-ALTER TABLE "ratings" ADD FOREIGN KEY ("recipient_id") REFERENCES "users" ("id");
+ALTER TABLE "ratings" ADD FOREIGN KEY ("recipient_id") REFERENCES "users" ("uid");
 
 ALTER TABLE "ratings" ADD FOREIGN KEY ("trade_id") REFERENCES "trades" ("id");
 
-ALTER TABLE "messages" ADD FOREIGN KEY ("sender_id") REFERENCES "users" ("id");
+ALTER TABLE "messages" ADD FOREIGN KEY ("sender_id") REFERENCES "users" ("uid");
 
-ALTER TABLE "messages" ADD FOREIGN KEY ("recipient_id") REFERENCES "users" ("id");
+ALTER TABLE "messages" ADD FOREIGN KEY ("recipient_id") REFERENCES "users" ("uid");
 
-ALTER TABLE "messages" ADD FOREIGN KEY ("trade_id") REFERENCES "trades" ("id");
+ALTER TABLE "wishlist" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("uid");
 
-ALTER TABLE "wishlist" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
-
-ALTER TABLE "notifications" ADD FOREIGN KEY ("recipient_id") REFERENCES "users" ("id");
+ALTER TABLE "notifications" ADD FOREIGN KEY ("recipient_id") REFERENCES "users" ("uid");
