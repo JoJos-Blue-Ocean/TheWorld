@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet, Text, View, Image, Pressable,
 } from 'react-native';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
   trade: {
@@ -115,7 +116,65 @@ export default function MakeCompleteTrade({
   status,
   buyerName,
   buyerImage,
+  tradingAlbumId,
+  desiredAlbumId,
+  userId,
 }) {
+  const [tradingAlbum, setTradingAlbum] = useState({
+    images: [
+      {
+        uri: 'https://i.discogs.com/mUBg5clQ9XRz_sYjXEZVirPnhd8eVA3MkyiphaFYzLE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY1NjUy/NDItMTQyMjEyMTEz/MC01NzAxLmpwZWc.jpeg',
+      },
+    ],
+    title: '',
+    artists: [{
+      name: '',
+    }],
+  });
+  const [desiredAlbum, setDesiredAlbum] = useState({
+    images: [
+      {
+        uri: 'https://i.discogs.com/mUBg5clQ9XRz_sYjXEZVirPnhd8eVA3MkyiphaFYzLE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY1NjUy/NDItMTQyMjEyMTEz/MC01NzAxLmpwZWc.jpeg',
+      },
+    ],
+    title: '',
+    artists: [{
+      name: '',
+    }],
+  });
+  const params = {
+    sellingAlbumImage,
+    sellingAlbumSongName,
+    sellingAlbumArtist,
+    desiredAlbumImage,
+    desiredAlbumSongName,
+    desiredAlbumArtist,
+  };
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get('http://localhost:3000/api/record-catalog/individualAlbum', {
+          params: {
+            id: tradingAlbumId,
+          },
+        });
+        setTradingAlbum(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+      try {
+        const response = await axios.get('http://localhost:3000/api/record-catalog/individualAlbum', {
+          params: {
+            id: desiredAlbumId,
+          },
+        });
+        setDesiredAlbum(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, [userId]);
   return (
     <View style={styles.trade}>
       <View style={styles.tradeIdContainer}>
@@ -129,14 +188,14 @@ export default function MakeCompleteTrade({
           {status}
         </Text>
       </View>*/}
-      <Image source={sellingAlbumImage} style={styles.sellingAlbumImage}/>
-      <Text style={styles.sellingAlbumSongName}>{sellingAlbumSongName}</Text>
-      <Text style={styles.sellingAlbumArtist}>{sellingAlbumArtist}</Text>
+      <Image source={{ uri: tradingAlbum.images[0].uri }} style={styles.sellingAlbumImage} />
+      <Text style={styles.sellingAlbumSongName}>{tradingAlbum.title}</Text>
+      <Text style={styles.sellingAlbumArtist}>{tradingAlbum.artists[0].name}</Text>
       <Text style={styles.for}>for</Text>
-      <Image source={desiredAlbumImage} style={styles.desiredAlbumImage} />
-      <Text style={styles.desiredAlbumSongName}>{desiredAlbumSongName}</Text>
-      <Text style={styles.desiredAlbumArtist}>{desiredAlbumArtist}</Text>
-      <Image source={buyerImage} style={styles.buyerImage} />
+      <Image source={{ uri: desiredAlbum.images[0].uri }} style={styles.desiredAlbumImage} />
+      <Text style={styles.desiredAlbumSongName}>{desiredAlbum.title}</Text>
+      <Text style={styles.desiredAlbumArtist}>{desiredAlbum.artists[0].name}</Text>
+      <Image source={{ uri: buyerImage }} style={styles.buyerImage} />
       <Text style={styles.buyerName}>{buyerName}</Text>
       <Pressable style={styles.messageButton}>
         <Text style={styles.message}>
