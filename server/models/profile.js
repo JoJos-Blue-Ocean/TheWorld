@@ -48,6 +48,13 @@ module.exports = {
     return pool.query(query, values)
       .then((results) => results.rows);
   },
+  getSimpleProfile(selectedUserId, personalId) {
+    const query = 'SELECT users.uid, users.username, users.profile_picture, rooms.id AS room_id from users JOIN rooms on ((users.uid=rooms.user_one OR users.uid=rooms.user_two) AND (rooms.user_one=$2 OR rooms.user_two=$2)) WHERE users.uid=$1';
+    const values = [selectedUserId, personalId];
+    return pool
+      .query(query, values)
+      .then((results) => results.rows);
+  },
 };
 
 /*
