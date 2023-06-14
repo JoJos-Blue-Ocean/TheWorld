@@ -17,7 +17,7 @@ module.exports = {
     trades.buyer_id, trades.status, trades.description,
     TO_CHAR(trades.created_at, 'YYYY-MM-DD') AS created_at, users.username, users.profile_picture
     FROM trades
-    JOIN users ON trades.buyer_id = users.id
+    JOIN users ON trades.buyer_id = users.uid
     WHERE trades.seller_id = $1 OR trades.buyer_id = $1
     AND trades.status = $2`;
     const values = [userId, 'complete'];
@@ -30,6 +30,22 @@ module.exports = {
     (seller_id, have_album_id, want_album_id, status, description)
     VALUES ($1, $2, $3, 'open', $4)`;
     const values = [userId, haveAlbumId, wantAlbumId, description];
+    return pool
+      .query(query, values);
+  },
+  updateToComplete(id, buyerId) {
+    const query = `UPDATE trades
+    SET status = 'complete', buyer_id = $1
+    WHERE id = $2`;
+    const values = [buyerId, id];
+    return pool
+      .query(query, values);
+  },
+  insertRating(senderId, recipientId, tradeId, rating) {
+    const query = `INSERT INTO ratings
+    (sender_id, recipient_id, trade_id, rating)
+    VALUES ($1, $2, $3, $4)`;
+    const values = [senderId, recipientId, tradeId, rating];
     return pool
       .query(query, values);
   },

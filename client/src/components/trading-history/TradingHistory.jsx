@@ -42,7 +42,7 @@ export default function TradingHistory() {
   const navigation = useNavigation();
   const [listedTrades, setListedTrades] = useState([]);
   const [completeTrades, setCompleteTrades] = useState([]);
-  const userId = 1;
+  const userId = 'b';
   const addTradeParams = {
     userId,
   };
