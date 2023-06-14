@@ -78,6 +78,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
   },
+  starsContainer: {
+    position: 'absolute',
+    height: '5%',
+    width: '22%',
+    left: '39%',
+    top: '72%',
+    flexDirection: 'row',
+  },
 });
 
 export default function CompleteTradeForm({ route }) {
@@ -103,7 +111,9 @@ export default function CompleteTradeForm({ route }) {
       <Text style={styles.selectTrader}>Who did you trade with?</Text>
       <TextInput style={styles.traderSearchBar} />
       <Text style={styles.rateTrader}>Please Give This Person a Rating</Text>
-      <View><StarRating rating={3.5} /></View>
+      <View style={styles.starsContainer}>
+        <StarRating rating={3.5} />
+      </View>
       <Pressable
         style={styles.completeButton}
         onPress={() => {
