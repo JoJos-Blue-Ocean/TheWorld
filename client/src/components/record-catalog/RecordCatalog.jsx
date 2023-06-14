@@ -10,7 +10,7 @@ import SearchEntries from './SearchEntries';
 
 export default function RecordCatalog() {
   const genres = ['rock', 'classical', 'hip-hop'];
-  const categories = ['release_title', 'artist'];
+  const categories = ['release_title', 'artist', 'track'];
   const [search, setSearch] = useState('');
   const [searchState, setSearchState] = useState(false);
 
