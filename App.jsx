@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet, Text, View, Button,
@@ -17,27 +17,32 @@ import Messages from './client/src/components/messages/Messages';
 import Wishlist from './client/src/components/wishlist/Wishlist';
 import NavigationPane from './client/src/components/NavigationPane';
 import CompleteTradeForm from './client/src/components/trading-history/CompleteTradeForm';
+import UserContext from './client/src/components/UserContext';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const ctx = useState(''); // ctx = [uid, setUid]
+
   return (
-    <NavigationContainer>
-      <NavigationPane>
-        <Stack.Navigator>
-          <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
-          <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
-          <Stack.Screen name="TradingPlatform" component={TradingPlatform} />
-          <Stack.Screen name="ActiveTradeDetails" component={ActiveTradeDetails} />
-          <Stack.Screen name="TradingHistory" component={TradingHistory} />
-          <Stack.Screen name="RecordCatalog" component={RecordCatalog} />
-          <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen name="Messages" component={Messages} />
-          <Stack.Screen name="WishList" component={Wishlist} />
-          <Stack.Screen name="Trade Completion Form" component={CompleteTradeForm} />
-        </Stack.Navigator>
-      </NavigationPane>
-    </NavigationContainer>
+    <UserContext.Provider value={ctx}>
+      <NavigationContainer>
+        <NavigationPane>
+          <Stack.Navigator>
+            <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
+            <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
+            <Stack.Screen name="TradingPlatform" component={TradingPlatform} />
+            <Stack.Screen name="ActiveTradeDetails" component={ActiveTradeDetails} />
+            <Stack.Screen name="TradingHistory" component={TradingHistory} />
+            <Stack.Screen name="RecordCatalog" component={RecordCatalog} />
+            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="Messages" component={Messages} />
+            <Stack.Screen name="WishList" component={Wishlist} />
+            <Stack.Screen name="Trade Completion Form" component={CompleteTradeForm} />
+          </Stack.Navigator>
+        </NavigationPane>
+      </NavigationContainer>
+    </UserContext.Provider>
   );
 }
 
