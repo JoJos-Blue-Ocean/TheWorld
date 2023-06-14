@@ -13,7 +13,7 @@ CREATE TABLE "users" (
   "profile_picture" text,
   "biography" text,
   "location" text,
-  "created_at" timestamp DEFAULT 'now()'
+  "created_at" timestamp DEFAULT now()
 );
 
 CREATE TABLE "trades" (
@@ -24,7 +24,7 @@ CREATE TABLE "trades" (
   "buyer_id" text,
   "status" text NOT NULL DEFAULT 'open',
   "description" text,
-  "created_at" timestamp DEFAULT 'now()'
+  "created_at" timestamp DEFAULT now()
 );
 
 CREATE TABLE "ratings" (
@@ -33,7 +33,7 @@ CREATE TABLE "ratings" (
   "recipient_id" text NOT NULL,
   "trade_id" integer NOT NULL,
   "rating" integer,
-  "created_at" timestamp DEFAULT 'now()'
+  "created_at" timestamp DEFAULT now()
 );
 
 CREATE TABLE "messages" (
@@ -41,7 +41,7 @@ CREATE TABLE "messages" (
   "sender_id" text NOT NULL,
   "recipient_id" text NOT NULL,
   "body" text NOT NULL,
-  "created_at" timestamp DEFAULT 'now()'
+  "created_at" timestamp DEFAULT now()
 );
 
 CREATE TABLE "wishlist" (
@@ -52,7 +52,7 @@ CREATE TABLE "wishlist" (
   "album_name" text NOT NULL,
   "genre" text NOT NULL,
   "image" text,
-  "created_at" timestamp DEFAULT 'now()'
+  "created_at" timestamp DEFAULT now()
 );
 
 CREATE TABLE "notifications" (
@@ -61,7 +61,7 @@ CREATE TABLE "notifications" (
   "recipient_id" text,
   "body" text NOT NULL,
   "type" text NOT NULL,
-  "created_at" timestamp DEFAULT 'now()'
+  "created_at" timestamp DEFAULT now()
 );
 
 CREATE INDEX ON "users" ("uid");
