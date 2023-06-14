@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Text, View, Button, TextInput, KeyboardAvoidingView, TouchableOpacity, StyleSheet,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
+import UserContext from '../UserContext';
 
 export default function Login({ route }) {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [uid, setUid] = useContext(UserContext);
 
   const handleLogIn = () => {
     console.log('AUTH', auth);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        navigation.navigate('RecordCatalog', { uid: user.uid });
+        setUid(user.uid);
+        setEmail('');
+        setPassword('');
+        navigation.navigate('RecordCatalog');
         console.log('Logged In with', user);
       })
       .catch(err => alert(err.message));
