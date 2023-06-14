@@ -33,7 +33,10 @@ module.exports = {
     users.location;`;
     const values = [useruid];
     return pool.query(query, values)
-      .then((results) => results.rows);
+      .then((results) => {
+        console.log(results);
+        return results.rows;
+      });
   },
   updateProfile(user) {
     const query = ` UPDATE

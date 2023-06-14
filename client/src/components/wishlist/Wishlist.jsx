@@ -26,12 +26,9 @@ export default function Wishlist({ navigation, route }) {
     container: {
       paddingTop: 40,
       paddingBottom: 20,
-      paddingLeft: 30,
-      // marginVertical: 20,
-      // flexDirection: 'row',
+      paddingLeft: 40,
       flexWrap: 'wrap',
       alignItems: 'center',
-      // gap: 30,
       width: '100%',
       borderWidth: 1,
       backgroundColor: '#F5F5F5',
@@ -39,13 +36,11 @@ export default function Wishlist({ navigation, route }) {
     tinyImage: {
       width: 100,
       height: 100,
-      // margin: 1,
     },
   });
 
   const getWishListData = function () {
     axios.get('http://localhost:3000/api/wishlist', { params: { user_id: 'cliuo26c1000608i96syehksd' } }).then(({ data }) => {
-      //   console.log('Data', data);
       setWishList(data);
     }).catch((error) => {
       console.log('Wishlist data cannot be retrieved from the server', error);
@@ -53,7 +48,6 @@ export default function Wishlist({ navigation, route }) {
   };
 
   const removeFromWishList = function (id) {
-    console.log('id in remove', id);
     axios.delete('http://localhost:3000/api/wishlist', { data: { user_id: 'cliuo26c1000608i96syehksd', id } })
       .then(({ data }) => {
         console.log('Server response after remove operation', data);
@@ -62,8 +56,6 @@ export default function Wishlist({ navigation, route }) {
         console.log('Unable to remove album from the wishlist', error);
       });
   };
-
-  // console.log('wishlist:', list);
 
   useEffect(() => {
     getWishListData();
@@ -96,5 +88,3 @@ export default function Wishlist({ navigation, route }) {
     </ScrollView>
   );
 }
-
-// <Button title="Remove" onPress={() => Alert.alert('Removed item')} />

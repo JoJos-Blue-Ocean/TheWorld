@@ -51,7 +51,6 @@ CREATE TABLE "wishlist" (
   "album_id" text NOT NULL,
   "artist_name" text NOT NULL,
   "album_name" text NOT NULL,
-  "label_name" text NOT NULL,
   "genre" text NOT NULL,
   "image" text NOT NULL,
   "created_at" timestamp DEFAULT now()
