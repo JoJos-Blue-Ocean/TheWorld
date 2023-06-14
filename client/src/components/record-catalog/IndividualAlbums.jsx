@@ -49,7 +49,6 @@ export default function IndividualAlbums({ album }) {
       },
     })
       .then((response) => {
-        console.log(response.data);
         setEnableWishlist(response.data);
       })
       .catch((err) => {
