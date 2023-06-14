@@ -22,4 +22,20 @@ module.exports = {
       .insertListedTrade(userId, haveAlbumId, wantAlbumId, description)
       .then(() => res.sendStatus(201));
   },
+  updateToComplete(req, res) {
+    const { id } = req.body;
+    const buyerId = req.body.buyer_id;
+    models
+      .updateToComplete(id, buyerId)
+      .then(() => res.sendStatus(200));
+  },
+  insertRating(req, res) {
+    const senderId = req.body.sender_id;
+    const recipientId = req.body.recipient_id;
+    const tradeId = req.body.trade_id;
+    const { rating } = req.body;
+    models
+      .insertRating(senderId, recipientId, tradeId, rating)
+      .then(() => res.sendStatus(201));
+  },
 };
