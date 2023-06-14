@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
 import YourListing from './YourListing';
 import TransactionHistory from './TransactionHistory';
-import UserContext from ‘../UserContext’;
+import UserContext from '../UserContext';
 
 const styles = StyleSheet.create({
   container: {
