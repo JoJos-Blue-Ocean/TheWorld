@@ -4,6 +4,7 @@ module.exports = {
   getProfile(useruid) {
     const query = ` SELECT
     users.username,
+    users.uid,
     users.profile_picture,
     users.biography,
     users.location,
@@ -25,6 +26,7 @@ module.exports = {
     JOIN ratings on users.uid=recipient_id
     WHERE users.uid=$1
     GROUP BY
+    users.uid,
     users.username,
     users.profile_picture,
     users.biography,
@@ -44,6 +46,13 @@ module.exports = {
     `;
     const values = [user.profile_picture, user.location, user.biography, user.uid];
     return pool.query(query, values)
+      .then((results) => results.rows);
+  },
+  getSimpleProfile(selectedUserId, personalId) {
+    const query = 'SELECT users.uid, users.username, users.profile_picture, rooms.id AS room_id from users JOIN rooms on ((users.uid=rooms.user_one OR users.uid=rooms.user_two) AND (rooms.user_one=$2 OR rooms.user_two=$2)) WHERE users.uid=$1';
+    const values = [selectedUserId, personalId];
+    return pool
+      .query(query, values)
       .then((results) => results.rows);
   },
 };

@@ -13,22 +13,27 @@ export default function IndividualAlbums({ album }) {
   const [enableWishlist, setEnableWishlist] = useState(false);
   const navigation = useNavigation();
 
-  console.log('this is ModalVisible', modalVisible);
-  console.log('this is info', info);
+  // console.log('this is ModalVisible', modalVisible);
+  // console.log('this is info', info);
 
-  const addWishlist = () => {
-    axios.post('http://localhost:3000/wishlist', info)
+  const splitTitle = album.title.split(' - ');
+  const collectionTitle = splitTitle[1] || '';
+  const artistTitle = splitTitle[0] || '';
+
+  const checkWishlist = () => {
+    axios.get('http://localhost:3000/api/wishlist/check', {
+      params: {
+        user_id: 'cliuo26c1000608i96syehksd',
+        album_id: album.master_id,
+      },
+    })
       .then((response) => {
-        console.log('Successfully posted', response);
+        setEnableWishlist(response.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  const splitTitle = album.title.split(' - ');
-  const collectionTitle = splitTitle[1] || '';
-  const artistTitle = splitTitle[0] || '';
 
   const grabAlbumInfo = () => {
     axios.get('http://localhost:3000/api/record-catalog/individualAlbum', {
@@ -49,6 +54,9 @@ export default function IndividualAlbums({ album }) {
           image: album.cover_image,
         });
       })
+      .then(() => {
+        checkWishlist();
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -63,6 +71,16 @@ export default function IndividualAlbums({ album }) {
     setModalVisible(false);
   };
 
+  const addWishlist = () => {
+    axios.post('http://localhost:3000/api/wishlist/add', info)
+      .then((response) => {
+        // console.log('Successfully posted', response);
+        setEnableWishlist(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <View>
