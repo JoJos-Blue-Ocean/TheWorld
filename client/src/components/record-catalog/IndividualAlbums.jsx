@@ -3,6 +3,8 @@ import axios from 'axios';
 import {
   StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView,
 } from 'react-native';
+import Constants from 'expo-constants';
+import { WebView } from 'react-native-webview';
 import { useNavigation } from '@react-navigation/core';
 import UserContext from '../UserContext';
 import { AntDesign } from '@expo/vector-icons'; // Import the required icon
@@ -13,6 +15,7 @@ export default function IndividualAlbums({ album }) {
   const [trackList, setTrackList] = useState([]);
   const [enableWishlist, setEnableWishlist] = useState(false);
   const [uid, setUid] = useContext(UserContext);
+  const [youtubeId, setYoutubeId] = useState('');
   const navigation = useNavigation();
 
   // console.log('this is ModalVisible', modalVisible);
@@ -84,6 +87,9 @@ export default function IndividualAlbums({ album }) {
       });
   };
 
+  const API_KEY = Constants.expoConfig.extra.youtubeAPIKey;
+  const url = 'https://www.googleapis.com/youtube/v3/search';
+
   return (
     <View>
       <Modal
@@ -95,6 +101,8 @@ export default function IndividualAlbums({ album }) {
           <View style={styles.modalContent}>
             <ScrollView>
               <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
+              {/* {youtubeId.length >= 0 ? <iframe src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`} title="Tracklist Player" /> : null } */}
+              <WebView style={styles.webPlayer} source={{ uri: `https://www.youtube.com/embed/${youtubeId}?autoplay=1` }} />
               <Text style={styles.modalTitleText}>{collectionTitle}</Text>
               <Text style={styles.modalArtistText}>{artistTitle}</Text>
               {trackList.map((item, index) => (
@@ -104,6 +112,24 @@ export default function IndividualAlbums({ album }) {
                   </Text>
                   <View style={styles.trackInfo}>
                     <Text style={styles.trackTitle}>{item.title}</Text>
+                    <Button onPress={() => {
+                      axios.get(url, {
+                        params: {
+                          key: API_KEY,
+                          part: 'snippet',
+                          type: 'video',
+                          q: item.title,
+                        },
+                      })
+                        .then((response) => {
+                          // console.log(response.data.items[0].id.videoId);
+                          setYoutubeId(response.data.items[0].id.videoId);
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                        });
+                    }}
+                    />
                     <Text style={styles.trackDuration}>{item.duration || '0:00'}</Text>
                   </View>
                 </View>
@@ -144,6 +170,10 @@ export default function IndividualAlbums({ album }) {
 }
 
 const styles = StyleSheet.create({
+  webPlayer: {
+    height: 50,
+    width: 50,
+  },
   image: {
     width: 160,
     height: 160,
