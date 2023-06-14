@@ -68,9 +68,12 @@ export default function Messages() {
         senderId: 'b', //replace with current user id
         body: newMessage,
       })
-      .then(() => {
+      .then(({data}) => {
         // const newMessageData = response.data;
-        setMessages([...messages, newMessage]);
+        console.log('MESSAGES', messages);
+        console.log('DATAAAA', data);
+
+        setMessages([...messages, data]);
         setNewMessage('');
       })
       .catch((error) => console.error('Error sending message:', error));
