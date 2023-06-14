@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView,
@@ -10,6 +10,7 @@ export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [info, setInfo] = useState({});
   const [trackList, setTrackList] = useState([]);
+  const [enableWishlist, setEnableWishlist] = useState(false);
   const navigation = useNavigation();
 
   console.log('this is ModalVisible', modalVisible);
@@ -100,6 +101,7 @@ export default function IndividualAlbums({ album }) {
               <TouchableOpacity
                 style={styles.wishlistButton}
                 onPress={addWishlist}
+                disabled={enableWishlist}
               >
                 <Text style={styles.buttonText}>Add to Wishlist</Text>
               </TouchableOpacity>
