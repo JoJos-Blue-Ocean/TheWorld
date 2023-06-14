@@ -2,8 +2,10 @@ import {
   StyleSheet, Text, View, Image, Pressable, Modal,
   TextInput, Alert,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import UserContext from '../UserContext';
 import axios from 'axios';
+import {launchImageLibrary} from 'react-native-image-picker'
 import { useNavigation } from '@react-navigation/core';
 import NavigationPane from '../NavigationPane';
 
@@ -13,9 +15,8 @@ export default function Profile({ route }) {
 /*
   Condition render: If the User clicks on a different user, recieve the user_uid
   of said user in nav and render their stats
-
 */
-
+  const [uid, setUid] = useContext(UserContext);
   const [curUser, setCurUser] = useState({});
   const [bioChange, setBio] = useState('');
   const [locationChange, setLocation] = useState('');
@@ -23,14 +24,14 @@ export default function Profile({ route }) {
   const [foreign, setForeign] = useState(false);
   const [modalState, setModalState] = useState(false);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation({route});
 
   const changeSettings = (changes) => {
     // Update uid
     console.log(changes)
-    axios.put(`http://localhost:3000/api/profile/cliuo1dcs000208i9hga217k5`, {
+    axios.put(`http://localhost:3000/api/profile/b`, {
       user: {
-        uid: route.params.uid || 'cliuo1dcs000208i9hga217k5',
+        uid: 'cliuo1dcs000208i9hga217k5',
         profile_picture: changes.pfpChange || curUser.profile_picture,
         biography: changes.bioChange || curUser.biography,
         location: changes.locationChange || curUser.location,
@@ -45,11 +46,16 @@ export default function Profile({ route }) {
       .catch((err) => console.error('ERROR: ', err));
   };
 
+  const uploadImage = () => {
+
+  }
+
   const retrieveStats = () => {
     // QUERY DATABASE FOR STATS
-    axios.get(`http://localhost:3000/api/profile/cliuo1dcs000208i9hga217k5`)
+    console.log('uid here ', uid)
+    axios.get(`http://localhost:3000/api/profile/b`)
       .then((results) => {
-        console.log(results.data);
+        console.log(results.data[0]);
         setCurUser(results.data[0]);
       })
       .catch((err) => console.log('error: ', err));
@@ -87,7 +93,9 @@ export default function Profile({ route }) {
           <View style={styles.modalForms}>
             <Pressable
               className="settings-picture"
-              onPress={() => Alert.alert('W.I.P Keep ur pic for now :)')}
+              onPress={() => {
+                // launchImageLibrary();
+              }}
             >
               <Text style={styles.modalsubHeader}>Change Profile Picture</Text>
               <View className="profile-picture" style={styles.modalprofile_picture}>
