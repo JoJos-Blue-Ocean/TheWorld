@@ -9,7 +9,7 @@ module.exports = {
       .then((results) => results.rows);
   },
   getMessages(firstId, secondId) {
-    const query = 'SELECT * FROM messages WHERE (sender_id=$1 AND recipient_id=$2) OR (sender_id=$2 AND recipient_id=$1)';
+    const query = 'SELECT * FROM messages WHERE (sender_id=$1 AND recipient_id=$2) OR (sender_id=$2 AND recipient_id=$1) ORDER BY created_at';
     const values = [firstId, secondId];
     return pool
       .query(query, values)
