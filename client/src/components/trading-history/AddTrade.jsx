@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, Text, View, Image, Pressable, TextInput,
+  StyleSheet, Text, View, Image, Pressable, TextInput, ScrollView,
 } from 'react-native';
+import AddAlbum from './AddAlbum';
+import { useNavigation } from '@react-navigation/core';
 
 const styles = StyleSheet.create({
   container: {
@@ -60,30 +62,119 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
   },
+  tradingAlbumContainer: {
+    position: 'absolute',
+    top: '10%',
+    height: '12%',
+    width: '100%',
+  },
+  image: {
+    position: 'absolute',
+    left: '3%',
+    height: '100%',
+    width: '25%',
+  },
+  desiredAlbumContainer: {
+    position: 'absolute',
+    top: '32%',
+    height: '12%',
+    width: '100%',
+  },
+  detailsContainer: {
+    position: 'absolute',
+    flexDirection: 'column',
+    height: '100%',
+    width: '50%',
+    left: '50%',
+    textAlign: 'left',
+  },
 });
 
 export default function AddTrade() {
+  const navigation = useNavigation();
+  const [showAddTradingAlbum, toggleShowAddTradingAlbum] = useState(false);
+  const [showAddDesiredAlbum, toggleShowAddDesiredAlbum] = useState(false);
+  const [tradingAlbumSelected, toggleTradingAlbumSelected] = useState(false);
+  const [desiredAlbumSelected, toggleDesiredAlbumSelected] = useState(false);
 
-    return(
+  const [tradingAlbum, setTradingAlbum] = useState({
+    images: [
+      {
+        uri: 'https://i.discogs.com/mUBg5clQ9XRz_sYjXEZVirPnhd8eVA3MkyiphaFYzLE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY1NjUy/NDItMTQyMjEyMTEz/MC01NzAxLmpwZWc.jpeg',
+      },
+    ],
+    title: '',
+  });
+  const [desiredAlbum, setDesiredAlbum] = useState({
+    images: [
+      {
+        uri: 'https://i.discogs.com/mUBg5clQ9XRz_sYjXEZVirPnhd8eVA3MkyiphaFYzLE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY1NjUy/NDItMTQyMjEyMTEz/MC01NzAxLmpwZWc.jpeg',
+      },
+    ],
+    title: '',
+  });
 
-      <View style={styles.container}>
-        <Text style={styles.tradingAlbum}>Trading Album</Text>
-        <Pressable style={styles.addTradingAlbumButton}>
+  return (
+
+    <View style={styles.container}>
+      <Text style={styles.tradingAlbum}>Trading Album</Text>
+      {tradingAlbumSelected ? (
+        <Pressable style={styles.tradingAlbumContainer}>
+          <Image source={{ uri: tradingAlbum.uri }} style={styles.image} />
+          <View style={styles.detailsContainer}>
+            <Text>{tradingAlbum.title}</Text>
+          </View>
+        </Pressable>
+      ) : (
+        <Pressable
+          style={styles.addTradingAlbumButton}
+          onPress={() => { toggleShowAddTradingAlbum(true); }}
+        >
           <Text>+</Text>
         </Pressable>
-        <Text style={styles.desiredAlbum}>Desired Album</Text>
-        <Pressable style={styles.addDesiredAlbumButton}>
+      )}
+      <Text style={styles.desiredAlbum}>Desired Album</Text>
+      {desiredAlbumSelected ? (
+        <Pressable style={styles.desiredAlbumContainer}>
+          <Image Image source={{ uri: desiredAlbum.uri }} style={styles.image} />
+          <View style={styles.detailsContainer}>
+            <Text>{desiredAlbum.title}</Text>
+          </View>
+        </Pressable>
+      ) : (
+        <Pressable
+          style={styles.addDesiredAlbumButton}
+          onPress={() => { toggleShowAddDesiredAlbum(true); }}
+        >
           <Text>
             +
           </Text>
         </Pressable>
-        <Text style={styles.descriptionPrompt}>Description</Text>
-        <TextInput style={styles.descriptionBox} />
-      <Pressable style={styles.submitButton}>
+      )}
+      <Text style={styles.descriptionPrompt}>Description</Text>
+      <TextInput style={styles.descriptionBox} />
+      <Pressable
+        style={styles.submitButton}
+        onPress={() => { navigation.navigate('TradingHistory'); }}
+      >
         <Text style={styles.confirm}>
           Confirm
         </Text>
       </Pressable>
-      </View>
-    );
-};
+      {showAddTradingAlbum && (
+        <AddAlbum
+          selectAlbum={(e) => { setTradingAlbum(e); }}
+          toggleShowAddAlbum={(e) => { toggleShowAddTradingAlbum(e); }}
+          toggleAlbumSelected={(e) => { toggleTradingAlbumSelected(e); }}
+        />
+      )}
+      {showAddDesiredAlbum && (
+      <AddAlbum
+        selectAlbum={(e) => { setDesiredAlbum(e); }}
+        toggleShowAddAlbum={(e) => { toggleShowAddDesiredAlbum(e); }}
+        toggleAlbumSelected={(e) => { toggleDesiredAlbumSelected(e); }}
+      />
+      )}
+    </View>
+  );
+}
