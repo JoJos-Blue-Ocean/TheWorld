@@ -127,12 +127,12 @@ export default function MakeListingTrade({
   });
   const navigation = useNavigation();
   const params = {
-    sellingAlbumImage,
-    sellingAlbumSongName,
-    sellingAlbumArtist,
-    desiredAlbumImage,
-    desiredAlbumSongName,
-    desiredAlbumArtist,
+    sellingAlbumImage: tradingAlbum.images[0].uri,
+    sellingAlbumSongName: tradingAlbum.title,
+    sellingAlbumArtist: tradingAlbum.artists[0].name,
+    desiredAlbumImage: desiredAlbum.images[0].uri,
+    desiredAlbumSongName: desiredAlbum.title,
+    desiredAlbumArtist: desiredAlbum.artists[0].name,
   };
 
   useEffect(() => {
