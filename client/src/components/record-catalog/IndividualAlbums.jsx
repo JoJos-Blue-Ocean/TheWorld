@@ -4,7 +4,7 @@ import {
   StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import UserContext from ‘../UserContext’;
+import UserContext from '../UserContext';
 import { AntDesign } from '@expo/vector-icons'; // Import the required icon
 
 export default function IndividualAlbums({ album }) {
