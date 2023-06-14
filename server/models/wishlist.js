@@ -3,7 +3,6 @@ const pool = require('../database/db');
 module.exports = {
 
   getWishList(userid) {
-    console.log('I am in model wishlist');
     const wishListQuery = {
       text: `SELECT user_id, artist_name, album_name, genre, image FROM wishlist
       WHERE user_id =$1`,
@@ -22,6 +21,7 @@ module.exports = {
     const query = 'SELECT * FROM wishlist WHERE user_id=$1 AND album_id=$2';
     return pool.query(query, values)
       .then((result) => {
+        console.log(result);
         if (result.rows[0] !== undefined) {
           return true;
         }
