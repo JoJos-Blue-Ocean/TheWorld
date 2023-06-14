@@ -42,7 +42,7 @@ export default function IndividualAlbums({ album }) {
   };
 
   const checkWishlist = () => {
-    axios.get('http://localhost:3000/wishlist', {
+    axios.get('http://localhost:3000/api/wishlist', {
       params: {
         user_id: 'cliuo26c1000608i96syehksd',
         album_id: album.master_id,
@@ -67,7 +67,7 @@ export default function IndividualAlbums({ album }) {
   };
 
   const addWishlist = () => {
-    axios.post('http://localhost:3000/wishlist', info)
+    axios.post('http://localhost:3000/api/wishlist', info)
       .then((response) => {
         console.log('Successfully posted', response);
         setEnableWishlist(true);

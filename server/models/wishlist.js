@@ -10,7 +10,7 @@ module.exports = {
       values: [userid],
     };
     return pool.query(wishListQuery).then((results) => results.rows).catch((err) => console.log('cannot get wishlist data from db', err));
-},
+  },
   addWishlist: (request) => {
     const values = [request.user_id, request.album_id,
       request.artist_name, request.album_name, request.genre, request.image];
