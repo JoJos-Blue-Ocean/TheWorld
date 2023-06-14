@@ -43,6 +43,9 @@ export default function TradingHistory() {
   const [listedTrades, setListedTrades] = useState([]);
   const [completeTrades, setCompleteTrades] = useState([]);
   const userId = 1;
+  const addTradeParams = {
+    userId,
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -80,7 +83,7 @@ export default function TradingHistory() {
           <Text>Transaction History</Text>
         </Pressable>
       </View>
-      <Pressable style={styles.addListing} onPress={() => { navigation.navigate('Add Trade Form'); }}>
+      <Pressable style={styles.addListing} onPress={() => { navigation.navigate('Add Trade Form', addTradeParams); }}>
         <Text>
           Add a Listing
         </Text>

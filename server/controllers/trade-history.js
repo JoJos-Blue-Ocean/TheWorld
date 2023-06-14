@@ -13,4 +13,13 @@ module.exports = {
       .getCompleteTrades(userId)
       .then((results) => res.json(results));
   },
+  insertListedTrade(req, res) {
+    const userId = req.body.user_id;
+    const haveAlbumId = req.body.have_album_id;
+    const wantAlbumId = req.body.want_album_id;
+    const { description } = req.body;
+    models
+      .insertListedTrade(userId, haveAlbumId, wantAlbumId, description)
+      .then(() => res.sendStatus(201));
+  },
 };
