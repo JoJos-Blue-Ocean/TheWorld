@@ -10,18 +10,24 @@ export default function Messages() {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    axios.get('your-api-url/users-with-messages')
+    axios.get('http://localhost:3000/api/messages/users')
       .then(response => setUsers(response.data))
       .catch(error => console.error('Error fetching users with messages:', error));
   }, []);
 
   useEffect(() => {
     if (selectedUserId) {
-      axios.get(`your-api-url/messages/${selectedUserId}`)
-        .then(response => setMessages(response.data))
-        .catch(error => console.error('Error fetching messages:', error));
+      axios
+        .get('http://localhost:3000/api/messages', {
+          params: {
+            firstId: 'cliuo1dcs000208i9hga217k5', //replace with current user id
+            secondId: selectedUserId,
+          },
+        })
+        .then((response) => setMessages(response.data))
+        .catch((error) => console.error('Error fetching messages:', error));
     }
-  }, [selectedUserId, messages]);
+  }, [selectedUserId]);
 
   const handleUserClick = (userId) => {
     setSelectedUserId(userId);
@@ -29,33 +35,34 @@ export default function Messages() {
   };
 
   const handleSendMessage = () => {
-    axios.post('your-api-url/messages', {
-      sender_id: loggedInUserId, // Replace with the logged-in user ID
-      recipient_id: selectedUserId,
-      body: newMessage
-    })
-      .then(response => {
+    axios
+      .post('http://localhost:3000/api/messages', {
+        senderId: 'cliuo1dcs000208i9hga217k5', //replace with current user id
+        recipientId: selectedUserId,
+        body: newMessage,
+      })
+      .then((response) => {
         setNewMessage('');
         setMessages([...messages, response.data]);
       })
-      .catch(error => console.error('Error sending message:', error));
+      .catch((error) => console.error('Error sending message:', error));
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {users.map(user => (
         <TouchableOpacity key={user.id} onPress={() => handleUserClick(user.id)}>
-          <Text>{user.username}</Text>
+          <Text style={styles.username}>{user.username}</Text>
         </TouchableOpacity>
       ))}
 
       <Modal visible={modalVisible}>
-        <View>
-          <Text>Messages</Text>
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>Messages</Text>
           <Button title="Close" onPress={() => setModalVisible(false)} />
 
           {messages.map(message => (
-            <Text key={message.id}>{message.body}</Text>
+            <Text key={message.id} style={styles.message}>{message.body}</Text>
           ))}
 
           <TextInput
@@ -70,3 +77,36 @@ export default function Messages() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  username: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  message: {
+    marginBottom: 10,
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderWidth: 1,
+    borderColor: 'gray',
+    marginBottom: 10,
+    padding: 10,
+  },
+});
