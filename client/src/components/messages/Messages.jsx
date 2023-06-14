@@ -4,41 +4,69 @@ import { StyleSheet, Text, View, TextInput, Button, Modal, TouchableOpacity } fr
 
 export default function Messages() {
   const [users, setUsers] = useState([]);
-  const [selectedUserId, setSelectedUserId] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const [rooms, setRooms] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [messages, setMessages] = useState([]);
 
+  // useEffect(() => {
+  //   axios.get('http://localhost:3000/api/messages/users')
+  //     .then(response => setUsers(response.data))
+  //     .catch(error => console.error('Error fetching users with messages:', error));
+  // }, []);
   useEffect(() => {
-    axios.get('http://localhost:3000/api/messages/users')
-      .then(response => setUsers(response.data))
-      .catch(error => console.error('Error fetching users with messages:', error));
+    if (true) {
+      axios
+        .get('http://localhost:3000/api/messages/rooms', {
+          params: { userId: 'b' },
+        })
+        .then((response) => setRooms(response.data))
+        .catch((error) => console.error('Error fetching messages:', error));
+    }
   }, []);
 
   useEffect(() => {
-    if (selectedUserId) {
-      axios
-        .get('http://localhost:3000/api/messages', {
-          params: {
-            firstId: 'cliuo1dcs000208i9hga217k5', //replace with current user id
-            secondId: selectedUserId,
-          },
-        })
-        .then((response) => setMessages(response.data))
-        .catch((error) => console.error('Error fetching messages:', error));
+    if (rooms.length) {
+      const temp = [];
+      rooms.forEach((room) => {
+        if (room.user_one !== 'b') {
+          temp.push(axios
+            .get('http://localhost:3000/api/profile/simpleProfile', {
+              params: { selectedUserId: room.user_one, personalId: 'b' },
+            })
+            .then(({ data }) => data)
+            .catch((error) => console.error('Error fetching rooms')));
+        } else if (room.user_two !== 'b') {
+          temp.push(axios
+            .get('http://localhost:3000/api/profile/simpleProfile', {
+              params: { selectedUserId: room.user_two, personalId: 'b' },
+            })
+            .then(({ data }) => data)
+            .catch((error) => console.error('Error fetching rooms')));
+        }
+      });
+      Promise.all(temp).then((results) => {
+        console.log(results);
+        setUsers(results);
+      });
     }
-  }, [selectedUserId]);
+  }, [rooms]);
 
-  const handleUserClick = (userId) => {
-    setSelectedUserId(userId);
+  const handleUserClick = (roomId) => {
+    axios
+      .get('http://localhost:3000/api/messages/', {
+        params: { roomId },
+      })
+      .then(({ data }) => setMessages(data))
+      .catch((error) => console.error('FAILED TO GET MESSAGES'));
     setModalVisible(true);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (roomId) => {
     axios
       .post('http://localhost:3000/api/messages', {
-        senderId: 'cliuo1dcs000208i9hga217k5', //replace with current user id
-        recipientId: selectedUserId,
+        roomId,
+        senderId: 'b', //replace with current user id
         body: newMessage,
       })
       .then((response) => {
@@ -50,13 +78,13 @@ export default function Messages() {
 
   return (
     <View style={styles.container}>
-      {users.map(user => (
-        <TouchableOpacity key={user.id} onPress={() => handleUserClick(user.id)}>
-          <Text style={styles.username}>{user.username}</Text>
+      {users.map((user) => (
+        <TouchableOpacity key={user[0].uid} onPress={() => handleUserClick(user[0].room_id)}>
+          <Text style={styles.username}>{user[0].username}</Text>
         </TouchableOpacity>
       ))}
 
-      <Modal visible={modalVisible}>
+      <Modal visible={modalVisible} animationType="slide">
         <View style={styles.modalContainer}>
           <Text style={styles.modalTitle}>Messages</Text>
           <Button title="Close" onPress={() => setModalVisible(false)} />
@@ -67,11 +95,11 @@ export default function Messages() {
 
           <TextInput
             value={newMessage}
-            onChangeText={text => setNewMessage(text)}
+            onChangeText={(text) => setNewMessage(text)}
             placeholder="Type your message"
             style={styles.input}
           />
-          <Button onPress={handleSendMessage} title="Send" />
+          <Button onPress={() => handleSendMessage(messages[0].room_id)} title="Send" />
         </View>
       </Modal>
     </View>
