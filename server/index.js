@@ -16,7 +16,13 @@ app.use(express.json());
 app.use('/api/record-catalog', router.helpers);
 app.use('/api/trading-platform', router.tradingPlatform);
 app.use('/api/profile', router.profile);
+<<<<<<< HEAD
 app.use('/api/trade-history', router.tradeHistory);
+=======
+app.use('/api/wishlist', router.wishlist);
+app.use('/api/messages', router.messages);
+app.use('/api/register', router.register);
+>>>>>>> main
 
 const PORT = process.env.PORT || 3000;
 
