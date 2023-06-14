@@ -3,7 +3,7 @@ INSERT INTO users(uid, email, username, profile_picture, biography, location)
 VALUES('a','fake1@email.com', 'fake_user1', 'https://i.pinimg.com/originals/bf/a7/8b/bfa78b30dbb524beb4104e471a1b6dd1.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.', 'Placeholder, Placeholder');
 
 INSERT INTO users(uid, email, username, profile_picture, biography, location)
-VALUES('b','fake2@email.com', 'fake_user2', 'https://pbs.twimg.com/media/EvyB3s9WgAAROdH.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.', 'Placeholder, Placeholder');
+VALUES('Wz0NzFeqFeXxmnKwo3jR9TaWu2v2','fake2@email.com', 'fake_user2', 'https://pbs.twimg.com/media/EvyB3s9WgAAROdH.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.', 'Placeholder, Placeholder');
 
 INSERT INTO users(uid, email, username, profile_picture, biography, location)
 VALUES('c','fake3@email.com', 'fake_user3', 'https://pbs.twimg.com/media/E0kJE8wWYAcWmgo.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.', 'Placeholder, Placeholder');

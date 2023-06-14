@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   StyleSheet, Text, View, Pressable,
 } from 'react-native';
@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
 import YourListing from './YourListing';
 import TransactionHistory from './TransactionHistory';
+import UserContext from ‘../UserContext’;
 
 const styles = StyleSheet.create({
   container: {
@@ -42,9 +43,9 @@ export default function TradingHistory() {
   const navigation = useNavigation();
   const [listedTrades, setListedTrades] = useState([]);
   const [completeTrades, setCompleteTrades] = useState([]);
-  const userId = 1;
+  const [uid, setUid] = useContext(UserContext);
   const addTradeParams = {
-    userId,
+    uid,
   };
 
   useEffect(() => {
@@ -52,7 +53,7 @@ export default function TradingHistory() {
       try {
         const response = await axios.get('http://localhost:3000/api/trade-history/listed-trades', {
           params: {
-            user_id: userId,
+            user_id: uid,
           },
         });
         setListedTrades(response.data);
@@ -62,7 +63,7 @@ export default function TradingHistory() {
       try {
         const response = await axios.get('http://localhost:3000/api/trade-history/complete-trades', {
           params: {
-            user_id: userId,
+            user_id: uid,
           },
         });
         setCompleteTrades(response.data);
@@ -89,8 +90,8 @@ export default function TradingHistory() {
         </Text>
       </Pressable>
       <View style={styles.tradesHistoryMain}>
-        {(tab === 'Your Listing') && <YourListing list={listedTrades} userId={userId} />}
-        {(tab === 'Transaction History') && <TransactionHistory list={completeTrades} userId={userId} />}
+        {(tab === 'Your Listing') && <YourListing list={listedTrades} userId={uid} />}
+        {(tab === 'Transaction History') && <TransactionHistory list={completeTrades} userId={uid} />}
       </View>
     </View>
 
