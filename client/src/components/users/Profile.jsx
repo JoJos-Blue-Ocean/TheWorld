@@ -31,7 +31,7 @@ export default function Profile({ route }) {
     console.log(changes)
     axios.put(`http://localhost:3000/api/profile/b`, {
       user: {
-        uid: 'cliuo1dcs000208i9hga217k5',
+        uid: 'b',
         profile_picture: changes.pfpChange || curUser.profile_picture,
         biography: changes.bioChange || curUser.biography,
         location: changes.locationChange || curUser.location,
