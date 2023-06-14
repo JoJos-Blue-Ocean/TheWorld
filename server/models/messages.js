@@ -1,9 +1,16 @@
 const pool = require('../database/db');
 
 module.exports = {
-  getAllMessages(userId) {
-    const query = 'SELECT * FROM messages WHERE sender_id=$1 OR recipient_id=$1';
+  getUsers(userId) {
+    const query = 'SELECT DISTINCT sender_id AS users FROM messages WHERE recipient_id=$1 UNION SELECT DISTINCT recipient_id FROM messages WHERE sender_id=$1 ORDER BY messages.created_at';
     const values = [userId];
+    return pool
+      .query(query, values)
+      .then((results) => results.rows);
+  },
+  getMessages(firstId, secondId) {
+    const query = 'SELECT * FROM messages WHERE (sender_id=$1 AND recipient_id=$2) OR (sender_id=$2 AND recipient_id=$1) ORDER BY created_at';
+    const values = [firstId, secondId];
     return pool
       .query(query, values)
       .then((results) => results.rows);
