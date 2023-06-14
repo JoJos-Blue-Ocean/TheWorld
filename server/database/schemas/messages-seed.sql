@@ -5,7 +5,8 @@ VALUES('cliunrnur000008ms1u5qhzl2', 'cliuo1dcs000208i9hga217k5', 'Lorem ipsum do
 INSERT INTO messages(sender_id, recipient_id, body)
 VALUES('cliuo1dcs000208i9hga217k5', 'cliunrnur000008ms1u5qhzl2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.');
 INSERT INTO messages(sender_id, recipient_id, body)
-VALUES('cliuo1dcs000208i9hga217k5', 'cliunrnur000008ms1u5qhzl2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.');
+VALUES('cliuo1dcs000208i9hga217k5', 'cliunrnur000008ms1u5qhzl2', '
+Hello.');
 INSERT INTO messages(sender_id, recipient_id, body)
 VALUES('cliuo1p5o000308i99dba68wy', 'cliunrnur000008ms1u5qhzl2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.');
 INSERT INTO messages(sender_id, recipient_id, body)
