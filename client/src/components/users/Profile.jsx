@@ -144,7 +144,7 @@ export default function Profile({ route }) {
               <Pressable
                 style={styles.confButton}
                 className="confirm-button"
-                onPress={() => {changeSettings({bioChange: bioChange, locationChange: locationChange, pfpChange: pfpChange})}}
+                onPress={() => { changeSettings({ bioChange, locationChange, pfpChange }); }}
               >
                 <Text style={styles.buttonText}>Confirm</Text>
               </Pressable>

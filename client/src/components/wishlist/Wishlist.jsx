@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable global-require */
 import React, { useState, useEffect } from 'react';
@@ -10,7 +11,7 @@ import NavigationPane from '../NavigationPane';
 // wishlist component
 export default function Wishlist({ navigation, route }) {
   // const [visible, setVisible] = useState(true);
-  // console.log('route param', route.params);
+  // console.log('route param', route.params.uid);
   const [list, setWishList] = useState([]);
 
   const styles = StyleSheet.create({
@@ -24,110 +25,66 @@ export default function Wishlist({ navigation, route }) {
     },
     container: {
       paddingTop: 40,
-      paddingBottom: 40,
-      paddingLeft: 30,
-      marginVertical: 20,
-      flexDirection: 'row',
+      paddingBottom: 20,
+      paddingLeft: 40,
       flexWrap: 'wrap',
       alignItems: 'center',
-      gap: 30,
       width: '100%',
       borderWidth: 1,
-      backgroundColor: 'red',
+      backgroundColor: '#F5F5F5',
     },
     tinyImage: {
-      width: 50,
-      height: 50,
-      margin: 1,
+      width: 100,
+      height: 100,
     },
   });
 
-  const mockData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'First Album',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Second Album',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Album',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Fourth Album',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Fifth Album',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Fourth Album',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Fifth Album',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Fourth Album',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Fifth Album',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Fourth Album',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Fifth Album',
-    },
-  ];
-
-  const getWishListData = function (callback) {
-    axios.get('http://localhost:3000/api/wishlist', { params: { user_id: 1 } }).then(({ data }) => {
-      // console.log('Data', data);
-      callback(data);
+  const getWishListData = function () {
+    axios.get('http://localhost:3000/api/wishlist', { params: { user_id: 'cliuo26c1000608i96syehksd' } }).then(({ data }) => {
+      setWishList(data);
     }).catch((error) => {
       console.log('Wishlist data cannot be retrieved from the server', error);
     });
   };
 
+  const removeFromWishList = function (id) {
+    axios.delete('http://localhost:3000/api/wishlist', { data: { user_id: 'cliuo26c1000608i96syehksd', id } })
+      .then(({ data }) => {
+        console.log('Server response after remove operation', data);
+        getWishListData();
+      }).catch((error) => {
+        console.log('Unable to remove album from the wishlist', error);
+      });
+  };
+
   useEffect(() => {
-    getWishListData((data) => {
-      setWishList(data);
-      console.log('wishlist:', data);
-    });
+    getWishListData();
   }, []);
 
   return (
-    <View style={styles.mainContainer}>
-      <View>
-        <Text> This is the wishlist main page</Text>
-      </View>
+    <ScrollView>
       <View style={styles.container}>
-        { list.map((data, index) => (
-          <View key={index} style={{ justifyContent: 'center', alignItems: 'center' }}>
+        { list.map((data) => (
+          <View key={data.id} style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Image
               style={styles.tinyImage}
-              source={data.image}
+              source={{
+                uri: data.image,
+              }}
             />
             <Text>
               {data.album_name}
-              {data.artist_name}
-              {data.genre}
             </Text>
-            <Button title="Remove" onPress={() => Alert.alert('Removed item')} />
+            <Text>
+              {data.artist_name}
+            </Text>
+            <Text>
+              {data.genre.substring(2, data.genre.length - 2)}
+            </Text>
+            <Button title="Remove" onPress={() => removeFromWishList(data.id)} />
           </View>
         ))}
       </View>
-    </View>
+    </ScrollView>
   );
 }

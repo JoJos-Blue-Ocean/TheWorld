@@ -7,9 +7,19 @@ module.exports = {
       res.json(response);
     }).catch((err) => {
       console.log('Error in db when getting wishlist', err);
+      res.sendStatus(500);
     });
   },
-  addWishlist: (req, res) => {
+  removeFromWishList(req, res) {
+    models.removeFromWishList(req.body).then((response) => {
+      console.log('response', response);
+      res.sendStatus(202);
+    }).catch((err) => {
+      console.log('Error in db when getting wishlist', err);
+      res.sendStatus(500);
+    });
+  },
+  addWishlist(req, res) {
     models.addWishlist(req.body)
       .then((response) => {
         res.send(response);
