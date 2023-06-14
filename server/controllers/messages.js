@@ -17,6 +17,6 @@ module.exports = {
     const { roomId, senderId, body } = req.body;
     models
       .sendMessage(roomId, senderId, body)
-      .then(() => res.sendStatus(201));
+      .then((results) => res.json(results));
   },
 };
