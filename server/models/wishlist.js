@@ -22,7 +22,6 @@ module.exports = {
     const query = 'SELECT * FROM wishlist WHERE user_id=$1 AND album_id=$2';
     return pool.query(query, values)
       .then((result) => {
-        console.log('this is result:', result);
         if (result.rows[0] !== undefined) {
           return true;
         }
