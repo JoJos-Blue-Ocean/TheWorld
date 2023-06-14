@@ -30,8 +30,8 @@ export default function Messages() {
   }, [selectedUserId]);
 
   const handleUserClick = (userId) => {
-    setSelectedUserId(userId);
     setModalVisible(true);
+    setSelectedUserId(userId);
   };
 
   const handleSendMessage = () => {
