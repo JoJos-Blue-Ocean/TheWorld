@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView,
@@ -10,26 +10,8 @@ export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [info, setInfo] = useState({});
   const [trackList, setTrackList] = useState([]);
+  const [enableWishlist, setEnableWishlist] = useState(false);
   const navigation = useNavigation();
-
-  const openModal = () => {
-    grabAlbumInfo();
-    setModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-
-  const addWishlist = () => {
-    axios.post('http://localhost:3000/wishlist', info)
-      .then((response) => {
-        console.log('Successfully posted', response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const splitTitle = album.title.split(' - ');
   const collectionTitle = splitTitle[1] || '';
@@ -53,6 +35,42 @@ export default function IndividualAlbums({ album }) {
           genre: album.genre,
           image: album.cover_image,
         });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const checkWishlist = () => {
+    axios.get('http://localhost:3000/wishlist', {
+      params: {
+        user_id: 'cliuo26c1000608i96syehksd',
+        album_id: album.master_id,
+      },
+    })
+      .then((response) => {
+        setEnableWishlist(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const openModal = () => {
+    grabAlbumInfo();
+    setModalVisible(true);
+    checkWishlist();
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const addWishlist = () => {
+    axios.post('http://localhost:3000/wishlist', info)
+      .then((response) => {
+        console.log('Successfully posted', response);
+        setEnableWishlist(true);
       })
       .catch((err) => {
         console.log(err);
@@ -96,6 +114,7 @@ export default function IndividualAlbums({ album }) {
               <TouchableOpacity
                 style={styles.wishlistButton}
                 onPress={addWishlist}
+                disabled={enableWishlist}
               >
                 <Text style={styles.buttonText}>Add to Wishlist</Text>
               </TouchableOpacity>
