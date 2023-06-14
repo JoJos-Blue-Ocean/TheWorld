@@ -31,7 +31,7 @@ CREATE TABLE "ratings" (
 
 CREATE TABLE "messages" (
   "id" serial PRIMARY KEY,
-  "room_id" text NOT NULL,
+  "room_id" integer NOT NULL,
   "sender_user_id" text NOT NULL,
   "body" text NOT NULL,
   "created_at" timestamp DEFAULT now()
