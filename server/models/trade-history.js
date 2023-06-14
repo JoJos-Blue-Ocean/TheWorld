@@ -17,7 +17,7 @@ module.exports = {
     trades.buyer_id, trades.status, trades.description,
     TO_CHAR(trades.created_at, 'YYYY-MM-DD') AS created_at, users.username, users.profile_picture
     FROM trades
-    JOIN users ON trades.buyer_id = users.id
+    JOIN users ON trades.buyer_id = users.uid
     WHERE trades.seller_id = $1 OR trades.buyer_id = $1
     AND trades.status = $2`;
     const values = [userId, 'complete'];
