@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { StyleSheet, Text, View, TextInput, Button, Modal, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet, Text, View, TextInput, Button, Modal, TouchableOpacity, Image, ScrollView,
+} from 'react-native';
 
 export default function Messages() {
   const [users, setUsers] = useState([]);
@@ -8,12 +10,8 @@ export default function Messages() {
   const [newMessage, setNewMessage] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [sellerId, setSellerId] = useState(null);
 
-  // useEffect(() => {
-  //   axios.get('http://localhost:3000/api/messages/users')
-  //     .then(response => setUsers(response.data))
-  //     .catch(error => console.error('Error fetching users with messages:', error));
-  // }, []);
   useEffect(() => {
     if (true) {
       axios
@@ -30,19 +28,23 @@ export default function Messages() {
       const temp = [];
       rooms.forEach((room) => {
         if (room.user_one !== 'b') {
-          temp.push(axios
-            .get('http://localhost:3000/api/profile/simpleProfile', {
-              params: { selectedUserId: room.user_one, personalId: 'b' },
-            })
-            .then(({ data }) => data)
-            .catch((error) => console.error('Error fetching rooms')));
+          temp.push(
+            axios
+              .get('http://localhost:3000/api/profile/simpleProfile', {
+                params: { selectedUserId: room.user_one, personalId: 'b' },
+              })
+              .then(({ data }) => data)
+              .catch((error) => console.error('Error fetching rooms')),
+          );
         } else if (room.user_two !== 'b') {
-          temp.push(axios
-            .get('http://localhost:3000/api/profile/simpleProfile', {
-              params: { selectedUserId: room.user_two, personalId: 'b' },
-            })
-            .then(({ data }) => data)
-            .catch((error) => console.error('Error fetching rooms')));
+          temp.push(
+            axios
+              .get('http://localhost:3000/api/profile/simpleProfile', {
+                params: { selectedUserId: room.user_two, personalId: 'b' },
+              })
+              .then(({ data }) => data)
+              .catch((error) => console.error('Error fetching rooms')),
+          );
         }
       });
       Promise.all(temp).then((results) => {
@@ -66,32 +68,61 @@ export default function Messages() {
     axios
       .post('http://localhost:3000/api/messages', {
         roomId,
-        senderId: 'b', //replace with current user id
+        senderId: 'b', // replace with current user id
         body: newMessage,
       })
-      .then((response) => {
+      .then(({ data }) => {
+        // const newMessageData = response.data;
+        console.log('MESSAGES', messages);
+        console.log('DATAAAA', data);
+
+        setMessages([...messages, data]);
         setNewMessage('');
-        setMessages([...messages, response.data]);
       })
       .catch((error) => console.error('Error sending message:', error));
   };
 
-  return (
+  return sellerId ? (
+    <View>
+      <Text>Seller ID: {sellerId}</Text>
+    </View>
+  ) : (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
+        <Text style={styles.closeButtonText}>{'<'}</Text>
+      </TouchableOpacity>
+
       {users.map((user) => (
-        <TouchableOpacity key={user[0].uid} onPress={() => handleUserClick(user[0].room_id)}>
+        <TouchableOpacity key={user[0].uid} onPress={() => handleUserClick(user[0].room_id)} style={styles.userContainer}>
+          <Image source={{ uri: user[0].profile_picture }} style={styles.profilePicture} />
           <Text style={styles.username}>{user[0].username}</Text>
         </TouchableOpacity>
       ))}
 
       <Modal visible={modalVisible} animationType="slide">
         <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>Messages</Text>
-          <Button title="Close" onPress={() => setModalVisible(false)} />
-
-          {messages.map(message => (
-            <Text key={message.id} style={styles.message}>{message.body}</Text>
-          ))}
+          <View style={styles.modalHeader}>
+            <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButtonModal}>
+              <Text style={styles.closeButtonTextModal}>{'<'}</Text>
+            </TouchableOpacity>
+            <Text style={styles.modalTitle}>{users.length > 0 && users[0][0].username}</Text>
+          </View>
+          <ScrollView contentContainerStyle={styles.messageContainer}>
+            {messages.map((message) => (
+              <View
+                key={message.id}
+                style={[
+                  styles.messageBubble,
+                  {
+                    backgroundColor: message.sender_user_id === 'b' ? '#4CAF50' : '#808080',
+                    alignSelf: message.sender_user_id === 'b' ? 'flex-end' : 'flex-start',
+                  },
+                ]}
+              >
+                <Text style={styles.messageText}>{message.body}</Text>
+              </View>
+            ))}
+          </ScrollView>
 
           <TextInput
             value={newMessage}
@@ -111,6 +142,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  userContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    backgroundColor: '#e6e6e6',
+    padding: 10,
+    borderRadius: 10,
+  },
   username: {
     fontSize: 18,
     marginBottom: 10,
@@ -118,16 +157,55 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
+  },
+  modalHeader: {
+    flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 10,
+    marginTop: 14,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    padding: 10,
+  },
+  closeButtonText: {
+    fontSize: 18,
+    color: 'black',
+  },
+  closeButtonModal: {
+    padding: 10,
+  },
+  closeButtonTextModal: {
+    fontSize: 18,
+    color: 'black',
+  },
+  profilePicture: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
   },
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginLeft: 10,
   },
-  message: {
+  messageContainer: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+    paddingHorizontal: 20,
+  },
+  messageBubble: {
+    padding: 15,
+    borderRadius: 20,
     marginBottom: 10,
+    maxWidth: '80%',
+  },
+  messageText: {
+    color: 'white',
+    fontSize: 16,
   },
   input: {
     width: '100%',
