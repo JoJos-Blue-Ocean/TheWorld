@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView,
@@ -10,30 +10,30 @@ export default function IndividualAlbums({ album }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [info, setInfo] = useState({});
   const [trackList, setTrackList] = useState([]);
+  const [enableWishlist, setEnableWishlist] = useState(false);
   const navigation = useNavigation();
 
-  const openModal = () => {
-    grabAlbumInfo();
-    setModalVisible(true);
-  };
+  // console.log('this is ModalVisible', modalVisible);
+  // console.log('this is info', info);
 
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+  const splitTitle = album.title.split(' - ');
+  const collectionTitle = splitTitle[1] || '';
+  const artistTitle = splitTitle[0] || '';
 
-  const addWishlist = () => {
-    axios.post('http://localhost:3000/api/wishlist', info)
+  const checkWishlist = () => {
+    axios.get('http://localhost:3000/api/wishlist/check', {
+      params: {
+        user_id: 'cliuo26c1000608i96syehksd',
+        album_id: album.master_id,
+      },
+    })
       .then((response) => {
-        console.log('Successfully posted');
+        setEnableWishlist(response.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  const splitTitle = album.title.split(' - ');
-  const collectionTitle = splitTitle[1] || '';
-  const artistTitle = splitTitle[0] || '';
 
   const grabAlbumInfo = () => {
     axios.get('http://localhost:3000/api/record-catalog/individualAlbum', {
@@ -53,6 +53,29 @@ export default function IndividualAlbums({ album }) {
           genre: album.genre,
           image: album.cover_image,
         });
+      })
+      .then(() => {
+        checkWishlist();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const openModal = () => {
+    grabAlbumInfo();
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const addWishlist = () => {
+    axios.post('http://localhost:3000/api/wishlist/add', info)
+      .then((response) => {
+        // console.log('Successfully posted', response);
+        setEnableWishlist(true);
       })
       .catch((err) => {
         console.log(err);
@@ -96,6 +119,7 @@ export default function IndividualAlbums({ album }) {
               <TouchableOpacity
                 style={styles.wishlistButton}
                 onPress={addWishlist}
+                disabled={enableWishlist}
               >
                 <Text style={styles.buttonText}>Add to Wishlist</Text>
               </TouchableOpacity>
@@ -118,10 +142,6 @@ export default function IndividualAlbums({ album }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    paddingHorizontal: 10,
-  },
   image: {
     width: 160,
     height: 160,
@@ -205,7 +225,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: '#800000',
     paddingVertical: 10,
-    paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
@@ -216,7 +235,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: '#800000',
     paddingVertical: 10,
-    paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',

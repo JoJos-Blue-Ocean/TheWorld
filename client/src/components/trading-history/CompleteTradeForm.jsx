@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, Text, View, Image, Pressable,
+  StyleSheet, Text, View, Image, Pressable, TextInput,
 } from 'react-native';
 import StarRating from '../StarRating';
+import { useNavigation } from '@react-navigation/core';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: '15%',
     width: '30%',
-    top: '15%',
+    top: '12%',
     left: '5%',
   },
   sellingAlbumSongName: {
@@ -34,27 +35,62 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: '15%',
     width: '30%',
-    top: '40%',
+    top: '35%',
     left: '5%',
   },
   desiredAlbumSongName: {
     position: 'absolute',
-    top: '40%',
+    top: '37%',
     left: '40%',
   },
   desiredAlbumArtist: {
     position: 'absolute',
-    top: '45%',
+    top: '42%',
     left: '40%',
   },
-  rateTrader: {
-    top: '55%',
+  selectTrader: {
+    top: '50%',
     textAlign: 'center',
     fontSize: 14,
+  },
+  traderSearchBar: {
+    position: 'absolute',
+    height: '4%',
+    width: '80%',
+    left: '10%',
+    top: '58%',
+    borderWidth: 1,
+  },
+  rateTrader: {
+    top: '60%',
+    textAlign: 'center',
+    fontSize: 14,
+  },
+  completeButton: {
+    position: 'absolute',
+    bottom: '10%',
+    height: '10%',
+    width: '50%',
+    left: '25%',
+    backgroundColor: '#800000',
+  },
+  completeButtonText: {
+    textAlign: 'center',
+    fontSize: 20,
+  },
+  starsContainer: {
+    position: 'absolute',
+    height: '5%',
+    width: '22%',
+    left: '39%',
+    top: '72%',
+    flexDirection: 'row',
   },
 });
 
 export default function CompleteTradeForm({ route }) {
+  const navigation = useNavigation();
+
   const {
     sellingAlbumImage,
     sellingAlbumSongName,
@@ -72,7 +108,21 @@ export default function CompleteTradeForm({ route }) {
       <Image source={desiredAlbumImage} style={styles.desiredAlbumImage} />
       <Text style={styles.desiredAlbumSongName}>{desiredAlbumSongName}</Text>
       <Text style={styles.desiredAlbumArtist}>{desiredAlbumArtist}</Text>
+      <Text style={styles.selectTrader}>Who did you trade with?</Text>
+      <TextInput style={styles.traderSearchBar} />
       <Text style={styles.rateTrader}>Please Give This Person a Rating</Text>
+      <View style={styles.starsContainer}>
+        <StarRating rating={3.5} />
+      </View>
+      <Pressable
+        style={styles.completeButton}
+        onPress={() => {
+          navigation.navigate('TradingHistory');
+        }}>
+        <Text style={styles.completeButtonText}>
+          Complete
+        </Text>
+      </Pressable>
     </View>
   );
-};
+}

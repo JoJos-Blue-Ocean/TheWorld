@@ -1,22 +1,22 @@
 const models = require('../models/messages');
 
 module.exports = {
-  getUsers(req, res) {
+  getRooms(req, res) {
     const { userId } = req.query;
     models
-      .getUsers(userId)
+      .getRooms(userId)
       .then((results) => res.json(results));
   },
   getMessages(req, res) {
-    const { firstId, secondId } = req.query;
+    const { roomId } = req.query;
     models
-      .getMessages(firstId, secondId)
+      .getMessages(roomId)
       .then((results) => res.json(results));
   },
   sendMessage(req, res) {
-    const { senderId, recipientId, body } = req.body;
+    const { roomId, senderId, body } = req.body;
     models
-      .sendMessage(senderId, recipientId, body)
-      .then(() => res.sendStatus(201));
+      .sendMessage(roomId, senderId, body)
+      .then((results) => res.json(results));
   },
 };

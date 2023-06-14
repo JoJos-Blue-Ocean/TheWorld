@@ -1,10 +1,3 @@
-DROP TABLE IF EXISTS trades CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
-DROP TABLE IF EXISTS ratings CASCADE;
-DROP TABLE IF EXISTS messages CASCADE;
-DROP TABLE IF EXISTS wishlist CASCADE;
-DROP TABLE IF EXISTS notifications CASCADE;
-
 CREATE TABLE "users" (
   "id" serial PRIMARY KEY,
   "uid" text UNIQUE NOT NULL,
@@ -38,20 +31,29 @@ CREATE TABLE "ratings" (
 
 CREATE TABLE "messages" (
   "id" serial PRIMARY KEY,
-  "sender_id" text NOT NULL,
-  "recipient_id" text NOT NULL,
+  "room_id" integer NOT NULL,
+  "sender_user_id" text NOT NULL,
   "body" text NOT NULL,
   "created_at" timestamp DEFAULT now()
+);
+
+CREATE TABLE "rooms" (
+  "id" serial PRIMARY KEY,
+  "user_one" text NOT NULL,
+  "user_two" text NOT NULL,
+  "created_at" timestamp DEFAULT now(),
+  "updated_at" timestamp
 );
 
 CREATE TABLE "wishlist" (
   "id" serial PRIMARY KEY,
   "user_id" text,
-  "album_id" text,
+  "album_id" text NOT NULL,
   "artist_name" text NOT NULL,
   "album_name" text NOT NULL,
+  "label_name" text NOT NULL,
   "genre" text NOT NULL,
-  "image" text,
+  "image" text NOT NULL,
   "created_at" timestamp DEFAULT now()
 );
 
@@ -80,9 +82,13 @@ CREATE INDEX ON "ratings" ("recipient_id");
 
 CREATE INDEX ON "ratings" ("trade_id");
 
-CREATE INDEX ON "messages" ("sender_id");
+CREATE INDEX ON "messages" ("sender_user_id");
 
-CREATE INDEX ON "messages" ("recipient_id");
+CREATE INDEX ON "messages" ("room_id");
+
+CREATE INDEX ON "rooms" ("user_one");
+
+CREATE INDEX ON "rooms" ("user_two");
 
 CREATE INDEX ON "wishlist" ("user_id");
 
@@ -100,9 +106,13 @@ ALTER TABLE "ratings" ADD FOREIGN KEY ("recipient_id") REFERENCES "users" ("uid"
 
 ALTER TABLE "ratings" ADD FOREIGN KEY ("trade_id") REFERENCES "trades" ("id");
 
-ALTER TABLE "messages" ADD FOREIGN KEY ("sender_id") REFERENCES "users" ("uid");
+ALTER TABLE "messages" ADD FOREIGN KEY ("room_id") REFERENCES "rooms" ("id");
 
-ALTER TABLE "messages" ADD FOREIGN KEY ("recipient_id") REFERENCES "users" ("uid");
+ALTER TABLE "messages" ADD FOREIGN KEY ("sender_user_id") REFERENCES "users" ("uid");
+
+ALTER TABLE "rooms" ADD FOREIGN KEY ("user_one") REFERENCES "users" ("uid");
+
+ALTER TABLE "rooms" ADD FOREIGN KEY ("user_two") REFERENCES "users" ("uid");
 
 ALTER TABLE "wishlist" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("uid");
 

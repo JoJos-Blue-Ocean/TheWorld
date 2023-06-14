@@ -16,10 +16,6 @@ export default function Profile({ route }) {
 
 */
 
-  const user = {
-    id: 2,
-  };
-
   const [curUser, setCurUser] = useState({});
   const [bioChange, setBio] = useState('');
   const [locationChange, setLocation] = useState('');
@@ -34,7 +30,7 @@ export default function Profile({ route }) {
     console.log(changes)
     axios.put(`http://localhost:3000/api/profile/cliuo1dcs000208i9hga217k5`, {
       user: {
-        uid: 'cliuo1dcs000208i9hga217k5',
+        uid: route.params.uid || 'cliuo1dcs000208i9hga217k5',
         profile_picture: changes.pfpChange || curUser.profile_picture,
         biography: changes.bioChange || curUser.biography,
         location: changes.locationChange || curUser.location,
@@ -53,7 +49,7 @@ export default function Profile({ route }) {
     // QUERY DATABASE FOR STATS
     axios.get(`http://localhost:3000/api/profile/cliuo1dcs000208i9hga217k5`)
       .then((results) => {
-        console.log(results.data[0]);
+        console.log(results.data);
         setCurUser(results.data[0]);
       })
       .catch((err) => console.log('error: ', err));
@@ -219,7 +215,7 @@ export default function Profile({ route }) {
       <Pressable
         style={styles.mButton}
         className="message-button"
-        onPress={() => navigation.navigate('Messages', { sender_id: curUser.id })}
+        onPress={() => navigation.navigate('Messages', { sender_id: curUser.uid })}
       >
         <Text style={styles.buttonText}>Message</Text>
       </Pressable>
@@ -232,7 +228,7 @@ export default function Profile({ route }) {
         style={styles.wButton}
         className="message-button"
         // WILL CHANGE WHEN QUERIES ARE CREATED, CHANGE curUser.ID TO CORRECT BODY REFERENCE
-        onPress={() => navigation.navigate('WishList', { user_id: user.id })}
+        onPress={() => navigation.navigate('WishList', { uid: curUser.uid })}
       >
         <Text style={styles.buttonText}>Wishlist</Text>
       </Pressable>
