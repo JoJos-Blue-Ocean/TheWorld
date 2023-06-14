@@ -2,7 +2,7 @@ const pool = require('../database/db');
 
 module.exports = {
   getUsers(userId) {
-    const query = 'SELECT DISTINCT sender_id AS users FROM messages WHERE recipient_id=$1 UNION SELECT DISTINCT recipient_id FROM messages WHERE sender_id=$1 ORDER BY messages.created_at';
+    const query = 'SELECT DISTINCT sender_id AS users FROM messages WHERE recipient_id=$1 UNION SELECT DISTINCT recipient_id FROM messages WHERE sender_id=$1';
     const values = [userId];
     return pool
       .query(query, values)
