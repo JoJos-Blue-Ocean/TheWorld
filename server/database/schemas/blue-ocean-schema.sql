@@ -47,6 +47,7 @@ CREATE TABLE "messages" (
 CREATE TABLE "wishlist" (
   "id" serial PRIMARY KEY,
   "user_id" text,
+  "album_id" text,
   "artist_name" text NOT NULL,
   "album_name" text NOT NULL,
   "genre" text NOT NULL,

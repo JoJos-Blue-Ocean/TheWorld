@@ -27,7 +27,7 @@ export default function GenreEntries({ genre }) {
         setLoading(false);
       })
       .then(() => {
-        // console.log(`${genre} :`, albums);
+        console.log(`${genre} :`, albums);
       })
       .catch((err) => {
         console.log(err);

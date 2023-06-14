@@ -24,7 +24,7 @@ export default function IndividualAlbums({ album }) {
   const addWishlist = () => {
     axios.post('http://localhost:3000/api/wishlist', info)
       .then((response) => {
-        console.log('Successfully posted', response);
+        console.log('Successfully posted');
       })
       .catch((err) => {
         console.log(err);
@@ -47,6 +47,7 @@ export default function IndividualAlbums({ album }) {
       .then(() => {
         setInfo({
           user_id: 'cliuo26c1000608i96syehksd',
+          album_id: album.master_id,
           artist_name: artistTitle,
           album_name: collectionTitle,
           genre: album.genre,
