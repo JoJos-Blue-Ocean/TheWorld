@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { StyleSheet, Text, View, TextInput, Button, Modal, TouchableOpacity, Image, ScrollView } from 'react-native';
+import {
+  StyleSheet, Text, View, TextInput, Button, Modal, TouchableOpacity, Image, ScrollView,
+} from 'react-native';
 
 export default function Messages() {
   const [users, setUsers] = useState([]);
@@ -8,6 +10,7 @@ export default function Messages() {
   const [newMessage, setNewMessage] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [sellerId, setSellerId] = useState(null);
 
   useEffect(() => {
     if (true) {
@@ -31,7 +34,7 @@ export default function Messages() {
                 params: { selectedUserId: room.user_one, personalId: 'b' },
               })
               .then(({ data }) => data)
-              .catch((error) => console.error('Error fetching rooms'))
+              .catch((error) => console.error('Error fetching rooms')),
           );
         } else if (room.user_two !== 'b') {
           temp.push(
@@ -40,7 +43,7 @@ export default function Messages() {
                 params: { selectedUserId: room.user_two, personalId: 'b' },
               })
               .then(({ data }) => data)
-              .catch((error) => console.error('Error fetching rooms'))
+              .catch((error) => console.error('Error fetching rooms')),
           );
         }
       });
@@ -65,10 +68,10 @@ export default function Messages() {
     axios
       .post('http://localhost:3000/api/messages', {
         roomId,
-        senderId: 'b', //replace with current user id
+        senderId: 'b', // replace with current user id
         body: newMessage,
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         // const newMessageData = response.data;
         console.log('MESSAGES', messages);
         console.log('DATAAAA', data);
@@ -79,7 +82,11 @@ export default function Messages() {
       .catch((error) => console.error('Error sending message:', error));
   };
 
-  return (
+  return sellerId ? (
+    <View>
+      <Text>Seller ID: {sellerId}</Text>
+    </View>
+  ) : (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
         <Text style={styles.closeButtonText}>{'<'}</Text>
