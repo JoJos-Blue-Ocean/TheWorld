@@ -277,7 +277,7 @@ export default function Profile({route}) {
             style={styles.wButton}
             className="message-button"
           // WILL CHANGE WHEN QUERIES ARE CREATED, CHANGE curUser.ID TO CORRECT BODY REFERENCE
-            onPress={() => navigation.navigate('WishList', { uid: uid })}
+            onPress={() => navigation.navigate('WishList', { user_id: 'c'})}
           >
             <Text style={styles.buttonText}>Wishlist</Text>
           </Pressable>
@@ -357,18 +357,17 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: '10%',
     marginBottom: '15%',
-    backgroundColor: '#A30000',
+    backgroundColor: '#800000',
   },
   wButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 4,
-    width: '33%',
+    marginTop: 10,
+    backgroundColor: '#800000',
+    paddingVertical: 10,
+    borderRadius: 8,
     marginLeft: '33%',
     marginRight: '33%',
-    elevation: 3,
-    backgroundColor: '#A30000',
     alignItems: 'center',
+    width: 160,
   },
   buttonText: {
     color: '#C0C0C0',
