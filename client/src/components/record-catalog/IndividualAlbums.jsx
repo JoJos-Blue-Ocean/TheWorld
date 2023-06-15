@@ -73,7 +73,8 @@ export default function IndividualAlbums({ album }) {
   };
 
   const closeModal = () => {
-    setModalVisible(false);
+    // e.stopPropagation();
+    setModalVisible(false)
   };
 
   const addWishlist = () => {

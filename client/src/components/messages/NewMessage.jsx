@@ -26,8 +26,8 @@ function NewMessage({ route }) {
         body: newMessage,
       })
       .then(({ data }) => {
-        const { user, room } = data;
-        navigation.navigate('Messages', { user, roomId: room.id });
+        const { user, roomId } = data;
+        navigation.navigate('Messages', { user, roomId});
       });
   };
 

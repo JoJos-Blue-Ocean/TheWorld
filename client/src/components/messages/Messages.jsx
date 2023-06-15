@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import UserContext from '../UserContext';
 
-export default function Messages({ route, navigation }) {
+export default function Messages({ route }) {
   const [uid, setUid] = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState([]);
@@ -16,16 +16,29 @@ export default function Messages({ route, navigation }) {
 
   useEffect(() => {
     if (route.params?.user) {
-      // Case 1: Navigated from NewMessage component
+      // Navigated from NewMessage component
       const { user, roomId } = route.params;
       setOtherUserInfo(user);
-      setModalVisible(true);
+      fetchRooms();
       fetchMessages(roomId);
+      setModalVisible(true);
     } else {
-      // Case 2: Navigated from Messages component directly
+      // Navigated from Messages component directly
       fetchRooms();
     }
-  }, []);
+
+    // Fetch messages and update users list every 0.5 seconds
+    const interval = setInterval(() => {
+      fetchRooms();
+      console.log('im in here');
+      if (otherUserInfo && otherUserInfo.room_id) {
+        fetchMessages(otherUserInfo.room_id);
+      }
+    }, 500);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
+  }, [route, otherUserInfo]);
 
   const fetchRooms = () => {
     axios
@@ -34,24 +47,23 @@ export default function Messages({ route, navigation }) {
       })
       .then((response) => {
         setRooms(response.data);
-        setUsers([]); // Clear the users list
+        const temp = [];
         response.data.forEach((room) => {
-          fetchUserInfo(room);
+          const selectedUserId = room.user_one !== uid ? room.user_one : room.user_two;
+          temp.push(
+            axios
+              .get('http://localhost:3000/api/profile/simpleProfile', {
+                params: { selectedUserId, personalId: uid },
+              })
+              .then(({ data }) => data[0])
+              .catch((error) => console.error('Error fetching user info:', error)),
+          );
+        });
+        Promise.all(temp).then((results) => {
+          setUsers(results);
         });
       })
       .catch((error) => console.error('Error fetching rooms:', error));
-  };
-
-  const fetchUserInfo = (room) => {
-    const selectedUserId = room.user_one !== uid ? room.user_one : room.user_two;
-    axios
-      .get('http://localhost:3000/api/profile/simpleProfile', {
-        params: { selectedUserId, personalId: uid },
-      })
-      .then(({ data }) => {
-        setUsers((prevUsers) => [...prevUsers, data[0]]);
-      })
-      .catch((error) => console.error('Error fetching user info:', error));
   };
 
   const fetchMessages = (roomId) => {

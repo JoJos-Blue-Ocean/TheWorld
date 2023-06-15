@@ -2,7 +2,7 @@ const pool = require('../database/db');
 
 module.exports = {
   getRooms(userId) {
-    const query = 'SELECT * FROM rooms WHERE user_one=$1 OR user_two=$1 ORDER BY updated_at';
+    const query = 'SELECT * FROM rooms WHERE user_one=$1 OR user_two=$1 ORDER BY updated_at DESC';
     const values = [userId];
     return pool
       .query(query, values)
@@ -43,9 +43,7 @@ module.exports = {
     const makeRoomQuery = 'INSERT INTO rooms(user_one, user_two) VALUES($1, $2) RETURNING *';
     const makeRoomValues = [senderId, recipientId];
     const makeRoomResponse = await client.query(makeRoomQuery, makeRoomValues);
-    const room = makeRoomResponse.rows[0]; // Retrieve the room object
-
-    const roomId = room.id; // Get the room number from the room object
+    const roomId = makeRoomResponse.rows[0].id;
 
     const sendMessageQuery = 'INSERT INTO messages(room_id, sender_user_id, body) VALUES($1, $2, $3) RETURNING *';
     const sendMessageValues = [roomId, senderId, body];
@@ -61,7 +59,7 @@ module.exports = {
     // Return both the user and room information
     return {
       user,
-      room
+      roomId,
     };
   },
   checkRoom(userId, sellerId) {
