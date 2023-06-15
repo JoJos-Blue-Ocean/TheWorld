@@ -139,7 +139,7 @@ export default function ActiveTradeDetails({ route }) {
               source={{ uri: trade.profile_picture }}
             />
             <View>
-              <Text>{trade.username}</Text>
+              <Text style={{ fontWeight: 'bold' }}>{trade.username}</Text>
               <View style={styles.starRatings}>
                 <Rating
                   type="custom"

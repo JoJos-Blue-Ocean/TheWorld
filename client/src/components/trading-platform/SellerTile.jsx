@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import {
-  StyleSheet, Text, View, Image, Dimensions, Button,
+  StyleSheet, Text, View, Image, Dimensions, Button, Pressable,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import Constants from 'expo-constants';
@@ -111,12 +111,10 @@ export default function SellerTile({ trade, master }) {
         {
           wantMaster
             ? (
-              <Button
-                title=">"
-                onPress={() => navigation.navigate('ActiveTradeDetails', { trade, master, wantMaster })}
-              />
-            )
-            : null
+              <Pressable onPress={() => navigation.navigate('ActiveTradeDetails', { trade, master, wantMaster })}>
+                <AntDesign name="right" size={24} color="black" />
+              </Pressable>
+            ) : null
         }
       </View>
     </View>
