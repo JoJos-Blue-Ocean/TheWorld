@@ -36,7 +36,7 @@ export default function Wishlist({ navigation, route }) {
       backgroundColor: '#F5F5F5',
     },
     tinyImage: {
-      width: 100,
+      width: 200,
       height: 100,
     },
   });
@@ -64,7 +64,7 @@ export default function Wishlist({ navigation, route }) {
     getWishListData();
   }, []);
 
-  console.log('wishlist', list);
+  console.log('WISHLIST RESULT:', list);
 
   return (
     <ScrollView>
@@ -78,10 +78,10 @@ export default function Wishlist({ navigation, route }) {
               }}
             />
             <Text>
-              {data.album_name}
+              {data.artist_name}
             </Text>
             <Text>
-              {data.artist_name}
+              {data.album_name}
             </Text>
             <Text>
               {data.genre.substring(2, data.genre.length - 2)}
