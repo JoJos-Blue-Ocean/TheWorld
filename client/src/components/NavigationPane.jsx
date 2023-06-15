@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Button } from 'react-native';
+import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,24 +37,24 @@ export default function NavigationPane({ children }) {
       {children}
       <View style={styles.navBar}>
         <Button
-          title="RC"
+          title={<AntDesign name="book" size={40} color={activeButton === 'RecordCatalog' ? '#800000' : '#808080'} />}
           onPress={() => handlePress('RecordCatalog')}
-          color={activeButton === 'RecordCatalog' ? '#800000' : '#808080'}
+          color="#e0e0e0"
         />
         <Button
-          title="TH"
+          title={<FontAwesome name="exchange" size={40} color={activeButton === 'TradingHistory' ? '#800000' : '#808080'} />}
           onPress={() => handlePress('TradingHistory')}
-          color={activeButton === 'TradingHistory' ? '#800000' : '#808080'}
+          color="#e0e0e0"
         />
         <Button
-          title="M"
+          title={<AntDesign name="message1" size={40} color={activeButton === 'Messages' ? '#800000' : '#808080'} />}
           onPress={() => handlePress('Messages')}
-          color={activeButton === 'Messages' ? '#800000' : '#808080'}
+          color="#e0e0e0"
         />
         <Button
-          title="P"
+          title={<Ionicons name="person-outline" size={40} color={activeButton === 'Profile' ? '#800000' : '#808080'} />}
           onPress={() => handlePress('Profile')}
-          color={activeButton === 'Profile' ? '#800000' : '#808080'}
+          color="#e0e0e0"
         />
       </View>
     </View>
