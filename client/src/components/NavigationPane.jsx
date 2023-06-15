@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#e0e0e0',
     padding: 10,
-    position: 'absolute',
+    position: 'fixed',
     bottom: 20,
     left: 0,
     right: 0,
