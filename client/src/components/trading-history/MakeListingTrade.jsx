@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   tradeId: {
+    top: '30%',
     left: '15%',
     fontSize: 20,
   },
@@ -36,11 +37,13 @@ const styles = StyleSheet.create({
     width: '45%',
   },
   albumImageContainer: {
+    position: 'relative',
     left: '10%',
-    height: '80%',
-    width: '80%',
+    height: '70%',
+    width: '70%',
     backgroundColor: '#800000',
     borderRadius: '5%',
+    marginBottom: '5%',
   },
   albumImage: {
     left: '7%',
@@ -51,11 +54,15 @@ const styles = StyleSheet.create({
   },
   albumSongName: {
     textAlign: 'center',
-    fontSize: 8,
+    fontSize: 14,
+    marginBottom: '3%',
+    marginTop: 'auto',
+    fontWeight: 'bold',
   },
   albumArtist: {
     textAlign: 'center',
-    fontSize: 8,
+    fontSize: 10,
+    marginTop: 'auto',
   },
   date: {
     position: 'absolute',
