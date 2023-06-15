@@ -1,8 +1,8 @@
 -- Ratings For Completed Trades
 INSERT INTO ratings(sender_id, recipient_id, rating, trade_id)
-VALUES('a', 'b', 5, 1);
+VALUES('a', 'Wz0NzFeqFeXxmnKwo3jR9TaWu2v2', 5, 1);
 INSERT INTO ratings(sender_id, recipient_id, rating, trade_id)
-VALUES('b', 'a', 4, 1);
+VALUES('Wz0NzFeqFeXxmnKwo3jR9TaWu2v2', 'a', 4, 1);
 
 INSERT INTO ratings(sender_id, recipient_id, rating, trade_id)
 VALUES('c', 'd', 3, 2);
