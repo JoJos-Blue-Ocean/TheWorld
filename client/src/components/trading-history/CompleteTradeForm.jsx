@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, Text, View, Image, Pressable, TextInput,
+  StyleSheet, Text, View, Image, Pressable, TextInput, ScrollView,
 } from 'react-native';
-import StarRating from '../StarRating';
 import { useNavigation } from '@react-navigation/core';
+import StarRating from '../StarRating';
+import UserList from './UserList';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '100%',
   },
   title: {
     top: '5%',
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
   },
   sellingAlbumImage: {
     position: 'absolute',
-    height: '15%',
+    height: '12%',
     width: '30%',
     top: '12%',
     left: '5%',
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
   },
   desiredAlbumImage: {
     position: 'absolute',
-    height: '15%',
+    height: '12%',
     width: '30%',
     top: '35%',
     left: '5%',
@@ -54,11 +55,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   traderSearchBar: {
-    position: 'absolute',
-    height: '4%',
+    height: 30,
     width: '80%',
     left: '10%',
-    top: '58%',
     borderWidth: 1,
   },
   rateTrader: {
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
   completeButton: {
     position: 'absolute',
     bottom: '10%',
-    height: '10%',
+    height: '5%',
     width: '50%',
     left: '25%',
     backgroundColor: '#800000',
@@ -96,10 +95,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
   },
+  scroll: {
+    flex: 1,
+  },
+  components: {
+    height: 1000,
+  },
+  userSearchContainer: {
+    width: '100%',
+    position: 'absolute',
+    top: '55%',
+    zIndex: 1,
+  },
 });
 
 export default function CompleteTradeForm({ route }) {
   const navigation = useNavigation();
+  const [searchLength, setSearchLength] = useState(0);
+  const [search, setSearch] = useState('');
 
   const {
     sellingAlbumImage,
@@ -111,31 +124,51 @@ export default function CompleteTradeForm({ route }) {
   } = route.params;
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Complete Trade?</Text>
-      <Image source={{ uri: sellingAlbumImage }} style={styles.sellingAlbumImage} />
-      <Text style={styles.sellingAlbumSongName}>{sellingAlbumSongName}</Text>
-      <Text style={styles.sellingAlbumArtist}>{sellingAlbumArtist}</Text>
-      <View style={styles.forContainer}>
-        <Text style={styles.for}>Trading For</Text>
-      </View>
-      <Image source={{ uri: desiredAlbumImage }} style={styles.desiredAlbumImage} />
-      <Text style={styles.desiredAlbumSongName}>{desiredAlbumSongName}</Text>
-      <Text style={styles.desiredAlbumArtist}>{desiredAlbumArtist}</Text>
-      <Text style={styles.selectTrader}>Who did you trade with?</Text>
-      <TextInput style={styles.traderSearchBar} />
-      <Text style={styles.rateTrader}>Please Give This Person a Rating</Text>
-      <View style={styles.starsContainer}>
-        <StarRating rating={3.5} />
-      </View>
-      <Pressable
-        style={styles.completeButton}
-        onPress={() => {
-          navigation.navigate('TradingHistory');
-        }}>
-        <Text style={styles.completeButtonText}>
-          Complete
-        </Text>
-      </Pressable>
+      <ScrollView style={styles.scroll}>
+        <View style={styles.components}>
+          <Text style={styles.title}>Complete Trade?</Text>
+          <Image source={{ uri: sellingAlbumImage }} style={styles.sellingAlbumImage} />
+          <Text style={styles.sellingAlbumSongName}>{sellingAlbumSongName}</Text>
+          <Text style={styles.sellingAlbumArtist}>{sellingAlbumArtist}</Text>
+          <View style={styles.forContainer}>
+            <Text style={styles.for}>Trading For</Text>
+          </View>
+          <Image source={{ uri: desiredAlbumImage }} style={styles.desiredAlbumImage} />
+          <Text style={styles.desiredAlbumSongName}>{desiredAlbumSongName}</Text>
+          <Text style={styles.desiredAlbumArtist}>{desiredAlbumArtist}</Text>
+          <Text style={styles.selectTrader}>Who did you trade with?</Text>
+          <View style={styles.userSearchContainer}>
+            <TextInput
+              style={styles.traderSearchBar}
+              onChangeText={(e) => {
+                setSearch(e);
+                setSearchLength(e.length);
+              }}
+            />
+            {(searchLength > 0) && (
+            <UserList
+              search={search}
+              setSearch={(e) => { setSearch(e); }}
+            />
+            )}
+          </View>
+          <Text style={styles.rateTrader}>Please Give This Person a Rating</Text>
+          <View style={styles.starsContainer}>
+            <StarRating rating={3.5} />
+          </View>
+          <Pressable
+            style={styles.completeButton}
+            onPress={() => {
+              navigation.navigate('TradingHistory');
+            }}
+          >
+            <Text style={styles.completeButtonText}>
+              Complete
+            </Text>
+          </Pressable>
+
+        </View>
+      </ScrollView>
     </View>
   );
 }

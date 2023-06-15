@@ -49,4 +49,14 @@ module.exports = {
     return pool
       .query(query, values);
   },
+  getUsers(search) {
+    const query = `SELECT
+    uid, username, profile_picture
+    FROM users
+    WHERE username ILIKE $1`;
+    const values = [`${search}%`];
+    return pool
+      .query(query, values)
+      .then((results) => results.rows);
+  },
 };
