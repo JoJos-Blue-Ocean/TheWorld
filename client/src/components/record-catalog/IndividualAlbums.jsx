@@ -101,8 +101,8 @@ export default function IndividualAlbums({ album }) {
           <View style={styles.modalContent}>
             <ScrollView>
               <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
-              {youtubeId.length > 0 ? <iframe src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`} title="Tracklist Player" /> : null }
-              {/* {youtubeId.length > 0 ? <WebView style={styles.webPlayer} source={{ uri: `https://www.youtube.com/embed/${youtubeId}?autoplay=1` }} /> : null } */}
+              {/* {youtubeId.length > 0 ? <iframe src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`} title="Tracklist Player" /> : null } */}
+              {youtubeId.length > 0 ? <WebView style={styles.webPlayer} source={{ uri: `https://www.youtube.com/embed/${youtubeId}?autoplay=1` }} /> : null }
               <Text style={styles.modalTitleText}>{collectionTitle}</Text>
               <Text style={styles.modalArtistText}>{artistTitle}</Text>
               {trackList.map((item, index) => (
