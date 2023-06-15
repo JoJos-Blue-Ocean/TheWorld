@@ -2,35 +2,37 @@ import {
   StyleSheet, Text, View, Image, Pressable, Modal,
   TextInput, Alert,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { launchImageLibrary } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/core';
+import UserContext from '../UserContext';
 import NavigationPane from '../NavigationPane';
 
 // TODO: implement route.user_uid in props
 
-export default function Profile({ route }) {
+export default function Profile({route}) {
 /*
   Condition render: If the User clicks on a different user, recieve the user_uid
   of said user in nav and render their stats
-
 */
-
+  const [uid, setUid] = useContext(UserContext);
   const [curUser, setCurUser] = useState({});
   const [bioChange, setBio] = useState('');
   const [locationChange, setLocation] = useState('');
   const [pfpChange, setPfp] = useState('');
+  const [loading, setLoading] = useState(true);
   const [foreign, setForeign] = useState(false);
   const [modalState, setModalState] = useState(false);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation({ route });
 
   const changeSettings = (changes) => {
     // Update uid
     console.log(changes);
-    axios.put('http://localhost:3000/api/profile/a', {
+    axios.put(`http://localhost:3000/api/profile/${uid}`, {
       user: {
-        uid: route.params.uid || 'a',
+        uid: uid,
         profile_picture: changes.pfpChange || curUser.profile_picture,
         biography: changes.bioChange || curUser.biography,
         location: changes.locationChange || curUser.location,
@@ -45,12 +47,22 @@ export default function Profile({ route }) {
       .catch((err) => console.error('ERROR: ', err));
   };
 
+  const uploadImage = () => {
+
+  };
+
+  const checkForeign = () => {
+    if (route.params) {
+      route.params.uid === uid ? setForeign(false) : setForeign(true);
+    }
+  };
+
   const retrieveStats = () => {
   //  QUERY DATABASE FOR STATS
-    axios.get('http://localhost:3000/api/profile/a')
+    axios.get(`http://localhost:3000/api/profile/${uid}`)
       .then((results) => {
-        console.log('retrieve stats data', results.data);
-        // setCurUser(results.data[0]);
+        setCurUser(results.data[0]);
+        setLoading(false);
       })
       .catch((err) => console.log('error: ', err));
   };
@@ -67,173 +79,189 @@ export default function Profile({ route }) {
     // If other user's profile, retrieve their stats
     // else retrieve your stats
     retrieveStats();
+    checkForeign();
   }, []);
 
   return (
     <View style={styles.container}>
-      <Modal
-        visible={modalState}
-        animationType="slide"
-        onRequestClose={closeModal}
-      >
-        <View style={styles.modalContainer}>
-          <Pressable
-            style={styles.cButton}
-            onPress={() => closeModal()}
+      {loading ? (
+        <View />
+      ) : (
+        <View style={styles.container}>
+          <Modal
+            visible={modalState}
+            animationType="slide"
+            onRequestClose={closeModal}
           >
-            <Text style={{ fontSize: '35', fontWeight: 'bold' }}>X</Text>
-          </Pressable>
-          <Text style={styles.modalHeader}>Settings</Text>
-          <View style={styles.modalForms}>
-            <Pressable
-              className="settings-picture"
-              onPress={() => Alert.alert('W.I.P Keep ur pic for now :)')}
-            >
-              <Text style={styles.modalsubHeader}>Change Profile Picture</Text>
-              <View className="profile-picture" style={styles.modalprofile_picture}>
-                {curUser.profile_picture ? (
-                  <Image
-                    source={{ uri: curUser.profile_picture }}
-                    style={styles.modalImg}
-                    resizeMode="cover"
+            <View style={styles.modalContainer}>
+              <Pressable
+                style={styles.cButton}
+                onPress={() => closeModal()}
+              >
+                <Text style={{ fontSize: '20', fontWeight: 'bold' }}>Return</Text>
+              </Pressable>
+              <Text style={styles.modalHeader}>Settings</Text>
+              <View style={styles.modalForms}>
+                <Pressable
+                  className="settings-picture"
+                  onPress={() => {
+                  // launchImageLibrary();
+                  }}
+                >
+                  <Text style={styles.modalsubHeader}>Change Profile Picture</Text>
+                  <View className="profile-picture" style={styles.modalprofile_picture}>
+                    {curUser.profile_picture ? (
+                      <Image
+                        source={{ uri: curUser.profile_picture }}
+                        style={styles.modalImg}
+                        resizeMode="cover"
+                      />
+                    ) : (
+                      <Image
+                        source={require('../../../../assets/bob.png')}
+                        style={styles.modalImg}
+                        resizeMode="cover"
+                      />
+                    )}
+                    <View style={styles.modalPfpBuddy}>
+                      <Text style={styles.modalPfpBuddyTxt}>
+                        +
+                      </Text>
+                    </View>
+                  </View>
+                </Pressable>
+                <View className="settings-location">
+                  <Text style={styles.modalsubHeader}>Change Location</Text>
+                  <TextInput
+                    style={styles.modalLocationInput}
+                    maxLength={25}
+                    placeholder={curUser.location}
+                    onChangeText={(newText) => setLocation(newText)}
                   />
-                ) : (
-                  <Image
-                    source={require('../../../../assets/bob.png')}
-                    style={styles.modalImg}
-                    resizeMode="cover"
-                  />
-                )}
-                <View style={styles.modalPfpBuddy}>
-                  <Text style={styles.modalPfpBuddyTxt}>
-                    +
-                  </Text>
+                  <Text style={{ fontSize: 15, marginLeft: '60%', color: '#757575' }}>Max 25 chars</Text>
+                  <View className="settings-bio">
+                    <Text style={styles.modalsubHeader}>Change Bio</Text>
+                    <TextInput
+                      className="bio-input"
+                      style={styles.modalBioInput}
+                      multiline
+                      numberOfLines={4}
+                      maxLength={150}
+                      placeholder={curUser.biography}
+                      onChangeText={(newText) => setBio(newText)}
+                    />
+                    <Text style={{ fontSize: 15, marginLeft: '60%', color: '#757575' }}>Max 150 chars</Text>
+                  </View>
+                  <Pressable
+                    style={styles.confButton}
+                    className="confirm-button"
+                    onPress={() => { changeSettings({ bioChange, locationChange, pfpChange }); }}
+                  >
+                    <Text style={styles.buttonText}>Confirm</Text>
+                  </Pressable>
                 </View>
               </View>
-            </Pressable>
-            <View className="settings-location">
-              <Text style={styles.modalsubHeader}>Change Location</Text>
-              <TextInput
-                style={styles.modalLocationInput}
-                maxLength={25}
-                placeholder={curUser.location}
-                onChangeText={(newText) => setLocation(newText)}
-              />
-              <Text style={{ fontSize: 15, marginLeft: '60%', color: '#757575' }}>Max 25 chars</Text>
-              <View className="settings-bio">
-                <Text style={styles.modalsubHeader}>Change Bio</Text>
-                <TextInput
-                  className="bio-input"
-                  style={styles.modalBioInput}
-                  multiline
-                  numberOfLines={4}
-                  maxLength={150}
-                  placeholder={curUser.biography}
-                  onChangeText={(newText) => setBio(newText)}
-                />
-                <Text style={{ fontSize: 15, marginLeft: '60%', color: '#757575' }}>Max 150 chars</Text>
-              </View>
+            </View>
+          </Modal>
+          {
+          !foreign ? (
+            (
               <Pressable
-                style={styles.confButton}
-                className="confirm-button"
-                onPress={() => { changeSettings({ bioChange, locationChange, pfpChange }); }}
+                style={styles.sButton}
+                onPress={() => openModal()}
               >
-                <Text style={styles.buttonText}>Confirm</Text>
+                <Text style={{ fontSize: '50', lineHeight: '29', fontWeight: 'bold' }}>...</Text>
               </Pressable>
+            )) : (
+              <View style={styles.sButton}>
+                <Text style={{
+                  fontSize: '50', lineHeight: '29', fontWeight: 'bold', color: '#F5F5F5',
+                }}
+                >
+                  ...
+                </Text>
+              </View>
+          )
+
+        }
+
+          <View className="pic-name" style={styles.picName}>
+            <View className="profile-picture" style={styles.profile_picture}>
+              {curUser.profile_picture ? (
+                <Image
+                  source={{ uri: curUser.profile_picture }}
+                  style={styles.modalImg}
+                  resizeMode="cover"
+                />
+              ) : (
+                <Image
+                  source={require('../../../../assets/bob.png')}
+                  style={styles.modalImg}
+                  resizeMode="cover"
+                />
+              )}
+            </View>
+            <View className="info" style={styles.info}>
+              <Text className="name" style={styles.name}>{curUser.username}</Text>
+              <Text className="location" style={styles.location}>{curUser.location}</Text>
             </View>
           </View>
-        </View>
-      </Modal>
-      {
-        !foreign ? (
-          (
-            <Pressable
-              style={styles.sButton}
-              onPress={() => openModal()}
-            >
-              <Text style={{ fontSize: '50', lineHeight: '29', fontWeight: 'bold' }}>...</Text>
-            </Pressable>
-          )) : (
-            <View style={styles.sButton}>
-              <Text style={{
-                fontSize: '50', lineHeight: '29', fontWeight: 'bold', color: '#F5F5F5',
-              }}
-              >
-                ...
+          <View className="stats-col" style={styles.statsBox}>
+            <View className="profile-stats" style={styles.stats}>
+              <Text style={styles.statsMeta}>
+                {curUser.reviews}
+                {' '}
+                {'\n'}
+                Reviews
+                {'\n'}
+              </Text>
+              <Text style={styles.statsMeta}>
+                {Math.trunc(curUser.average_rating * 100) / 100}
+                {' '}
+                {'\n'}
+                Rating
+                {'\n'}
+              </Text>
+              <Text style={styles.statsMeta}>
+                {curUser.trades}
+                {' '}
+                {'\n'}
+                Trades
               </Text>
             </View>
-        )
+          </View>
+          {
+          foreign ? (
+            (
+              <Pressable
+            style={styles.mButton}
+            className="message-button"
+            onPress={() => navigation.navigate('Messages', { user: {uid: curUser.uid, username: curUser.username, profile_picture: curUser.profile_picture} })}
+          >
+            <Text style={styles.buttonText}>Message</Text>
+          </Pressable>
+            )) : (
+              <View />
+          )
 
-      }
+        }
 
-      <View className="pic-name" style={styles.picName}>
-        <View className="profile-picture" style={styles.profile_picture}>
-          {curUser.profile_picture ? (
-            <Image
-              source={{ uri: curUser.profile_picture }}
-              style={styles.modalImg}
-              resizeMode="cover"
-            />
-          ) : (
-            <Image
-              source={require('../../../../assets/bob.png')}
-              style={styles.modalImg}
-              resizeMode="cover"
-            />
-          )}
+          <View className="bio" style={styles.bio}>
+            <Text style={styles.bioText}>
+              {curUser.biography}
+            </Text>
+          </View>
+          <Pressable
+            style={styles.wButton}
+            className="message-button"
+          // WILL CHANGE WHEN QUERIES ARE CREATED, CHANGE curUser.ID TO CORRECT BODY REFERENCE
+            onPress={() => navigation.navigate('WishList', { uid: uid })}
+          >
+            <Text style={styles.buttonText}>Wishlist</Text>
+          </Pressable>
         </View>
-        <View className="info" style={styles.info}>
-          <Text className="name" style={styles.name}>{curUser.username}</Text>
-          <Text className="location" style={styles.location}>{curUser.location}</Text>
-        </View>
-      </View>
-      <View className="stats-col" style={styles.statsBox}>
-        <View className="profile-stats" style={styles.stats}>
-          <Text style={styles.statsMeta}>
-            {curUser.reviews}
-            {' '}
-            {'\n'}
-            Reviews
-            {'\n'}
-          </Text>
-          <Text style={styles.statsMeta}>
-            {Math.trunc(curUser.average_rating * 100) / 100}
-            {' '}
-            {'\n'}
-            Rating
-            {'\n'}
-          </Text>
-          <Text style={styles.statsMeta}>
-            {curUser.trades}
-            {' '}
-            {'\n'}
-            Trades
-          </Text>
-        </View>
-      </View>
-
-      <Pressable
-        style={styles.mButton}
-        className="message-button"
-        onPress={() => navigation.navigate('Messages', { sender_id: curUser.uid })}
-      >
-        <Text style={styles.buttonText}>Message</Text>
-      </Pressable>
-      <View className="bio" style={styles.bio}>
-        <Text style={styles.bioText}>
-          {curUser.biography}
-        </Text>
-      </View>
-      <Pressable
-        style={styles.wButton}
-        className="message-button"
-        // WILL CHANGE WHEN QUERIES ARE CREATED, CHANGE curUser.ID TO CORRECT BODY REFERENCE
-        onPress={() => navigation.navigate('WishList', { uid: curUser.uid })}
-      >
-        <Text style={styles.buttonText}>Wishlist</Text>
-      </Pressable>
+      ) }
     </View>
-
   );
 }
 
@@ -278,7 +306,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: '28%',
     marginTop: '5%',
-    marginBottom: '2%',
+    marginBottom: '21%',
     margin: '5%',
     justifyContent: 'center',
     paddingTop: '5%',
@@ -306,6 +334,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     marginLeft: 'auto',
     marginRight: '10%',
+    marginBottom: '15%',
     backgroundColor: '#A30000',
   },
   wButton: {
@@ -343,8 +372,8 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   cButton: {
-    marginLeft: '85%',
-    marginTop: '7%',
+    marginRight: '80%',
+    marginTop: '17%',
   },
   modalsubHeader: {
     margin: '5%',
