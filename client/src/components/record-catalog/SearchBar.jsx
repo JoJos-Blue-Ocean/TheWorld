@@ -7,10 +7,10 @@ import {
 export default function SearchBar({ setSearchState, search, setSearch }) {
   const searchChanger = (text) => {
     setSearch(text);
-    if (text.length > 0 && search !== text) {
-      setSearchState(true);
-    } else {
+    if (!text) {
       setSearchState(false);
+    } else {
+      setSearchState(true);
     }
   };
 

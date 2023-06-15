@@ -38,4 +38,10 @@ module.exports = {
       .insertRating(senderId, recipientId, tradeId, rating)
       .then(() => res.sendStatus(201));
   },
+  getUsers(req, res) {
+    const { search } = req.query;
+    models
+      .getUsers(search)
+      .then((results) => res.json(results));
+  },
 };
