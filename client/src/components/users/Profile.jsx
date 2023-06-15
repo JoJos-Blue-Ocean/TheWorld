@@ -83,7 +83,7 @@ export default function Profile({route}) {
   //  QUERY DATABASE FOR STATS
     axios.get(`http://localhost:3000/api/profile/${uid}`)
       .then((results) => {
-        setCurUser(results.data[0]);
+        setCurUser(results.data[0] || {});
         setLoading(false);
       })
       .catch((err) => console.log('error: ', err));

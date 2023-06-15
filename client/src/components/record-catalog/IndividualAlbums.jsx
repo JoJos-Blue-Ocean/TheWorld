@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 160,
-    alignSelf: 'center', // Center horizontally
+    alignSelf: 'center',
   },
   wishlistButton: {
     marginTop: 10,

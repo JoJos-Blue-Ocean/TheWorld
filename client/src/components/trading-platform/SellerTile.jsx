@@ -6,6 +6,7 @@ import {
 import { useNavigation } from '@react-navigation/core';
 import Constants from 'expo-constants';
 import { Rating } from 'react-native-ratings';
+import { AntDesign } from '@expo/vector-icons';
 
 const { useState, useEffect } = React;
 
@@ -19,8 +20,8 @@ const styles = StyleSheet.create({
   },
   profilePicture: {
     borderRadius: 50,
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
     borderWidth: 2,
     borderColor: '#333333',
     marginRight: 5,
@@ -30,7 +31,8 @@ const styles = StyleSheet.create({
   },
   leftSection: {
     flexDirection: 'column',
-    width: '90%',
+    width: 50,
+    marginRight: 10,
   },
   topRow: {
     flexDirection: 'row',
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
   bottomRow: {
 
   },
-  rightSection: {
+  openDetails: {
     justifyContent: 'center',
     height: '100%',
     width: '10%',
@@ -47,6 +49,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     gap: 5,
+  },
+  rightSection: {
+    width: '75%',
   },
 });
 
@@ -78,34 +83,31 @@ export default function SellerTile({ trade, master }) {
   return (
     <View style={styles.tileContainer}>
       <View style={styles.leftSection}>
-        <View style={styles.topRow}>
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Image
-              style={styles.profilePicture}
-              source={{ uri: trade.profile_picture }}
-            />
-          </View>
-          <View>
-            <Text style={styles.username}>{trade.username}</Text>
-            <View style={styles.starRatings}>
-              <Rating
-                type="custom"
-                defaultRating={trade.average_rating}
-                readonly
-                imageSize={20}
-                fractions={2}
-                tintColor="#F5F5F5"
-                ratingBackgroundColor="#C0C0C0"
-              />
-              <Text>{`${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.bottomRow}>
-          <Text>{descriptionDisplay}</Text>
-        </View>
+        <Image
+          style={styles.profilePicture}
+          source={{ uri: trade.profile_picture }}
+        />
       </View>
       <View style={styles.rightSection}>
+        <Text style={styles.username}>{trade.username}</Text>
+        <View>
+          <View style={styles.starRatings}>
+            <Rating
+              type="custom"
+              defaultRating={trade.average_rating}
+              readonly
+              imageSize={20}
+              fractions={2}
+              tintColor="#F5F5F5"
+              ratingBackgroundColor="#C0C0C0"
+            />
+            <Text>{`${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}</Text>
+          </View>
+        </View>
+        <Text>{descriptionDisplay}</Text>
+      </View>
+
+      <View style={styles.openDetails}>
         {
           wantMaster
             ? (
