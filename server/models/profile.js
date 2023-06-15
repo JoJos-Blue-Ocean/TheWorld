@@ -57,6 +57,13 @@ module.exports = {
       .query(query, values)
       .then((results) => results.rows);
   },
+  getSingleUser(userId) {
+    const query = 'SELECT * from users WHERE uid=$1';
+    const values = [userId];
+    return pool
+      .query(query, values)
+      .then((results) => results.rows[0]);
+  },
 };
 
 /*

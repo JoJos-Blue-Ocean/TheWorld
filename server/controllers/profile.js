@@ -12,10 +12,15 @@ module.exports = {
       .then((results) => res.json(results));
   },
   getSimpleProfile(req, res) {
-    console.log('IM IN CONTROLLERS');
     const { selectedUserId, personalId } = req.query;
     models
       .getSimpleProfile(selectedUserId, personalId)
+      .then((results) => res.json(results));
+  },
+  getSingleUser(req, res) {
+    const { userId } = req.query;
+    models
+      .getSingleUser(userId)
       .then((results) => res.json(results));
   },
 };
