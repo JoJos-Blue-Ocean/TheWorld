@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import Constants from 'expo-constants';
-import StarRating from '../StarRating';
+import { Rating } from 'react-native-ratings';
 
 const { useState, useEffect } = React;
 
@@ -43,6 +43,11 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '10%',
   },
+  starRatings: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: 5,
+  },
 });
 
 export default function SellerTile({ trade, master }) {
@@ -75,7 +80,18 @@ export default function SellerTile({ trade, master }) {
           </View>
           <View>
             <Text style={styles.username}>{trade.username}</Text>
-            <StarRating rating={trade.average_rating} />
+            <View style={styles.starRatings}>
+              <Rating
+                type="custom"
+                defaultRating={trade.average_rating}
+                readonly
+                imageSize={20}
+                fractions={2}
+                tintColor="#F5F5F5"
+                ratingBackgroundColor="#C0C0C0"
+              />
+              <Text>{`${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}</Text>
+            </View>
           </View>
         </View>
         <View style={styles.bottomRow}>
