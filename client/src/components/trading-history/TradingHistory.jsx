@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
+import Draggable from 'react-native-draggable';
 import YourListing from './YourListing';
 import TransactionHistory from './TransactionHistory';
 import UserContext from '../UserContext';
@@ -17,12 +18,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     display: 'flex',
     flexDirection: 'row',
-    height: '7%',
+    height: '10%',
   },
   tab: {
     position: 'relative',
-    backgroundColor: 'grey',
     padding: '5%',
+    borderWidth: 1,
+    borderColor: 'black',
+    marginRight: '5%',
   },
   tradesHistoryMain: {
     position: 'absolute',
@@ -34,7 +37,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '8%',
     height: '6%',
-    backgroundColor: 'white',
+    backgroundColor: 'red',
   },
 });
 
@@ -84,16 +87,34 @@ export default function TradingHistory() {
           <Text>Transaction History</Text>
         </Pressable>
       </View>
-      <Pressable style={styles.addListing} onPress={() => { navigation.navigate('Add Trade Form', addTradeParams); }}>
-        <Text>
-          Add a Listing
-        </Text>
-      </Pressable>
       <View style={styles.tradesHistoryMain}>
         {(tab === 'Your Listing') && <YourListing list={listedTrades} userId={uid} />}
         {(tab === 'Transaction History') && <TransactionHistory list={completeTrades} userId={uid} />}
       </View>
+      <Draggable
+        x={150}
+        y={450}
+        z={2}
+        minX={0}
+        minY={0}
+        renderSize={60}
+        onShortPressRelease={() => { navigation.navigate('Add Trade Form', addTradeParams); }}
+        renderColor="#A30000"
+        isCircle
+        style={styles.addListing}
+      >
+        <Text style={{
+          height: 50,
+          width: 50,
+          textAlign: 'center',
+          top: 4,
+          fontSize: 30,
+          color: 'white',
+        }}
+        >
+          +
+        </Text>
+      </Draggable>
     </View>
-
   );
 }
