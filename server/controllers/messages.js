@@ -7,6 +7,12 @@ module.exports = {
       .getRooms(userId)
       .then((results) => res.json(results));
   },
+  checkRoom(req, res) {
+    const { userId, sellerId } = req.query;
+    models
+      .checkRoom(userId, sellerId)
+      .then((results) => res.json(results));
+  },
   getMessages(req, res) {
     const { roomId } = req.query;
     models
@@ -19,10 +25,10 @@ module.exports = {
       .sendMessage(roomId, senderId, body)
       .then((results) => res.json(results));
   },
-  sendFirstMessage(req, res) {
+  makeRoomAndSendMessage(req, res) {
     const { senderId, recipientId, body } = req.body;
     models
-      .sendFirstMessage(senderId, recipientId, body)
+      .makeRoomAndSendMessage(senderId, recipientId, body)
       .then((results) => res.json(results));
   },
 };

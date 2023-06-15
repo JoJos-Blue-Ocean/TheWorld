@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import UserContext from '../UserContext';
 import {
   StyleSheet, Text, View, TextInput, Button, Modal, TouchableOpacity, Image, ScrollView,
 } from 'react-native';

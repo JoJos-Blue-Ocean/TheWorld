@@ -14,6 +14,7 @@ import TradingHistory from './client/src/components/trading-history/TradingHisto
 import RecordCatalog from './client/src/components/record-catalog/RecordCatalog';
 import Profile from './client/src/components/users/Profile';
 import Messages from './client/src/components/messages/Messages';
+import NewMessage from './client/src/components/messages/NewMessage';
 import Wishlist from './client/src/components/wishlist/Wishlist';
 import NavigationPane from './client/src/components/NavigationPane';
 import CompleteTradeForm from './client/src/components/trading-history/CompleteTradeForm';
@@ -38,6 +39,7 @@ export default function App() {
             <Stack.Screen name="RecordCatalog" component={RecordCatalog} />
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="Messages" component={Messages} />
+            <Stack.Screen name="NewMessage" component={NewMessage} />
             <Stack.Screen name="WishList" component={Wishlist} />
             <Stack.Screen name="Trade Completion Form" component={CompleteTradeForm} />
             <Stack.Screen name="Add Trade Form" component={AddTrade} />

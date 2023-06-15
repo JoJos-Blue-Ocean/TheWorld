@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React from 'react';
 import {
-  StyleSheet, Text, View, Image, Dimensions, ScrollView, Button, Alert,
+  StyleSheet, Text, View, Image, Dimensions, ScrollView, Button, Alert, TextInput, Pressable,
 } from 'react-native';
 import Constants from 'expo-constants';
-
-const { useState, useEffect } = React;
+import { useNavigation } from '@react-navigation/core';
+import UserContext from '../UserContext';
+const { useState, useEffect, useContext } = React;
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -57,10 +58,56 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 100,
   },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#A30000',
+  },
+  buttonText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
+  textInput: {
+    borderWidth: 1,
+  },
 });
 
 export default function ActiveTradeDetails({ route }) {
   const { trade, master, wantMaster } = route.params;
+  const [uid, setUid] = useContext(UserContext);
+  const navigation = useNavigation();
+
+  const handleSendMessage = () => {
+    axios
+      .get('http://localhost:3000/api/messages/checkRoom', {
+        params: {
+          userId: uid,
+          sellerId: trade.seller_id,
+        },
+      })
+      .then(({ data }) => {
+        if (data.length) {
+          axios
+            .get('http://localhost:3000/api/profile/getSingleUser', {
+              params: {
+                userId: trade.seller_id,
+              },
+            })
+            .then((results) => {
+              navigation.navigate('Messages', { user: results.data });
+            });
+        } else {
+          navigation.navigate('NewMessage', { userId: trade.seller_id });
+        }
+      });
+  };
 
   return (
     <View>
@@ -106,8 +153,8 @@ export default function ActiveTradeDetails({ route }) {
         </View>
         <View style={styles.buttonSection}>
           <Button
-            title="Make offer"
-            onPress={() => Alert.alert('Button pressed')}
+            title="Send Message"
+            onPress={handleSendMessage}
             color="#A30000"
           />
         </View>
