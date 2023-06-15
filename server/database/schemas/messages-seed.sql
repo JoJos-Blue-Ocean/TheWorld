@@ -2,22 +2,22 @@ INSERT INTO messages(room_id, sender_user_id, body)
 VALUES(1, 'a', 'Lorem');
 
 INSERT INTO messages(room_id, sender_user_id, body)
-VALUES(1, 'b', 'ipsum');
+VALUES(1, 'Wz0NzFeqFeXxmnKwo3jR9TaWu2v2', 'ipsum');
 
 INSERT INTO messages(room_id, sender_user_id, body)
 VALUES(1, 'a', 'dolor');
 
 INSERT INTO messages(room_id, sender_user_id, body)
-VALUES(1, 'b', 'sit');
+VALUES(1, 'Wz0NzFeqFeXxmnKwo3jR9TaWu2v2', 'sit');
 
 INSERT INTO messages(room_id, sender_user_id, body)
-VALUES(2, 'b', 'consectetur');
+VALUES(2, 'Wz0NzFeqFeXxmnKwo3jR9TaWu2v2', 'consectetur');
 
 INSERT INTO messages(room_id, sender_user_id, body)
 VALUES(2, 'c', 'adipiscing');
 
 INSERT INTO messages(room_id, sender_user_id, body)
-VALUES(2, 'b', 'elit');
+VALUES(2, 'Wz0NzFeqFeXxmnKwo3jR9TaWu2v2', 'elit');
 
 INSERT INTO messages(room_id, sender_user_id, body)
 VALUES(2, 'c', 'sed');

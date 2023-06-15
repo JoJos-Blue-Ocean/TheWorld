@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import Constants from 'expo-constants';
+import StarRating from '../StarRating';
 
 const { useState, useEffect } = React;
 
@@ -74,7 +75,7 @@ export default function SellerTile({ trade, master }) {
           </View>
           <View>
             <Text style={styles.username}>{trade.username}</Text>
-            <Text>{`Rating: ${Number(trade.average_rating).toFixed(2)}`}</Text>
+            <StarRating rating={trade.average_rating} />
           </View>
         </View>
         <View style={styles.bottomRow}>
@@ -86,7 +87,7 @@ export default function SellerTile({ trade, master }) {
           wantMaster
             ? (
               <Button
-                title="D"
+                title=">"
                 onPress={() => navigation.navigate('ActiveTradeDetails', { trade, master, wantMaster })}
               />
             )

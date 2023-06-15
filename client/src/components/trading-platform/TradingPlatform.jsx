@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
 });
 
 export default function TradingPlatform({ route }) {
-  const { master_id } = route.params;
+  // const { master_id } = route.params;
+  const master_id = 20319;
   const [master, setMaster] = useState(null);
   const [openTrades, setOpenTrades] = useState([]);
 
@@ -77,9 +78,15 @@ export default function TradingPlatform({ route }) {
             <Text style={styles.forTrade}>{`${openTrades.length} copies to trade`}</Text>
           </View>
         </View>
-        <ScrollView>
-          <SellerList openTrades={openTrades} master={master} />
-        </ScrollView>
+        {
+          openTrades.length
+            ? (
+              <ScrollView>
+                <SellerList openTrades={openTrades} master={master} />
+              </ScrollView>
+            )
+            : <Text>No available trades</Text>
+        }
       </View>
     );
   }

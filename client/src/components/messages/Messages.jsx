@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import UserContext from '../UserContext';
 import {
   StyleSheet, Text, View, TextInput, Button, Modal, TouchableOpacity, Image, ScrollView,
 } from 'react-native';
 
+
 export default function Messages() {
+  const [uid, setUid] = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -16,7 +19,7 @@ export default function Messages() {
     if (true) {
       axios
         .get('http://localhost:3000/api/messages/rooms', {
-          params: { userId: 'b' },
+          params: { userId: uid },
         })
         .then((response) => setRooms(response.data))
         .catch((error) => console.error('Error fetching messages:', error));
@@ -27,20 +30,20 @@ export default function Messages() {
     if (rooms.length) {
       const temp = [];
       rooms.forEach((room) => {
-        if (room.user_one !== 'b') {
+        if (room.user_one !== uid) {
           temp.push(
             axios
               .get('http://localhost:3000/api/profile/simpleProfile', {
-                params: { selectedUserId: room.user_one, personalId: 'b' },
+                params: { selectedUserId: room.user_one, personalId: uid },
               })
               .then(({ data }) => data)
               .catch((error) => console.error('Error fetching rooms')),
           );
-        } else if (room.user_two !== 'b') {
+        } else if (room.user_two !== uid) {
           temp.push(
             axios
               .get('http://localhost:3000/api/profile/simpleProfile', {
-                params: { selectedUserId: room.user_two, personalId: 'b' },
+                params: { selectedUserId: room.user_two, personalId: uid },
               })
               .then(({ data }) => data)
               .catch((error) => console.error('Error fetching rooms')),
@@ -68,7 +71,7 @@ export default function Messages() {
     axios
       .post('http://localhost:3000/api/messages', {
         roomId,
-        senderId: 'b', // replace with current user id
+        senderId: uid,
         body: newMessage,
       })
       .then(({ data }) => {
@@ -114,8 +117,8 @@ export default function Messages() {
                 style={[
                   styles.messageBubble,
                   {
-                    backgroundColor: message.sender_user_id === 'b' ? '#4CAF50' : '#808080',
-                    alignSelf: message.sender_user_id === 'b' ? 'flex-end' : 'flex-start',
+                    backgroundColor: message.sender_user_id === uid ? '#4CAF50' : '#808080',
+                    alignSelf: message.sender_user_id === uid ? 'flex-end' : 'flex-start',
                   },
                 ]}
               >
