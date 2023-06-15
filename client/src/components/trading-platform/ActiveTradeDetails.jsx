@@ -111,7 +111,7 @@ export default function ActiveTradeDetails({ route }) {
               },
             })
             .then((results) => {
-              navigation.navigate('Messages', { user: results.data });
+              navigation.navigate('Messages', { user: results.data, roomId: data[0].id });
             });
         } else {
           navigation.navigate('NewMessage', { userId: trade.seller_id });

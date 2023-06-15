@@ -42,7 +42,6 @@ export default function RecordCatalog() {
             />
           ))}
       </ScrollView>
-      <NavigationPane />
     </View>
   );
 }

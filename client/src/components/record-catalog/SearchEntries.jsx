@@ -52,7 +52,7 @@ export default function SearchEntries({ search, category, setSearchState }) {
     }, 1000);
     setTimeoutId(newTimeoutId);
     return () => clearTimeout(newTimeoutId);
-  }, []);
+  }, [search]);
 
   return (
     <View>

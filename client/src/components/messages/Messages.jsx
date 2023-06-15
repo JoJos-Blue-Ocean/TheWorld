@@ -26,19 +26,20 @@ export default function Messages({ route }) {
       // Navigated from Messages component directly
       fetchRooms();
     }
+  }, []);
 
     // Fetch messages and update users list every 0.5 seconds
-    const interval = setInterval(() => {
-      fetchRooms();
-      console.log('im in here');
-      if (otherUserInfo && otherUserInfo.room_id) {
-        fetchMessages(otherUserInfo.room_id);
-      }
-    }, 500);
+  //   const interval = setInterval(() => {
+  //     fetchRooms();
+  //     console.log('im in here');
+  //     if (otherUserInfo && otherUserInfo.room_id) {
+  //       fetchMessages(otherUserInfo.room_id);
+  //     }
+  //   }, 500);
 
-    // Cleanup the interval on component unmount
-    return () => clearInterval(interval);
-  }, [route, otherUserInfo]);
+  //   // Cleanup the interval on component unmount
+  //   return () => clearInterval(interval);
+  // }, [route, otherUserInfo]);
 
   const fetchRooms = () => {
     axios
