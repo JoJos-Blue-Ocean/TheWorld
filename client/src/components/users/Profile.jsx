@@ -146,7 +146,7 @@ export default function Profile({route}) {
                       style={styles.modalBioInput}
                       multiline
                       numberOfLines={4}
-                      maxLength={150}
+                      maxLength={350}
                       placeholder={curUser.biography}
                       onChangeText={(newText) => setBio(newText)}
                     />
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
   },
   bioText: {
     textAlign: 'center',
-    fontSize: 17,
+    fontSize: 20,
   },
   name: {
     fontSize: 26,
