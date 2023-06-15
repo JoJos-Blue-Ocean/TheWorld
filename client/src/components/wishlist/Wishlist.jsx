@@ -1,11 +1,12 @@
 /* eslint-disable func-names */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable global-require */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import {
   StyleSheet, Text, View, Image, Button, Alert, ScrollView, SafeAreaView, Dimensions, FlatList,
 } from 'react-native';
+import UserContext from '../UserContext';
 import NavigationPane from '../NavigationPane';
 
 // wishlist component
@@ -13,6 +14,7 @@ export default function Wishlist({ navigation, route }) {
   // const [visible, setVisible] = useState(true);
   // console.log('route param', route.params.uid);
   const [list, setWishList] = useState([]);
+  const [uid, setUid] = useContext(UserContext);
 
   const styles = StyleSheet.create({
     mainContainer: {
@@ -40,7 +42,7 @@ export default function Wishlist({ navigation, route }) {
   });
 
   const getWishListData = function () {
-    axios.get('http://localhost:3000/api/wishlist', { params: { user_id: 'cliuo26c1000608i96syehksd' } }).then(({ data }) => {
+    axios.get('http://localhost:3000/api/wishlist', { params: { user_id: uid } }).then(({ data }) => {
       setWishList(data);
     }).catch((error) => {
       console.log('Wishlist data cannot be retrieved from the server', error);
