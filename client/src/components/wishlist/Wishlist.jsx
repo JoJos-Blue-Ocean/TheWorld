@@ -25,6 +25,9 @@ export default function Wishlist({ navigation, route }) {
       backgroundColor: 'pink',
       marginHorizontal: 20,
     },
+    removeButton: {
+      backgroundColor: '#800000',
+    },
     container: {
       paddingTop: 40,
       paddingBottom: 20,
