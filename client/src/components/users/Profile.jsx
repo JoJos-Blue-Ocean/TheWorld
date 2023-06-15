@@ -47,10 +47,32 @@ export default function Profile({route}) {
       .catch((err) => console.error('ERROR: ', err));
   };
 
-  const uploadImage = () => {
-
+  const handleSendMessage = () => {
+    axios
+      .get('http://localhost:3000/api/messages/checkRoom', {
+        params: {
+          userId: uid,
+          sellerId: curUser.uid,
+        },
+      })
+      .then(({ data }) => {
+        if (data.length) {
+          console.log('IN IF STATEMENT')
+          axios
+            .get('http://localhost:3000/api/profile/getSingleUser', {
+              params: {
+                userId: curUser.uid,
+              },
+            })
+            .then((results) => {
+              navigation.navigate('Messages', { user: results.data });
+            });
+        } else {
+          console.log('IN ELSE STATEMENT')
+          navigation.navigate('NewMessage', { userId: curUser.uid});
+        }
+      });
   };
-
   const checkForeign = () => {
     if (route.params) {
       route.params.uid === uid ? setForeign(false) : setForeign(true);
@@ -146,7 +168,7 @@ export default function Profile({route}) {
                       style={styles.modalBioInput}
                       multiline
                       numberOfLines={4}
-                      maxLength={350}
+                      maxLength={150}
                       placeholder={curUser.biography}
                       onChangeText={(newText) => setBio(newText)}
                     />
@@ -236,7 +258,7 @@ export default function Profile({route}) {
               <Pressable
             style={styles.mButton}
             className="message-button"
-            onPress={() => navigation.navigate('Messages', { user: {uid: curUser.uid, username: curUser.username, profile_picture: curUser.profile_picture} })}
+            onPress={() => handleSendMessage()}
           >
             <Text style={styles.buttonText}>Message</Text>
           </Pressable>
@@ -317,7 +339,7 @@ const styles = StyleSheet.create({
   },
   bioText: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 17,
   },
   name: {
     fontSize: 26,
