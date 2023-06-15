@@ -37,22 +37,22 @@ export default function NavigationPane({ children }) {
       {children}
       <View style={styles.navBar}>
         <Button
-          title={<AntDesign name="book" size={35} color={activeButton === 'RecordCatalog' ? '#800000' : '#808080'} />}
+          title={<AntDesign name="book" size={40} color={activeButton === 'RecordCatalog' ? '#800000' : '#808080'} />}
           onPress={() => handlePress('RecordCatalog')}
           color="#e0e0e0"
         />
         <Button
-          title={<FontAwesome name="exchange" size={35} color={activeButton === 'TradingHistory' ? '#800000' : '#808080'} />}
+          title={<FontAwesome name="exchange" size={40} color={activeButton === 'TradingHistory' ? '#800000' : '#808080'} />}
           onPress={() => handlePress('TradingHistory')}
           color="#e0e0e0"
         />
         <Button
-          title={<AntDesign name="message1" size={35} color={activeButton === 'Messages' ? '#800000' : '#808080'} />}
+          title={<AntDesign name="message1" size={40} color={activeButton === 'Messages' ? '#800000' : '#808080'} />}
           onPress={() => handlePress('Messages')}
           color="#e0e0e0"
         />
         <Button
-          title={<Ionicons name="person-outline" size={35} color={activeButton === 'Profile' ? '#800000' : '#808080'} />}
+          title={<Ionicons name="person-outline" size={40} color={activeButton === 'Profile' ? '#800000' : '#808080'} />}
           onPress={() => handlePress('Profile')}
           color="#e0e0e0"
         />
