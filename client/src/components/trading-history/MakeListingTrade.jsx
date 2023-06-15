@@ -35,10 +35,19 @@ const styles = StyleSheet.create({
     height: '70%',
     width: '45%',
   },
-  albumImage: {
+  albumImageContainer: {
     left: '10%',
-    height: '70%',
+    height: '80%',
     width: '80%',
+    backgroundColor: '#800000',
+    borderRadius: '5%',
+  },
+  albumImage: {
+    left: '7%',
+    top: '12%',
+    height: '76%',
+    width: '86%',
+    borderRadius: '5%',
   },
   albumSongName: {
     textAlign: 'center',
@@ -207,13 +216,17 @@ export default function MakeListingTrade({
       >
         <View style={styles.albumsContainer}>
           <View style={styles.albumContainer}>
-            <Image source={{ uri: tradingAlbum.images[0].uri }} style={styles.albumImage} />
+            <View style={styles.albumImageContainer}>
+              <Image source={{ uri: tradingAlbum.images[0].uri }} style={styles.albumImage} />
+            </View>
             <Text style={styles.albumSongName}>{tradingAlbum.title}</Text>
             <Text style={styles.albumArtist}>{tradingAlbum.artists[0].name}</Text>
           </View>
 
           <View style={styles.albumContainer}>
-            <Image source={{ uri: desiredAlbum.images[0].uri }} style={styles.albumImage} />
+            <View style={styles.albumImageContainer}>
+              <Image source={{ uri: desiredAlbum.images[0].uri }} style={styles.albumImage} />
+            </View>
             <Text style={styles.albumSongName}>{desiredAlbum.title}</Text>
             <Text style={styles.albumArtist}>{desiredAlbum.artists[0].name}</Text>
           </View>
