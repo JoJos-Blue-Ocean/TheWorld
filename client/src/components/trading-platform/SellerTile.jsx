@@ -54,6 +54,13 @@ export default function SellerTile({ trade, master }) {
   const [wantMaster, setWantMaster] = useState(null);
   const navigation = useNavigation();
 
+  let descriptionDisplay = 'N/A';
+  if (trade.description.length > 50) {
+    descriptionDisplay = `${trade.description.slice(0, 50)}...`;
+  } else if (trade.description.length > 0) {
+    descriptionDisplay = trade.description;
+  }
+
   useEffect(() => {
     axios
       .get(`https://api.discogs.com/masters/${trade.want_album_id}`, {
@@ -95,7 +102,7 @@ export default function SellerTile({ trade, master }) {
           </View>
         </View>
         <View style={styles.bottomRow}>
-          <Text>{`${trade.description.slice(0, 90)}...`}</Text>
+          <Text>{descriptionDisplay}</Text>
         </View>
       </View>
       <View style={styles.rightSection}>
