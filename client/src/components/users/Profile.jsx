@@ -11,7 +11,7 @@ import NavigationPane from '../NavigationPane';
 
 // TODO: implement route.user_uid in props
 
-export default function Profile({ route }) {
+export default function Profile({route}) {
 /*
   Condition render: If the User clicks on a different user, recieve the user_uid
   of said user in nav and render their stats
@@ -29,10 +29,16 @@ export default function Profile({ route }) {
 
   const changeSettings = (changes) => {
     // Update uid
+<<<<<<< HEAD
     console.log(changes);
     axios.put(`http://localhost:3000/api/profile/${uid}`, {
       user: {
         uid: uid,
+=======
+    axios.put(`http://localhost:3000/api/profile/${uid}`, {
+      user: {
+        uid,
+>>>>>>> fef4d37 (6/14 EOD pr)
         profile_picture: changes.pfpChange || curUser.profile_picture,
         biography: changes.bioChange || curUser.biography,
         location: changes.locationChange || curUser.location,
@@ -52,15 +58,23 @@ export default function Profile({ route }) {
   };
 
   const checkForeign = () => {
-    route.params.uid === uid ? setForeign(false) : setForeign(true);
-  }
+    if (route.params) {
+      route.params.uid === uid ? setForeign(false) : setForeign(true);
+    }
+  };
 
   const retrieveStats = () => {
+<<<<<<< HEAD
     // QUERY DATABASE FOR STATS
     console.log('uid here ', uid);
     axios.get(`http://localhost:3000/api/profile/${uid}`)
       .then((results) => {
         console.log(results.data[0]);
+=======
+  //  QUERY DATABASE FOR STATS
+    axios.get(`http://localhost:3000/api/profile/${uid}`)
+      .then((results) => {
+>>>>>>> fef4d37 (6/14 EOD pr)
         setCurUser(results.data[0]);
         setLoading(false);
       })
@@ -79,6 +93,7 @@ export default function Profile({ route }) {
     // If other user's profile, retrieve their stats
     // else retrieve your stats
     retrieveStats();
+    checkForeign();
   }, []);
 
   return (
@@ -229,14 +244,22 @@ export default function Profile({ route }) {
               </Text>
             </View>
           </View>
-
-          <Pressable
+          {
+          foreign ? (
+            (
+              <Pressable
             style={styles.mButton}
             className="message-button"
-            onPress={() => navigation.navigate('Messages', { sender_id: uid })}
+            onPress={() => navigation.navigate('Messages', { reciever_id: curUser.uid, reciever_username: curUser.username, reciever_pfp: curUser.profile_picture })}
           >
             <Text style={styles.buttonText}>Message</Text>
           </Pressable>
+            )) : (
+              <View />
+          )
+
+        }
+
           <View className="bio" style={styles.bio}>
             <Text style={styles.bioText}>
               {curUser.biography}
