@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import IndividualAlbums from './IndividualAlbums';
 
-export default function SearchEntries({ search, category }) {
+export default function SearchEntries({ search, category, setSearchState }) {
   const [albums, setAlbums] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -48,6 +48,7 @@ export default function SearchEntries({ search, category }) {
       setPage(1);
       setAlbums([]);
       grabAlbums();
+      setSearchState(true);
     }, 1000);
     setTimeoutId(newTimeoutId);
     return () => clearTimeout(newTimeoutId);
