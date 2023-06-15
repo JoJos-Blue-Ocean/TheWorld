@@ -133,6 +133,7 @@ export default function MakeListingTrade({
     desiredAlbumImage: desiredAlbum.images[0].uri,
     desiredAlbumSongName: desiredAlbum.title,
     desiredAlbumArtist: desiredAlbum.artists[0].name,
+    tradeId: id,
   };
 
   useEffect(() => {
