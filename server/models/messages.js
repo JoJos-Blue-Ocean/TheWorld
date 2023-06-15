@@ -43,7 +43,9 @@ module.exports = {
     const makeRoomQuery = 'INSERT INTO rooms(user_one, user_two) VALUES($1, $2) RETURNING *';
     const makeRoomValues = [senderId, recipientId];
     const makeRoomResponse = await client.query(makeRoomQuery, makeRoomValues);
-    const roomId = makeRoomResponse.rows[0].id;
+    const room = makeRoomResponse.rows[0]; // Retrieve the room object
+
+    const roomId = room.id; // Get the room number from the room object
 
     const sendMessageQuery = 'INSERT INTO messages(room_id, sender_user_id, body) VALUES($1, $2, $3) RETURNING *';
     const sendMessageValues = [roomId, senderId, body];
@@ -55,7 +57,12 @@ module.exports = {
     await client.query(updateRoomQuery, updateRoomValues);
     await client.query('COMMIT');
     await client.release();
-    return user;
+
+    // Return both the user and room information
+    return {
+      user,
+      room
+    };
   },
   checkRoom(userId, sellerId) {
     const query = 'SELECT * FROM rooms where (user_one=$1 OR user_two=$1) AND (user_one=$2 OR user_two=$2)';

@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import UserContext from '../UserContext';
 import {
   StyleSheet, Text, View, TextInput, Button, Modal, TouchableOpacity, Image, ScrollView,
 } from 'react-native';
 import UserContext from '../UserContext';
 
-export default function Messages() {
+export default function Messages({ route, navigation }) {
   const [uid, setUid] = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState([]);
@@ -15,57 +14,61 @@ export default function Messages() {
   const [messages, setMessages] = useState([]);
   const [otherUserInfo, setOtherUserInfo] = useState(null);
 
-  console.log(messages);
-  console.log('this is users', users);
   useEffect(() => {
-    if (true) {
-      axios
-        .get('http://localhost:3000/api/messages/rooms', {
-          params: { userId: uid },
-        })
-        .then((response) => setRooms(response.data))
-        .catch((error) => console.error('Error fetching messages:', error));
+    if (route.params?.user) {
+      // Case 1: Navigated from NewMessage component
+      const { user, roomId } = route.params;
+      setOtherUserInfo(user);
+      setModalVisible(true);
+      fetchMessages(roomId);
+    } else {
+      // Case 2: Navigated from Messages component directly
+      fetchRooms();
     }
   }, []);
 
-  useEffect(() => {
-    if (rooms.length) {
-      const temp = [];
-      rooms.forEach((room) => {
-        if (room.user_one !== uid) {
-          temp.push(
-            axios
-              .get('http://localhost:3000/api/profile/simpleProfile', {
-                params: { selectedUserId: room.user_one, personalId: uid },
-              })
-              .then(({ data }) => data[0])
-              .catch((error) => console.error('Error fetching rooms')),
-          );
-        } else if (room.user_two !== uid) {
-          temp.push(
-            axios
-              .get('http://localhost:3000/api/profile/simpleProfile', {
-                params: { selectedUserId: room.user_two, personalId: uid },
-              })
-              .then(({ data }) => data[0])
-              .catch((error) => console.error('Error fetching rooms')),
-          );
-        }
-      });
-      Promise.all(temp).then((results) => {
-        console.log(results);
-        setUsers(results);
-      });
-    }
-  }, [rooms]);
+  const fetchRooms = () => {
+    axios
+      .get('http://localhost:3000/api/messages/rooms', {
+        params: { userId: uid },
+      })
+      .then((response) => {
+        setRooms(response.data);
+        setUsers([]); // Clear the users list
+        response.data.forEach((room) => {
+          fetchUserInfo(room);
+        });
+      })
+      .catch((error) => console.error('Error fetching rooms:', error));
+  };
 
-  const handleUserClick = (roomId) => {
+  const fetchUserInfo = (room) => {
+    const selectedUserId = room.user_one !== uid ? room.user_one : room.user_two;
+    axios
+      .get('http://localhost:3000/api/profile/simpleProfile', {
+        params: { selectedUserId, personalId: uid },
+      })
+      .then(({ data }) => {
+        setUsers((prevUsers) => [...prevUsers, data[0]]);
+      })
+      .catch((error) => console.error('Error fetching user info:', error));
+  };
+
+  const fetchMessages = (roomId) => {
     axios
       .get('http://localhost:3000/api/messages/', {
         params: { roomId },
       })
-      .then(({ data }) => setMessages(data))
-      .catch((error) => console.error('FAILED TO GET MESSAGES'));
+      .then(({ data }) => {
+        setMessages(data);
+      })
+      .catch((error) => console.error('Error fetching messages:', error));
+  };
+
+  const handleUserClick = (roomId) => {
+    const selectedUser = users.find((user) => user.room_id === roomId);
+    setOtherUserInfo(selectedUser);
+    fetchMessages(roomId);
     setModalVisible(true);
   };
 
@@ -77,50 +80,21 @@ export default function Messages() {
         body: newMessage,
       })
       .then(({ data }) => {
-        // const newMessageData = response.data;
-        console.log('MESSAGES', messages);
-        console.log('DATAAAA', data);
-
-        setMessages([...messages, data]);
+        setMessages((prevMessages) => [...prevMessages, data]);
         setNewMessage('');
       })
       .catch((error) => console.error('Error sending message:', error));
   };
 
-  const handleSendFirstMessage = () => {
-    axios
-      .post('http://localhost:3000/api/messages/firstMessage', {
-        senderId: uid,
-        recipientId: otherUserInfo.uid,
-        body: newMessage,
-      })
-      .then(({ data }) => {
-        setMessages([...messages, data]);
-        setNewMessage('');
-      })
-      .catch((error) => console.error('Error sending first message', error));
-  };
-  return otherUserInfo ? (
-    <View>
-      <Image source={{ uri: otherUserInfo.profile_picture }} style={styles.profilePicture} />
-      <Text style={styles.username}>{otherUserInfo.username}</Text>
-
-      <TextInput
-        value={newMessage}
-        onChangeText={(text) => setNewMessage(text)}
-        placeholder="Type your message"
-        style={styles.input}
-      />
-      <Button onPress={() => handleSendMessage(messages[0].room_id)} title="Send" />
-    </View>
-  ) : (
+  return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
-        <Text style={styles.closeButtonText}>{'<'}</Text>
-      </TouchableOpacity>
-
+      {/* Render the list of users */}
       {users.map((user) => (
-        <TouchableOpacity key={user.uid} onPress={() => handleUserClick(user.room_id)} style={styles.userContainer}>
+        <TouchableOpacity
+          key={user.uid}
+          onPress={() => handleUserClick(user.room_id)}
+          style={styles.userContainer}
+        >
           <Image source={{ uri: user.profile_picture }} style={styles.profilePicture} />
           <Text style={styles.username}>{user.username}</Text>
         </TouchableOpacity>
@@ -132,7 +106,7 @@ export default function Messages() {
             <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButtonModal}>
               <Text style={styles.closeButtonTextModal}>{'<'}</Text>
             </TouchableOpacity>
-            <Text style={styles.modalTitle}>{users.length > 0 && users[0].username}</Text>
+            <Text style={styles.modalTitle}>{otherUserInfo && otherUserInfo.username}</Text>
           </View>
           <ScrollView contentContainerStyle={styles.messageContainer}>
             {messages.map((message) => (
@@ -157,7 +131,9 @@ export default function Messages() {
             placeholder="Type your message"
             style={styles.input}
           />
-          <Button onPress={() => handleSendMessage(messages[0].room_id)} title="Send" />
+          <TouchableOpacity onPress={() => handleSendMessage(messages[0].room_id)} style={styles.sendButton}>
+            <Text style={styles.sendButtonText}>Send</Text>
+          </TouchableOpacity>
         </View>
       </Modal>
     </View>
@@ -190,16 +166,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
     marginTop: 14,
-  },
-  closeButton: {
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    padding: 10,
-  },
-  closeButtonText: {
-    fontSize: 18,
-    color: 'black',
   },
   closeButtonModal: {
     padding: 10,
@@ -241,5 +207,16 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     marginBottom: 10,
     padding: 10,
+  },
+  sendButton: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 10,
+    alignSelf: 'flex-end',
+  },
+  sendButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
