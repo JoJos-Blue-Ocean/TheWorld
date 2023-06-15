@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, Text, View, Image, Pressable,
+  StyleSheet, Text, View, Image, Pressable, TouchableHighlight,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import Swipeable from 'react-native-swipeable';
 import axios from 'axios';
 
 const styles = StyleSheet.create({
   trade: {
-    height: 120,
+    height: 300,
     width: '100%',
-    backgroundColor: 'white',
     marginTop: '5%',
   },
   tradeIdContainer: {
@@ -18,55 +18,39 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   tradeId: {
-    left: '5%',
+    left: '15%',
+    fontSize: 20,
   },
-  sellingAlbumImage: {
+  albumsContainer: {
     position: 'absolute',
-    top: '20%',
-    left: '3%',
-    height: '50%',
-    width: '18%',
+    height: '100%',
+    width: '80%',
+    flexDirection: 'row',
   },
-  sellingAlbumSongName: {
-    position: 'absolute',
-    top: '70%',
-    left: '5%',
+  albumContainer: {
+    position: 'relative',
+    top: '10%',
+    justifyContent: 'center',
+    marginRight: '10%',
+    height: '70%',
+    width: '45%',
+  },
+  albumImage: {
+    left: '10%',
+    height: '70%',
+    width: '80%',
+  },
+  albumSongName: {
+    textAlign: 'center',
     fontSize: 8,
   },
-  sellingAlbumArtist: {
-    position: 'absolute',
-    top: '80%',
-    left: '5%',
-    fontSize: 8,
-  },
-  for: {
-    position: 'absolute',
-    top: '40%',
-    left: '30%',
-    fontSize: 16,
-  },
-  desiredAlbumImage: {
-    position: 'absolute',
-    top: '20%',
-    left: '45%',
-    height: '50%',
-    width: '18%',
-  },
-  desiredAlbumSongName: {
-    position: 'absolute',
-    top: '70%',
-    left: '48%',
-    fontSize: 8,
-  },
-  desiredAlbumArtist: {
-    position: 'absolute',
-    top: '80%',
-    left: '48%',
+  albumArtist: {
+    textAlign: 'center',
     fontSize: 8,
   },
   date: {
     position: 'absolute',
-    right: '40%',
+    right: '30%',
     fontSize: 12,
     bottom: 0,
   },
@@ -86,6 +70,28 @@ const styles = StyleSheet.create({
     height: '5%',
     width: '20%',
     margin: '2%',
+  },
+  swipeableContainer: {
+    position: 'absolute',
+    top: '20%',
+    height: '80%',
+    width: '100%',
+    backgroundColor: 'white',
+  },
+  rightButtonOne: {
+    width: '100%',
+    height: '50%',
+    backgroundColor: 'red',
+  },
+  rightButtonTwo: {
+    width: '100%',
+    height: '50%',
+    backgroundColor: 'grey',
+  },
+  rightButtonsContainer: {
+    flexDirection: 'column',
+    height: '100%',
+    width: '40%',
   },
 });
 
@@ -125,6 +131,7 @@ export default function MakeListingTrade({
       name: '',
     }],
   });
+
   const navigation = useNavigation();
   const params = {
     sellingAlbumImage: tradingAlbum.images[0].uri,
@@ -135,6 +142,21 @@ export default function MakeListingTrade({
     desiredAlbumArtist: desiredAlbum.artists[0].name,
     tradeId: id,
   };
+
+  const rightButtons = [
+    <View style={styles.rightButtonsContainer}>
+      <TouchableHighlight
+        onPress={() => {
+          navigation.navigate('Trade Completion Form', params);
+        }}
+        style={styles.rightButtonOne}
+      >
+        <Text>complete</Text>
+
+      </TouchableHighlight>
+      <TouchableHighlight style={styles.rightButtonTwo}><Text>Button 2</Text></TouchableHighlight>
+    </View>
+  ];
 
   useEffect(() => {
     async function fetchData() {
@@ -163,36 +185,41 @@ export default function MakeListingTrade({
   }, [userId]);
 
   return (
-    <View style={styles.trade}>
+    <View style={styles.trade} useNativeDriver={false}>
       <View style={styles.tradeIdContainer}>
-              <Text style={styles.date}>{date}</Text>
-              <Text style={styles.tradeId}>Listing#{id}</Text>
+        <Text style={styles.date}>{date}</Text>
+        <Text style={styles.tradeId}>
+          Listing#
+          {id}
+        </Text>
       </View>
-      {/*<View style={styles.statusContainer}>
+      {/* <View style={styles.statusContainer}>
         <Text style={{
           textAlign: 'center',
         }}>
           {status}
         </Text>
-      </View>*/}
-      <Image source={{ uri: tradingAlbum.images[0].uri }} style={styles.sellingAlbumImage} />
-      <Text style={styles.sellingAlbumSongName}>{tradingAlbum.title}</Text>
-      <Text style={styles.sellingAlbumArtist}>{tradingAlbum.artists[0].name}</Text>
-      <Text style={styles.for}>for</Text>
-      <Image source={{ uri: desiredAlbum.images[0].uri }} style={styles.desiredAlbumImage} />
-      <Text style={styles.desiredAlbumSongName}>{desiredAlbum.title}</Text>
-      <Text style={styles.desiredAlbumArtist}>{desiredAlbum.artists[0].name}</Text>
-      <Pressable style={styles.completeButton}
-        onPress={() => {
-          navigation.navigate('Trade Completion Form', params);
-        }}>
-        <Text style={{
-          textAlign: 'center',
-          fontSize: 10,
-        }}>
-          Mark As Sold
-        </Text>
-      </Pressable>
+      </View> */}
+      <Swipeable
+        rightButtons={rightButtons}
+        useNativeDriver={false}
+        style={styles.swipeableContainer}
+      >
+        <View style={styles.albumsContainer}>
+          <View style={styles.albumContainer}>
+            <Image source={{ uri: tradingAlbum.images[0].uri }} style={styles.albumImage} />
+            <Text style={styles.albumSongName}>{tradingAlbum.title}</Text>
+            <Text style={styles.albumArtist}>{tradingAlbum.artists[0].name}</Text>
+          </View>
+
+          <View style={styles.albumContainer}>
+            <Image source={{ uri: desiredAlbum.images[0].uri }} style={styles.albumImage} />
+            <Text style={styles.albumSongName}>{desiredAlbum.title}</Text>
+            <Text style={styles.albumArtist}>{desiredAlbum.artists[0].name}</Text>
+          </View>
+        </View>
+
+      </Swipeable>
     </View>
   );
 }
