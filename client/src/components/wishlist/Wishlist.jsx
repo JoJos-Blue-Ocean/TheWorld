@@ -36,7 +36,7 @@ export default function Wishlist({ navigation, route }) {
       backgroundColor: '#F5F5F5',
     },
     tinyImage: {
-      width: 100,
+      width: 200,
       height: 100,
     },
   });
@@ -44,13 +44,14 @@ export default function Wishlist({ navigation, route }) {
   const getWishListData = function () {
     axios.get('http://localhost:3000/api/wishlist', { params: { user_id: uid } }).then(({ data }) => {
       setWishList(data);
+      console.log('data', data);
     }).catch((error) => {
       console.log('Wishlist data cannot be retrieved from the server', error);
     });
   };
 
   const removeFromWishList = function (id) {
-    axios.delete('http://localhost:3000/api/wishlist', { data: { user_id: 'cliuo26c1000608i96syehksd', id } })
+    axios.delete('http://localhost:3000/api/wishlist', { data: { user_id: uid, id } })
       .then(({ data }) => {
         console.log('Server response after remove operation', data);
         getWishListData();
@@ -62,6 +63,8 @@ export default function Wishlist({ navigation, route }) {
   useEffect(() => {
     getWishListData();
   }, []);
+
+  console.log('WISHLIST RESULT:', list);
 
   return (
     <ScrollView>
@@ -75,10 +78,10 @@ export default function Wishlist({ navigation, route }) {
               }}
             />
             <Text>
-              {data.album_name}
+              {data.artist_name}
             </Text>
             <Text>
-              {data.artist_name}
+              {data.album_name}
             </Text>
             <Text>
               {data.genre.substring(2, data.genre.length - 2)}
