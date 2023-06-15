@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import UserContext from ‘../UserContext’;
 import {
   StyleSheet, Text, View, TextInput, Button, Modal, TouchableOpacity, Image, ScrollView,
 } from 'react-native';
-
+import UserContext from '../UserContext';
 
 export default function Messages() {
   const [uid, setUid] = useContext(UserContext);
@@ -13,8 +12,10 @@ export default function Messages() {
   const [newMessage, setNewMessage] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [messages, setMessages] = useState([]);
-  const [sellerId, setSellerId] = useState(null);
+  const [otherUserInfo, setOtherUserInfo] = useState(null);
 
+  console.log(messages);
+  console.log('this is users', users);
   useEffect(() => {
     if (true) {
       axios
@@ -36,7 +37,7 @@ export default function Messages() {
               .get('http://localhost:3000/api/profile/simpleProfile', {
                 params: { selectedUserId: room.user_one, personalId: uid },
               })
-              .then(({ data }) => data)
+              .then(({ data }) => data[0])
               .catch((error) => console.error('Error fetching rooms')),
           );
         } else if (room.user_two !== uid) {
@@ -45,7 +46,7 @@ export default function Messages() {
               .get('http://localhost:3000/api/profile/simpleProfile', {
                 params: { selectedUserId: room.user_two, personalId: uid },
               })
-              .then(({ data }) => data)
+              .then(({ data }) => data[0])
               .catch((error) => console.error('Error fetching rooms')),
           );
         }
@@ -85,9 +86,31 @@ export default function Messages() {
       .catch((error) => console.error('Error sending message:', error));
   };
 
-  return sellerId ? (
+  const handleSendFirstMessage = () => {
+    axios
+      .post('http://localhost:3000/api/messages/firstMessage', {
+        senderId: uid,
+        recipientId: otherUserInfo.uid,
+        body: newMessage,
+      })
+      .then(({ data }) => {
+        setMessages([...messages, data]);
+        setNewMessage('');
+      })
+      .catch((error) => console.error('Error sending first message', error));
+  };
+  return otherUserInfo ? (
     <View>
-      <Text>Seller ID: {sellerId}</Text>
+      <Image source={{ uri: otherUserInfo.profile_picture }} style={styles.profilePicture} />
+      <Text style={styles.username}>{otherUserInfo.username}</Text>
+
+      <TextInput
+        value={newMessage}
+        onChangeText={(text) => setNewMessage(text)}
+        placeholder="Type your message"
+        style={styles.input}
+      />
+      <Button onPress={() => handleSendMessage(messages[0].room_id)} title="Send" />
     </View>
   ) : (
     <View style={styles.container}>
@@ -96,9 +119,9 @@ export default function Messages() {
       </TouchableOpacity>
 
       {users.map((user) => (
-        <TouchableOpacity key={user[0].uid} onPress={() => handleUserClick(user[0].room_id)} style={styles.userContainer}>
-          <Image source={{ uri: user[0].profile_picture }} style={styles.profilePicture} />
-          <Text style={styles.username}>{user[0].username}</Text>
+        <TouchableOpacity key={user.uid} onPress={() => handleUserClick(user.room_id)} style={styles.userContainer}>
+          <Image source={{ uri: user.profile_picture }} style={styles.profilePicture} />
+          <Text style={styles.username}>{user.username}</Text>
         </TouchableOpacity>
       ))}
 
@@ -108,7 +131,7 @@ export default function Messages() {
             <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButtonModal}>
               <Text style={styles.closeButtonTextModal}>{'<'}</Text>
             </TouchableOpacity>
-            <Text style={styles.modalTitle}>{users.length > 0 && users[0][0].username}</Text>
+            <Text style={styles.modalTitle}>{users.length > 0 && users[0].username}</Text>
           </View>
           <ScrollView contentContainerStyle={styles.messageContainer}>
             {messages.map((message) => (

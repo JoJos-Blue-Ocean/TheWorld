@@ -19,4 +19,10 @@ module.exports = {
       .sendMessage(roomId, senderId, body)
       .then((results) => res.json(results));
   },
+  sendFirstMessage(req, res) {
+    const { senderId, recipientId, body } = req.body;
+    models
+      .sendFirstMessage(senderId, recipientId, body)
+      .then((results) => res.json(results));
+  },
 };
