@@ -6,7 +6,7 @@ import {
 import Constants from 'expo-constants';
 import { WebView } from 'react-native-webview';
 import { useNavigation } from '@react-navigation/core';
-import UserContext from ‘../UserContext’;
+import UserContext from '../UserContext';
 import { AntDesign } from '@expo/vector-icons'; // Import the required icon
 
 export default function IndividualAlbums({ album }) {

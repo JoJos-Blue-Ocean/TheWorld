@@ -34,7 +34,6 @@ module.exports = {
     const values = [useruid];
     return pool.query(query, values)
       .then((results) => {
-        console.log(results);
         return results.rows;
       });
   },
