@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 });
 
 export default function NewMessage({ route }) {
-  const { sellerId } = route.params;
+  const { userId } = route.params;
   const [newMessage, setNewMessage] = useState('');
   const [uid, setUid] = useContext(UserContext);
   const navigation = useNavigation();
@@ -23,7 +23,7 @@ export default function NewMessage({ route }) {
   const handlePress = () => {
     axios.post('http://localhost:3000/api/messages/makeRoomAndSendMessage', {
       senderId: uid,
-      recipientId: sellerId,
+      recipientId: userId,
       body: newMessage,
     })
       .then(({ data }) => navigation.navigate('Messages', { user: data }));

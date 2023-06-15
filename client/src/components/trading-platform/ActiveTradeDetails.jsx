@@ -85,7 +85,6 @@ export default function ActiveTradeDetails({ route }) {
   const navigation = useNavigation();
 
   const handleSendMessage = () => {
-    // navigation.navigate('Messages', { fromTradePlatform: true, seller_id: trade.seller_id });
     axios
       .get('http://localhost:3000/api/messages/checkRoom', {
         params: {
@@ -95,9 +94,17 @@ export default function ActiveTradeDetails({ route }) {
       })
       .then(({ data }) => {
         if (data.length) {
-          console.log('THERE IS A ROOM');
+          axios
+            .get('http://localhost:3000/api/profile/getSingleUser', {
+              params: {
+                userId: trade.seller_id,
+              },
+            })
+            .then((results) => {
+              navigation.navigate('Messages', { user: results.data });
+            });
         } else {
-          navigation.navigate('NewMessage', { sellerId: trade.seller_id });
+          navigation.navigate('NewMessage', { userId: trade.seller_id });
         }
       });
   };
