@@ -6,6 +6,8 @@ import {
 import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/core';
 import UserContext from '../UserContext';
+import { Rating } from 'react-native-ratings';
+
 const { useState, useEffect, useContext } = React;
 
 const styles = StyleSheet.create({
@@ -24,10 +26,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   sellerSection: {
-    flexDirection: 'row',
     borderBottomWidth: 1,
     borderColor: 'black',
-    alignItems: 'center',
     padding: 10,
   },
   sellerIcon: {
@@ -37,6 +37,10 @@ const styles = StyleSheet.create({
     marginRight: 5,
     borderWidth: 2,
     borderColor: '#333333',
+  },
+  sellerDetails: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   detailsSection: {
     padding: 10,
@@ -76,6 +80,11 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderWidth: 1,
+  },
+  starRatings: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: 5,
   },
 });
 
@@ -121,18 +130,30 @@ export default function ActiveTradeDetails({ route }) {
             {`${master.artists[0].name} - ${master.title}`}
           </Text>
         </View>
-        <View style={styles.sellerSection}>
-          <Image
-            style={styles.sellerIcon}
-            source={{ uri: trade.profile_picture }}
-          />
-          <View>
-            <Text>{`Owner: ${trade.username}`}</Text>
-            <Text>
-              {`Rating: ${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}
-            </Text>
+        <Pressable style={styles.sellerSection} onPress={() => navigation.navigate('Profile')}>
+          <Text style={styles.heading}>Owner Information</Text>
+          <View style={styles.sellerDetails}>
+            <Image
+              style={styles.sellerIcon}
+              source={{ uri: trade.profile_picture }}
+            />
+            <View>
+              <Text>{trade.username}</Text>
+              <View style={styles.starRatings}>
+                <Rating
+                  type="custom"
+                  defaultRating={trade.average_rating}
+                  readonly
+                  imageSize={20}
+                  fractions={2}
+                  tintColor="#f5f5f5"
+                  ratingBackgroundColor="#c0c0c0"
+                />
+                <Text>{`${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}</Text>
+              </View>
+            </View>
           </View>
-        </View>
+        </Pressable>
         <View style={styles.detailsSection}>
           <Text style={styles.heading}>Description</Text>
           <Text>{trade.description ? trade.description : 'N/A'}</Text>
