@@ -48,7 +48,7 @@ export default function SearchEntries({ search, category }) {
       setPage(1);
       setAlbums([]);
       grabAlbums();
-    }, 500);
+    }, 1000);
     setTimeoutId(newTimeoutId);
     return () => clearTimeout(newTimeoutId);
   }, [search]);
