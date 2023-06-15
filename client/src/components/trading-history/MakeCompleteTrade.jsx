@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {
   StyleSheet, Text, View, Image, Pressable,
 } from 'react-native';
+import Swipeable from 'react-native-swipeable';
 import axios from 'axios';
 
 const styles = StyleSheet.create({
   trade: {
-    height: 120,
+    height: 300,
     width: '100%',
-    backgroundColor: 'white',
     marginTop: '3%',
   },
   tradeIdContainer: {
@@ -17,25 +17,43 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   tradeId: {
-    left: '5%',
+    left: '15%',
+    fontSize: 20,
   },
-  sellingAlbumImage: {
+  albumsContainer: {
     position: 'absolute',
-    top: '20%',
-    left: '3%',
-    height: '50%',
-    width: '18%',
+    height: '100%',
+    width: '80%',
+    flexDirection: 'row',
   },
-  sellingAlbumSongName: {
-    position: 'absolute',
-    top: '70%',
-    left: '5%',
+  albumContainer: {
+    position: 'relative',
+    top: '10%',
+    justifyContent: 'center',
+    marginRight: '10%',
+    height: '70%',
+    width: '45%',
+  },
+  albumImageContainer: {
+    left: '10%',
+    height: '80%',
+    width: '80%',
+    backgroundColor: '#800000',
+    borderRadius: '5%',
+  },
+  albumImage: {
+    left: '7%',
+    top: '12%',
+    height: '76%',
+    width: '86%',
+    borderRadius: '5%',
+  },
+  albumSongName: {
+    textAlign: 'center',
     fontSize: 8,
   },
-  sellingAlbumArtist: {
-    position: 'absolute',
-    top: '80%',
-    left: '5%',
+  albumArtist: {
+    textAlign: 'center',
     fontSize: 8,
   },
   for: {
@@ -44,28 +62,9 @@ const styles = StyleSheet.create({
     left: '30%',
     fontSize: 16,
   },
-  desiredAlbumImage: {
-    position: 'absolute',
-    top: '20%',
-    left: '45%',
-    height: '50%',
-    width: '18%',
-  },
-  desiredAlbumSongName: {
-    position: 'absolute',
-    top: '70%',
-    left: '48%',
-    fontSize: 8,
-  },
-  desiredAlbumArtist: {
-    position: 'absolute',
-    top: '80%',
-    left: '48%',
-    fontSize: 8,
-  },
   date: {
     position: 'absolute',
-    right: '40%',
+    right: '30%',
     fontSize: 12,
     bottom: 0,
   },
@@ -77,17 +76,22 @@ const styles = StyleSheet.create({
     width: '20%',
     backgroundColor: 'grey',
   },
-  buyerImage: {
+  buyerContainer: {
     position: 'absolute',
-    top: '35%',
-    left: '80%',
-    height: '50%',
-    width: '18%',
+    top: '5%',
+    left: '75%',
+    height: '30%',
+    width: '20%',
+    justifyContent: 'center',
+  },
+  buyerImage: {
+    height: '75%',
+    width: '75%',
+    left: '15%',
+    borderRadius: '50%',
   },
   buyerName: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
+    textAlign: 'center',
     fontSize: 12,
   },
   messageButton: {
@@ -101,6 +105,30 @@ const styles = StyleSheet.create({
   message: {
     textAlign: 'center',
     fontSize: 10,
+  },
+  swipeableContainer: {
+    position: 'absolute',
+    top: '20%',
+    height: '80%',
+    width: '100%',
+    backgroundColor: 'white',
+    borderRadius: '3%',
+  },
+  rightButtonOne: {
+    width: '100%',
+    height: '50%',
+    backgroundColor: 'red',
+  },
+  rightButtonTwo: {
+    width: '100%',
+    height: '50%',
+    backgroundColor: 'grey',
+  },
+  rightButtonsContainer: {
+    flexDirection: 'column',
+    height: '100%',
+    width: '40%',
+    backgroundColor: 'green',
   },
 });
 
@@ -175,33 +203,54 @@ export default function MakeCompleteTrade({
     }
     fetchData();
   }, [userId]);
+  const rightButtons = [
+    <View style={styles.rightButtonsContainer}>
+      <Text>message</Text>
+    </View>,
+  ];
   return (
     <View style={styles.trade}>
       <View style={styles.tradeIdContainer}>
-              <Text style={styles.date}>{date}</Text>
-              <Text style={styles.tradeId}>Listing#{id}</Text>
+        <Text style={styles.date}>{date}</Text>
+        <Text style={styles.tradeId}>
+          Listing#
+          {id}
+        </Text>
       </View>
-      {/*<View style={styles.statusContainer}>
+      {/* <View style={styles.statusContainer}>
         <Text style={{
           textAlign: 'center',
         }}>
           {status}
         </Text>
-      </View>*/}
-      <Image source={{ uri: tradingAlbum.images[0].uri }} style={styles.sellingAlbumImage} />
-      <Text style={styles.sellingAlbumSongName}>{tradingAlbum.title}</Text>
-      <Text style={styles.sellingAlbumArtist}>{tradingAlbum.artists[0].name}</Text>
-      <Text style={styles.for}>for</Text>
-      <Image source={{ uri: desiredAlbum.images[0].uri }} style={styles.desiredAlbumImage} />
-      <Text style={styles.desiredAlbumSongName}>{desiredAlbum.title}</Text>
-      <Text style={styles.desiredAlbumArtist}>{desiredAlbum.artists[0].name}</Text>
-      <Image source={{ uri: buyerImage }} style={styles.buyerImage} />
-      <Text style={styles.buyerName}>{buyerName}</Text>
-      <Pressable style={styles.messageButton}>
-        <Text style={styles.message}>
-          message
-        </Text>
-      </Pressable>
+      </View> */}
+      <Swipeable
+        style={styles.swipeableContainer}
+        useNativeDriver={false}
+        rightButtons={rightButtons}
+      >
+        <View style={styles.albumsContainer}>
+          <View style={styles.albumContainer}>
+            <View style={styles.albumImageContainer}>
+              <Image source={{ uri: tradingAlbum.images[0].uri }} style={styles.albumImage} />
+            </View>
+            <Text style={styles.albumSongName}>{tradingAlbum.title}</Text>
+            <Text style={styles.albumArtist}>{tradingAlbum.artists[0].name}</Text>
+          </View>
+          <View style={styles.albumContainer}>
+            <View style={styles.albumImageContainer}>
+              <Image source={{ uri: desiredAlbum.images[0].uri }} style={styles.albumImage} />
+            </View>
+            <Text style={styles.albumSongName}>{desiredAlbum.title}</Text>
+            <Text style={styles.albumArtist}>{desiredAlbum.artists[0].name}</Text>
+          </View>
+        </View>
+
+        <View style={styles.buyerContainer}>
+          <Image source={{ uri: buyerImage }} style={styles.buyerImage} />
+          <Text style={styles.buyerName}>{buyerName}</Text>
+        </View>
+      </Swipeable>
     </View>
   );
 }
