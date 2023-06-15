@@ -29,16 +29,10 @@ export default function Profile({route}) {
 
   const changeSettings = (changes) => {
     // Update uid
-<<<<<<< HEAD
     console.log(changes);
     axios.put(`http://localhost:3000/api/profile/${uid}`, {
       user: {
         uid: uid,
-=======
-    axios.put(`http://localhost:3000/api/profile/${uid}`, {
-      user: {
-        uid,
->>>>>>> fef4d37 (6/14 EOD pr)
         profile_picture: changes.pfpChange || curUser.profile_picture,
         biography: changes.bioChange || curUser.biography,
         location: changes.locationChange || curUser.location,
@@ -64,17 +58,9 @@ export default function Profile({route}) {
   };
 
   const retrieveStats = () => {
-<<<<<<< HEAD
-    // QUERY DATABASE FOR STATS
-    console.log('uid here ', uid);
-    axios.get(`http://localhost:3000/api/profile/${uid}`)
-      .then((results) => {
-        console.log(results.data[0]);
-=======
   //  QUERY DATABASE FOR STATS
     axios.get(`http://localhost:3000/api/profile/${uid}`)
       .then((results) => {
->>>>>>> fef4d37 (6/14 EOD pr)
         setCurUser(results.data[0]);
         setLoading(false);
       })
