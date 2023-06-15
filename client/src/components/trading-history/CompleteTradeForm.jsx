@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   StyleSheet, Text, View, Image, Pressable, TextInput, ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import StarRating from '../StarRating';
+import axios from 'axios';
+import { Rating } from 'react-native-ratings';
 import UserList from './UserList';
+import UserContext from '../UserContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   rateTrader: {
-    top: '60%',
+    top: '69%',
     textAlign: 'center',
     fontSize: 14,
   },
@@ -81,8 +83,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: '5%',
     width: '22%',
-    left: '39%',
-    top: '72%',
+    left: '32%',
+    top: '76%',
     flexDirection: 'row',
   },
   forContainer: {
@@ -107,12 +109,35 @@ const styles = StyleSheet.create({
     top: '55%',
     zIndex: 1,
   },
+  buyerDetails: {
+    position: 'absolute',
+    top: '59%',
+    height: '14%',
+    width: '60%',
+    left: '20%',
+    justifyContent: 'center',
+  },
+  buyerImage: {
+    position: 'relative',
+    height: '60%',
+    width: '60%',
+  },
 });
 
 export default function CompleteTradeForm({ route }) {
   const navigation = useNavigation();
   const [searchLength, setSearchLength] = useState(0);
   const [search, setSearch] = useState('');
+  const [currentRating, setCurrentRating] = useState(3);
+  const [uid, setUid] = useContext(UserContext);
+  const [buyerId, setBuyerId] = useState('');
+  const [buyerImage, setBuyerImage] = useState('');
+  const [buyerName, setBuyerName] = useState('');
+  const [buyerSelected, setBuyerSelected] = useState(false);
+
+  const ratingCompleted = (rating) => {
+    setCurrentRating(rating);
+  };
 
   const {
     sellingAlbumImage,
@@ -121,6 +146,7 @@ export default function CompleteTradeForm({ route }) {
     desiredAlbumImage,
     desiredAlbumSongName,
     desiredAlbumArtist,
+    tradeId,
   } = route.params;
   return (
     <View style={styles.container}>
@@ -149,17 +175,60 @@ export default function CompleteTradeForm({ route }) {
             <UserList
               search={search}
               setSearch={(e) => { setSearch(e); }}
+              setBuyerId={(e) => { setBuyerId(e); }}
+              setBuyerName={(e) => { setBuyerName(e); }}
+              setBuyerImage={(e) => { setBuyerImage(e); }}
+              setBuyerSelected={(e) => { setBuyerSelected(e); }}
+              setSearchLength={(e) => { setSearchLength(e); }}
             />
             )}
           </View>
+          {buyerSelected && (
+          <View style={styles.buyerDetails}>
+            <Image source={{ uri: buyerImage }} style={styles.buyerImage} />
+            <Text>{buyerName}</Text>
+          </View>
+          )}
           <Text style={styles.rateTrader}>Please Give This Person a Rating</Text>
           <View style={styles.starsContainer}>
-            <StarRating rating={3.5} />
+            <Rating
+              type="custom"
+              startingValue={3}
+              imageSize={35}
+              tintColor="#F5F5F5"
+              ratingBackgroundColor="#C0C0C0"
+              onFinishRating={ratingCompleted}
+            />
           </View>
           <Pressable
             style={styles.completeButton}
             onPress={() => {
-              navigation.navigate('TradingHistory');
+              async function fetch() {
+                try {
+                  const response = await axios.put('http://localhost:3000/api/trade-history/complete-trade', {
+                    id: tradeId,
+                    buyer_id: buyerId,
+                  });
+                  return response;
+                } catch (error) {
+                  console.error(error);
+                }
+                try {
+                  const response = await axios.post('http://localhost:3000/api/trade-history/add-rating', {
+                    sender_id: uid,
+                    recipient_id: buyerId,
+                    trade_id: tradeId,
+                    rating: currentRating,
+                  });
+                  return response;
+                } catch (error) {
+                  console.error(error);
+                }
+              }
+              fetch()
+                .then(() => {
+                  navigation.navigate('TradingHistory');
+                });
             }}
           >
             <Text style={styles.completeButtonText}>

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   StyleSheet, Text, View, Image, Pressable, TextInput, ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
 import AddAlbum from './AddAlbum';
+import UserContext from '../UserContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -91,16 +92,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function AddTrade( { route } ) {
+export default function AddTrade({ route }) {
   const navigation = useNavigation();
   const [showAddTradingAlbum, toggleShowAddTradingAlbum] = useState(false);
   const [showAddDesiredAlbum, toggleShowAddDesiredAlbum] = useState(false);
   const [tradingAlbumSelected, toggleTradingAlbumSelected] = useState(false);
   const [desiredAlbumSelected, toggleDesiredAlbumSelected] = useState(false);
   const [description, setDescription] = useState('');
+  const [uid, setUid] = useContext(UserContext);
 
   const {
-    userId
+    userId,
   } = route.params;
 
   const [tradingAlbum, setTradingAlbum] = useState({
@@ -162,7 +164,7 @@ export default function AddTrade( { route } ) {
       <Pressable
         style={styles.submitButton}
         onPress={() => axios.post('http://localhost:3000/api/trade-history/add-trade', {
-          user_id: userId,
+          user_id: uid,
           have_album_id: tradingAlbum.id,
           want_album_id: desiredAlbum.id,
           description,

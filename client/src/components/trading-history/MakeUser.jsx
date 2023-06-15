@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   Image,
+  Pressable,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -24,11 +25,29 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function MakeUser({ user }) {
+export default function MakeUser({
+  user,
+  setBuyerId,
+  setSearch,
+  setSearchLength,
+  setBuyerImage,
+  setBuyerName,
+  setBuyerSelected,
+}) {
   return (
-    <View style={styles.container}>
+    <Pressable
+      style={styles.container}
+      onPress={() => {
+        setBuyerId(user.uid);
+        setBuyerImage(user.profile_picture);
+        setBuyerName(user.username);
+        setBuyerSelected(true);
+        setSearch('');
+        setSearchLength(0);
+      }}
+    >
       <Image source={{ uri: user.profile_picture }} style={styles.image} />
       <Text style={styles.username}>{user.username}</Text>
-    </View>
+    </Pressable>
   );
 };
