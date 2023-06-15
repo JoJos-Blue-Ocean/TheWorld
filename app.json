@@ -15,7 +15,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "This app uses the photo library to upload photos for profile",
+        "NSCameraUsageDescription": "This app uses the camera to Upload photos for profile."
+      }
     },
     "android": {
       "adaptiveIcon": {
