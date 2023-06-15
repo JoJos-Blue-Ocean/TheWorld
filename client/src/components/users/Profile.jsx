@@ -236,7 +236,7 @@ export default function Profile({route}) {
               <Pressable
             style={styles.mButton}
             className="message-button"
-            onPress={() => navigation.navigate('Messages', { reciever_id: curUser.uid, reciever_username: curUser.username, reciever_pfp: curUser.profile_picture })}
+            onPress={() => navigation.navigate('Messages', { user: {uid: curUser.uid, username: curUser.username, profile_picture: curUser.profile_picture} })}
           >
             <Text style={styles.buttonText}>Message</Text>
           </Pressable>
