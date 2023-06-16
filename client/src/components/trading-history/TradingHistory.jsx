@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
-  StyleSheet, Text, View, Pressable, TouchableOpacity
+  StyleSheet, Text, View, Pressable, TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
@@ -135,17 +135,7 @@ export default function TradingHistory() {
           onPress={() => setTab('Your Listing')}
         >
           <Text style={[styles.tabText, tab === 'Your Listing' && styles.activeTabText]}>Your Listing</Text>
-        <Pressable
-          style={[styles.tab, tab === 'Your Listing' && styles.activeTab]}
-          onPress={() => setTab('Your Listing')}
-        >
-          <Text style={[styles.tabText, tab === 'Your Listing' && styles.activeTabText]}>Your Listing</Text>
         </Pressable>
-        <Pressable
-          style={[styles.tab, tab === 'Transaction History' && styles.activeTab]}
-          onPress={() => setTab('Transaction History')}
-        >
-          <Text style={[styles.tabText, tab === 'Transaction History' && styles.activeTabText]}>Transaction History</Text>
         <Pressable
           style={[styles.tab, tab === 'Transaction History' && styles.activeTab]}
           onPress={() => setTab('Transaction History')}
@@ -154,8 +144,6 @@ export default function TradingHistory() {
         </Pressable>
       </View>
       <View style={styles.tradesHistoryMain}>
-        {tab === 'Your Listing' && <YourListing list={listedTrades} userId={uid} />}
-        {tab === 'Transaction History' && <TransactionHistory list={completeTrades} userId={uid} />}
         {tab === 'Your Listing' && <YourListing list={listedTrades} userId={uid} />}
         {tab === 'Transaction History' && <TransactionHistory list={completeTrades} userId={uid} />}
       </View>

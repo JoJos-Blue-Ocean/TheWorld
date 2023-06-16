@@ -74,7 +74,7 @@ export default function IndividualAlbums({ album }) {
 
   const closeModal = () => {
     // e.stopPropagation();
-    setModalVisible(false)
+    setModalVisible(false);
   };
 
   const addWishlist = () => {
@@ -113,9 +113,7 @@ export default function IndividualAlbums({ album }) {
                   </Text>
                   <View style={styles.trackInfo}>
                     <Text style={styles.trackTitle}>{item.title}</Text>
-                    <Button
-                      title={<AntDesign name="play" size={24} color="black" />}
-                      color="white"
+                    <TouchableOpacity
                       onPress={() => {
                         axios.get(url, {
                           params: {
@@ -133,7 +131,9 @@ export default function IndividualAlbums({ album }) {
                             console.log(error);
                           });
                       }}
-                    />
+                    >
+                      <AntDesign name="play" size={24} color="black" />
+                    </TouchableOpacity>
                     <Text style={styles.trackDuration}>{item.duration || '0:00'}</Text>
                   </View>
                 </View>
