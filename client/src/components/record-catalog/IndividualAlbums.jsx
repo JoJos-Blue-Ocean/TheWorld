@@ -118,7 +118,7 @@ export default function IndividualAlbums({ album }) {
               {youtubeId.length > 0
                 ? (
                   <YoutubePlayer
-                    height={300}
+                    height={200}
                     play="true"
                     videoId={youtubeId}
                   />
@@ -196,6 +196,7 @@ export default function IndividualAlbums({ album }) {
 const styles = StyleSheet.create({
   playButton: {
     marginRight: 20,
+    overflow: 'hidden',
   },
   image: {
     width: 160,
