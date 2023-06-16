@@ -196,6 +196,7 @@ export default function IndividualAlbums({ album }) {
 const styles = StyleSheet.create({
   playButton: {
     marginRight: 20,
+    overflow: 'hidden',
   },
   image: {
     width: 160,

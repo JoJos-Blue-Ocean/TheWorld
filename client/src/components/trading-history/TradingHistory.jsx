@@ -179,7 +179,7 @@ export default function TradingHistory() {
         </TouchableOpacity>
       </View>
       <View style={styles.tradesHistoryMain}>
-        {tab === 'Your Listing' && <YourListing list={listedTrades} userId={uid} />}
+        {tab === 'Your Listing' && <YourListing list={listedTrades} userId={uid} refresh={refresh} setRefresh={(e) => { setRefresh(e); }} />}
         {tab === 'Transaction History' && <TransactionHistory list={completeTrades} userId={uid} />}
       </View>
       <TouchableOpacity
