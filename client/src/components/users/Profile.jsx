@@ -23,7 +23,7 @@ export default function Profile({ route }) {
   const [locationChange, setLocation] = useState('');
   const [pfpChange, setPfp] = useState('');
   const [loading, setLoading] = useState(true);
-  const [foreign, setForeign] = useState(true);
+  const [foreign, setForeign] = useState(false);
   const [curPfp, setCurPfp] = useState();
   const [modalState, setModalState] = useState(false);
 
@@ -427,7 +427,8 @@ const styles = StyleSheet.create({
   },
   sButton: {
     marginLeft: '85%',
-    marginTop: '2%',
+    marginTop: '5%',
+    marginBottom: '5%',
   },
   // ###### MODAL ######
   modalContainer: {
@@ -447,6 +448,7 @@ const styles = StyleSheet.create({
   cButton: {
     marginRight: '80%',
     marginTop: '17%',
+    marginBottom: '5%',
   },
   modalsubHeader: {
     margin: '5%',
