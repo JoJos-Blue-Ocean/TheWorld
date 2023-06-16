@@ -2,7 +2,7 @@ const pool = require('../database/db');
 
 module.exports = {
   getRooms(userId) {
-    const query = 'SELECT * FROM rooms WHERE user_one=$1 OR user_two=$1 ORDER BY updated_at';
+    const query = 'SELECT * FROM rooms WHERE user_one=$1 OR user_two=$1 ORDER BY updated_at DESC';
     const values = [userId];
     return pool
       .query(query, values)
@@ -55,7 +55,12 @@ module.exports = {
     await client.query(updateRoomQuery, updateRoomValues);
     await client.query('COMMIT');
     await client.release();
-    return user;
+
+    // Return both the user and room information
+    return {
+      user,
+      roomId,
+    };
   },
   checkRoom(userId, sellerId) {
     const query = 'SELECT * FROM rooms where (user_one=$1 OR user_two=$1) AND (user_one=$2 OR user_two=$2)';

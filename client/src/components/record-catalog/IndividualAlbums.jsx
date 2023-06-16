@@ -73,7 +73,8 @@ export default function IndividualAlbums({ album }) {
   };
 
   const closeModal = () => {
-    setModalVisible(false);
+    // e.stopPropagation();
+    setModalVisible(false)
   };
 
   const addWishlist = () => {
@@ -264,7 +265,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 160,
-    alignSelf: 'center', // Center horizontally
+    alignSelf: 'center',
   },
   wishlistButton: {
     marginTop: 10,

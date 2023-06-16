@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React from 'react';
 import {
-  StyleSheet, Text, View, Image, Dimensions, ScrollView, Button, Alert, TextInput, Pressable,
+  StyleSheet, Text, View, Image, Dimensions, ScrollView, Button, Alert, TextInput, Pressable, TouchableOpacity
 } from 'react-native';
 import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/core';
-import UserContext from '../UserContext';
 import { Rating } from 'react-native-ratings';
+import UserContext from '../UserContext';
 
 const { useState, useEffect, useContext } = React;
 
@@ -62,21 +62,22 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 100,
   },
-  button: {
+  messageButton: {
+    marginTop: 20,
+    color: 'white',
+    backgroundColor: '#800000',
+    paddingVertical: 10,
+    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    elevation: 3,
-    backgroundColor: '#A30000',
+    width: 160,
+    alignSelf: 'center',
+    marginBottom: 40,
   },
   buttonText: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
     color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   textInput: {
     borderWidth: 1,
@@ -110,7 +111,7 @@ export default function ActiveTradeDetails({ route }) {
               },
             })
             .then((results) => {
-              navigation.navigate('Messages', { user: results.data });
+              navigation.navigate('Messages', { user: results.data, roomId: data[0].id });
             });
         } else {
           navigation.navigate('NewMessage', { userId: trade.seller_id });
@@ -138,7 +139,7 @@ export default function ActiveTradeDetails({ route }) {
               source={{ uri: trade.profile_picture }}
             />
             <View>
-              <Text>{trade.username}</Text>
+              <Text style={{ fontWeight: 'bold' }}>{trade.username}</Text>
               <View style={styles.starRatings}>
                 <Rating
                   type="custom"
@@ -172,12 +173,13 @@ export default function ActiveTradeDetails({ route }) {
             </View>
           </View>
         </View>
-        <View style={styles.buttonSection}>
-          <Button
-            title="Send Message"
+        <View style={styles.messageButton}>
+          <TouchableOpacity
             onPress={handleSendMessage}
             color="#A30000"
-          />
+          >
+            <Text style={styles.buttonText}>Send Message</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
