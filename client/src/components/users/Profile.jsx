@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalHeader: {
-    fontSize: '25',
+    fontSize: 25,
     marginBottom: '2%',
   },
   modalForms: {

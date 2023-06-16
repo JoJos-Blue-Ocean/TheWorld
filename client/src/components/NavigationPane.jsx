@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Button, TouchableOpacity } from 'react-native';
 import { AntDesign, FontAwesome5, Ionicons, MaterialIcons } from '@expo/vector-icons';
+
+import UserContext from './UserContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,7 +26,9 @@ const styles = StyleSheet.create({
 });
 export default function NavigationPane({ children }) {
   const navigation = useNavigation();
-  const [activeButton, setActiveButton] = useState('Login');
+  const [activeButton, setActiveButton] = useState('RecordCatalog');
+  const [uid, setUid] = useContext(UserContext);
+
   const handlePress = (button) => {
     setActiveButton(button);
     navigation.navigate(button);

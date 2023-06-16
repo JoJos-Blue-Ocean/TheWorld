@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { StackActions } from '@react-navigation/native';
 import { auth } from '../../firebase';
 import UserContext from '../UserContext';
 
@@ -21,8 +22,11 @@ export default function Login({ route }) {
         setUid(user.uid);
         setEmail('');
         setPassword('');
-        navigation.navigate('RecordCatalog');
+
         console.log('Logged In with', user);
+        navigation.dispatch(
+          StackActions.replace('RecordCatalog')
+        );
       })
       .catch(err => alert(err.message));
   };
