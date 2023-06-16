@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
 import {
-  StyleSheet, Text, View, Image, Pressable, TextInput, ScrollView,
+  StyleSheet, Text, View, Image, Pressable, TextInput, ScrollView, TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
 import AddAlbum from './AddAlbum';
 import UserContext from '../UserContext';
-
+import { MaterialIcons } from '@expo/vector-icons';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
     width: '25%',
     left: '3%',
     backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
   },
   desiredAlbum: {
     position: 'absolute',
@@ -38,11 +41,14 @@ const styles = StyleSheet.create({
     width: '25%',
     left: '3%',
     backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
   },
   descriptionPrompt: {
     fontSize: 20,
     top: '50%',
-    textAlign: 'center',
+    left: '10%',
   },
   descriptionBox: {
     position: 'absolute',
@@ -51,6 +57,7 @@ const styles = StyleSheet.create({
     left: '10%',
     height: '20%',
     backgroundColor: 'white',
+    borderWidth: 2,
   },
   submitButton: {
     // top: '75%',
@@ -66,7 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 160,
     alignSelf: 'center',
-    top: '70%',
+    top: '71%',
   },
   confirm: {
     color: 'white',
@@ -85,9 +92,10 @@ const styles = StyleSheet.create({
   },
   image: {
     position: 'absolute',
-    left: '3%',
+    left: '5%',
     height: '100%',
     width: '25%',
+    borderRadius: '5%',
   },
   desiredAlbumContainer: {
     position: 'absolute',
@@ -100,8 +108,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     height: '100%',
     width: '50%',
-    left: '50%',
+    left: '40%',
     textAlign: 'left',
+    justifyContent: 'center',
+  },
+  songName: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
@@ -116,6 +129,8 @@ export default function AddTrade({ route }) {
 
   const {
     userId,
+    refresh,
+    setRefresh,
   } = route.params;
 
   const [tradingAlbum, setTradingAlbum] = useState({
@@ -140,41 +155,42 @@ export default function AddTrade({ route }) {
     <View style={styles.container}>
       <Text style={styles.tradingAlbum}>Trading Album</Text>
       {tradingAlbumSelected ? (
-        <Pressable style={styles.tradingAlbumContainer}>
+        <TouchableOpacity style={styles.tradingAlbumContainer}>
           <Image source={{ uri: tradingAlbum.uri }} style={styles.image} />
           <View style={styles.detailsContainer}>
-            <Text>{tradingAlbum.title}</Text>
+            <Text style={styles.songName}>{tradingAlbum.title}</Text>
+            <Text style={styles.artist}>{tradingAlbum.artist}</Text>
           </View>
-        </Pressable>
+        </TouchableOpacity>
       ) : (
-        <Pressable
+        <TouchableOpacity
           style={styles.addTradingAlbumButton}
           onPress={() => { toggleShowAddTradingAlbum(true); }}
         >
-          <Text>+</Text>
-        </Pressable>
+          {/* <Text style={styles.addText}>+</Text> */}
+          <MaterialIcons name="add-to-photos" size={24} color="black" />
+        </TouchableOpacity>
       )}
       <Text style={styles.desiredAlbum}>Desired Album</Text>
       {desiredAlbumSelected ? (
-        <Pressable style={styles.desiredAlbumContainer}>
+        <TouchableOpacity style={styles.desiredAlbumContainer}>
           <Image Image source={{ uri: desiredAlbum.uri }} style={styles.image} />
           <View style={styles.detailsContainer}>
-            <Text>{desiredAlbum.title}</Text>
+            <Text style={styles.songName}>{desiredAlbum.title}</Text>
+            <Text style={styles.artist}>{desiredAlbum.artist}</Text>
           </View>
-        </Pressable>
+        </TouchableOpacity>
       ) : (
-        <Pressable
+        <TouchableOpacity
           style={styles.addDesiredAlbumButton}
           onPress={() => { toggleShowAddDesiredAlbum(true); }}
         >
-          <Text>
-            +
-          </Text>
-        </Pressable>
+          <MaterialIcons name="add-to-photos" size={24} color="black" />
+        </TouchableOpacity>
       )}
       <Text style={styles.descriptionPrompt}>Description</Text>
-      <TextInput style={styles.descriptionBox} onChangeText={(e) => { setDescription(e); }} />
-      <Pressable
+      <TextInput style={styles.descriptionBox} onChangeText={(e) => { setDescription(e); }} multiline={true} />
+      <TouchableOpacity
         style={styles.submitButton}
         onPress={() => axios.post('http://localhost:3000/api/trade-history/add-trade', {
           user_id: uid,
@@ -183,13 +199,14 @@ export default function AddTrade({ route }) {
           description,
         })
           .then(() => {
+            setRefresh(!refresh);
             navigation.navigate('TradingHistory');
           })}
       >
         <Text style={styles.confirm}>
           Confirm
         </Text>
-      </Pressable>
+      </TouchableOpacity>
       {showAddTradingAlbum && (
         <AddAlbum
           selectAlbum={(e) => { setTradingAlbum(e); }}

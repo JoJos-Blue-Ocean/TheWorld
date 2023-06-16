@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 160,
     alignSelf: 'center',
-    marginBottom: 40,
+    marginBottom: 100,
   },
   buttonText: {
     color: 'white',
@@ -131,7 +131,7 @@ export default function ActiveTradeDetails({ route }) {
             {`${master.artists[0].name} - ${master.title}`}
           </Text>
         </View>
-        <Pressable style={styles.sellerSection} onPress={() => navigation.navigate('Profile')}>
+        <Pressable style={styles.sellerSection} onPress={() => navigation.navigate('Profile', { uid: trade.seller_id })}>
           <Text style={styles.heading}>Owner Information</Text>
           <View style={styles.sellerDetails}>
             <Image
@@ -143,14 +143,14 @@ export default function ActiveTradeDetails({ route }) {
               <View style={styles.starRatings}>
                 <Rating
                   type="custom"
-                  defaultRating={trade.average_rating}
+                  startingValue={trade.average_rating ? trade.average_rating : 0}
                   readonly
                   imageSize={20}
                   fractions={2}
                   tintColor="#f5f5f5"
                   ratingBackgroundColor="#c0c0c0"
                 />
-                <Text>{`${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}</Text>
+                <Text>{`${trade.average_rating ? trade.average_rating.slice(0, 4) : '0'} (${trade.ratings_count} ratings)`}</Text>
               </View>
             </View>
           </View>
@@ -167,7 +167,7 @@ export default function ActiveTradeDetails({ route }) {
               source={{ uri: wantMaster.images[0].uri }}
             />
             <View>
-              <Text>{wantMaster.title}</Text>
+              <Text style={{ fontWeight: 'bold' }}>{wantMaster.title}</Text>
               <Text>{wantMaster.artists[0].name}</Text>
               <Text>{wantMaster.year}</Text>
             </View>

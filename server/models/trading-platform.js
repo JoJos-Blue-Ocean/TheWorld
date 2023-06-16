@@ -15,7 +15,7 @@ module.exports = {
     count(ratings.rating) AS ratings_count
     FROM trades
     JOIN users ON trades.seller_id=users.uid
-    JOIN ratings ON trades.seller_id=ratings.recipient_id
+    LEFT JOIN ratings ON trades.seller_id=ratings.recipient_id
     WHERE have_album_id=$1
     AND status=$2
     GROUP BY

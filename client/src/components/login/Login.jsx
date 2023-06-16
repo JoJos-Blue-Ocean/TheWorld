@@ -1,17 +1,18 @@
 import React, { useState, useContext } from 'react';
 import {
-  Text, View, Button, TextInput, KeyboardAvoidingView, TouchableOpacity, StyleSheet,
+  Text, View, Button, TextInput, KeyboardAvoidingView, TouchableOpacity, StyleSheet, Image
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { StackActions } from '@react-navigation/native';
 import { auth } from '../../firebase';
 import UserContext from '../UserContext';
+import logo from '../../../../assets/TW.png';
 
 export default function Login({ route }) {
   const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('123@gmail.com');
+  const [password, setPassword] = useState('123123');
   const [uid, setUid] = useContext(UserContext);
 
   const handleLogIn = () => {
@@ -41,7 +42,7 @@ export default function Login({ route }) {
       style={styles.container}
       behavior="padding"
     >
-      <Text>This is the login main page</Text>
+      <Image source={logo} style={styles.logo}/>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
@@ -57,7 +58,6 @@ export default function Login({ route }) {
           secureTextEntry
         />
       </View>
-
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={() => { console.log('EMAIL', email); console.log('PASSWORD', password); handleLogIn(); }}
@@ -93,6 +93,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+  },
+  logo: {
+    width: '60%',
+    height: '28%',
+    resizeMode: 'cover',
+    marginBottom: '22%',
   },
   input: {
     backgroundColor: 'white',
