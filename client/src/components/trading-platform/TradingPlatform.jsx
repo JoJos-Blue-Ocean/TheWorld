@@ -51,10 +51,15 @@ export default function TradingPlatform({ route }) {
 
   useEffect(() => {
     axios
-      .get(`https://api.discogs.com/masters/${master_id}`, {
+      // .get(`https://api.discogs.com/masters/${master_id}`, {
+      //   params: {
+      //     key: Constants.expoConfig.extra.discogsKey,
+      //     secret: Constants.expoConfig.extra.discogsSecret,
+      //   },
+      // })
+      .get('http://localhost:3000/api/record-catalog/individualAlbum', {
         params: {
-          key: Constants.expoConfig.extra.discogsKey,
-          secret: Constants.expoConfig.extra.discogsSecret,
+          id: master_id,
         },
       })
       .then(({ data }) => setMaster(data))

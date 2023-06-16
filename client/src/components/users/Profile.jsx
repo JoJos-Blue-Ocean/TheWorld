@@ -91,7 +91,7 @@ export default function Profile({ route }) {
               },
             })
             .then((results) => {
-              navigation.navigate('Messages', { user: results.data });
+              navigation.navigate('Messages', { user: results.data, roomId: results.data.id });
             });
         } else {
           console.log('IN ELSE STATEMENT');
@@ -108,6 +108,7 @@ export default function Profile({ route }) {
   const retrieveStats = () => {
   //  QUERY DATABASE FOR STATS
     if (route.params) {
+      console.log('INSIDE RETRIEVE STATS');
       axios.get(`http://localhost:3000/api/profile/${route.params.uid}`)
         .then((results) => {
           console.log('RETRIEVE STATS', results.data);
