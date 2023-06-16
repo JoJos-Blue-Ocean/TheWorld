@@ -10,7 +10,7 @@ import Login from './client/src/components/login/Login';
 import Register from './client/src/components/login/Register';
 import TradingPlatform from './client/src/components/trading-platform/TradingPlatform';
 import ActiveTradeDetails from './client/src/components/trading-platform/ActiveTradeDetails';
-// import TradingHistory from './client/src/components/trading-history/TradingHistory';
+import TradingHistory from './client/src/components/trading-history/TradingHistory';
 import RecordCatalog from './client/src/components/record-catalog/RecordCatalog';
 import Profile from './client/src/components/users/Profile';
 import Messages from './client/src/components/messages/Messages';
@@ -35,7 +35,7 @@ export default function App() {
             <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
             <Stack.Screen name="TradingPlatform" component={TradingPlatform} />
             <Stack.Screen name="ActiveTradeDetails" component={ActiveTradeDetails} />
-            {/* <Stack.Screen name="TradingHistory" component={TradingHistory} /> */}
+            <Stack.Screen name="TradingHistory" component={TradingHistory} />
             <Stack.Screen name="RecordCatalog" component={RecordCatalog} />
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen

@@ -46,9 +46,6 @@ export default function NavigationPane({ children }) {
         <TouchableOpacity onPress={() => handlePress('Messages')} color="#e0e0e0">
           <AntDesign name="message1" size={35} color={activeButton === 'Messages' ? '#800000' : '#808080'} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handlePress('TradingPlatform')} color="#e0e0e0">
-          <FontAwesome5 name="exchange-alt" size={37} color={activeButton === 'TradingPlatform' ? '#800000' : '#808080'} />
-        </TouchableOpacity>
         <TouchableOpacity onPress={() => handlePress('Profile')} color="#e0e0e0">
           <Ionicons name="person-circle-outline" size={44} color={activeButton === 'Profile' ? '#800000' : '#808080'} />
         </TouchableOpacity>
