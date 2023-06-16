@@ -20,6 +20,13 @@ import NavigationPane from './client/src/components/NavigationPane';
 import CompleteTradeForm from './client/src/components/trading-history/CompleteTradeForm';
 import UserContext from './client/src/components/UserContext';
 import AddTrade from './client/src/components/trading-history/AddTrade';
+import { LogBox } from 'react-native';
+
+// Ignore log notification by message
+LogBox.ignoreLogs(['Warning: ...']);
+
+//Ignore all log notifications
+LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 
@@ -33,11 +40,11 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
             <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
-            <Stack.Screen name="TradingPlatform" component={TradingPlatform} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
-            <Stack.Screen name="ActiveTradeDetails" component={ActiveTradeDetails} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
-            <Stack.Screen name="TradingHistory" component={TradingHistory} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
-            <Stack.Screen name="RecordCatalog" component={RecordCatalog} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
-            <Stack.Screen name="Profile" component={Profile} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
+            <Stack.Screen name="TradingPlatform" component={TradingPlatform} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }} />
+            <Stack.Screen name="ActiveTradeDetails" component={ActiveTradeDetails} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }} />
+            <Stack.Screen name="TradingHistory" component={TradingHistory} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }} />
+            <Stack.Screen name="RecordCatalog" component={RecordCatalog} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }} />
+            <Stack.Screen name="Profile" component={Profile} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }} />
             <Stack.Screen
               name="Messages"
               component={Messages}

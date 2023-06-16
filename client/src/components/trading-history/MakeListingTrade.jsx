@@ -12,14 +12,17 @@ const styles = StyleSheet.create({
     height: 225,
     // flex: 1
     width: '100%',
+    backgroundColor: 'white',
   },
   tradeIdContainer: {
-    height: '10%',
+    height: '15%',
     width: '100%',
+    backgroundColor: '#D3D3D3',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   tradeId: {
-    top: '40%',
-    left: '40%',
+    // left: '40%',
     fontSize: 20,
   },
   albumsContainer: {
@@ -75,10 +78,11 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
+    color: '#666',
   },
   date: {
     position: 'absolute',
-    top: '60%',
+    // top: '60%',
     right: '5%',
     fontSize: 12,
   },
@@ -109,12 +113,16 @@ const styles = StyleSheet.create({
   rightButtonOne: {
     width: '100%',
     height: '50%',
-    backgroundColor: '# ',
+    justifyContent: 'center',
+    backgroundColor: '#532CEE',
+    padding: '8%',
   },
   rightButtonTwo: {
     width: '100%',
     height: '50%',
     backgroundColor: '#A30000',
+    justifyContent: 'center',
+    padding: '14%',
   },
   rightButtonsContainer: {
     flexDirection: 'column',
@@ -140,6 +148,8 @@ export default function MakeListingTrade({
   tradingAlbumId,
   desiredAlbumId,
   userId,
+  refresh,
+  setRefresh,
 }) {
   const [tradingAlbum, setTradingAlbum] = useState({
     images: [
@@ -173,6 +183,8 @@ export default function MakeListingTrade({
     desiredAlbumSongName: desiredAlbum.title,
     desiredAlbumArtist: desiredAlbum.artists[0].name,
     tradeId: id,
+    refresh,
+    setRefresh,
   };
 
   const rightButtons = [
@@ -183,11 +195,11 @@ export default function MakeListingTrade({
         }}
         style={styles.rightButtonOne}
       >
-        <Text>complete</Text>
+        <FontAwesome name="handshake-o" size={35} color="white" />
 
       </TouchableHighlight>
-      <TouchableHighlight style={styles.rightButtonTwo}><Text>Button 2</Text></TouchableHighlight>
-    </View>
+      <TouchableHighlight style={styles.rightButtonTwo}><FontAwesome name="trash" size={35} color="white" /></TouchableHighlight>
+    </View>,
   ];
 
   useEffect(() => {

@@ -14,37 +14,35 @@ export default function Wishlist({ route }) {
     mainContainer: {
       flexDirection: 'column',
       flex: 1,
-    },
-    scrollView: {
-      backgroundColor: 'pink',
-      marginHorizontal: 20,
+      marginBottom: 60,
     },
     removeButton: {
-      elevation: 10,
+      elevation: 30,
       backgroundColor: '#800000',
       paddingVertical: 10,
-      borderRadius: 70,
-      width: 90,
-      height: 50,
+      borderRadius: 50,
+      width: 78,
+      height: 35,
       paddingHorizontal: 12,
       marginBottom: 10,
+      activeOpacity: 0.7,
     },
     buttonText: {
       color: 'white',
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: 'bold',
     },
     artistNameText: {
-      fontSize: 18,
+      fontSize: 17,
     },
     container: {
       paddingTop: 40,
       paddingBottom: 20,
-      paddingLeft: 10,
+      // paddingLeft: 10,
       // flexWrap: 'wrap',
       // alignItems: 'center',
       width: '100%',
-      borderWidth: 1,
+      // borderWidth: 1,
       backgroundColor: '#F5F5F5',
     },
     albumNameText: {
@@ -92,18 +90,22 @@ export default function Wishlist({ route }) {
                 uri: data.image,
               }}
             />
-            <Text style={styles.artistNameText}>
-              {data.artist_name}
-            </Text>
             <Text style={styles.albumNameText}>
               {data.album_name}
+            </Text>
+            <Text style={styles.artistNameText}>
+              {data.artist_name}
             </Text>
             <Text style={{ marginBottom: 10, fontSize: 15 }}>
               {data.genre.substring(2, data.genre.length - 2)}
             </Text>
-            <TouchableOpacity title="Remove" style={styles.removeButton} onPress={() => removeFromWishList(data.id)}>
-              <Text style={styles.buttonText}>Remove</Text>
-            </TouchableOpacity>
+            {route.params.foreign ? (
+              <View />
+            ) : (
+              <TouchableOpacity title="Remove" style={styles.removeButton} onPress={() => removeFromWishList(data.id)}>
+                <Text style={styles.buttonText}>Remove</Text>
+              </TouchableOpacity>
+            )}
           </View>
         ))}
       </View>

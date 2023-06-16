@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     width: '80%',
     left: '10%',
     borderWidth: 1,
+    padding: 5,
   },
   rateTrader: {
     top: '69%',
@@ -73,11 +74,15 @@ const styles = StyleSheet.create({
     height: '5%',
     width: '50%',
     left: '25%',
+    borderRadius: 8,
     backgroundColor: '#800000',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   completeButtonText: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 25,
+    color: '#fff',
   },
   starsContainer: {
     position: 'absolute',
@@ -116,11 +121,13 @@ const styles = StyleSheet.create({
     width: '60%',
     left: '20%',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   buyerImage: {
     position: 'relative',
-    height: '60%',
-    width: '60%',
+    height: 100,
+    width: 100,
+    borderRadius: 50,
   },
 });
 
@@ -147,6 +154,8 @@ export default function CompleteTradeForm({ route }) {
     desiredAlbumSongName,
     desiredAlbumArtist,
     tradeId,
+    refresh,
+    setRefresh,
   } = route.params;
   return (
     <View style={styles.container}>
@@ -227,6 +236,7 @@ export default function CompleteTradeForm({ route }) {
               }
               fetch()
                 .then(() => {
+                  setRefresh(!refresh);
                   navigation.navigate('TradingHistory');
                 });
             }}

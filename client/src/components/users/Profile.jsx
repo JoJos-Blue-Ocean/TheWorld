@@ -13,10 +13,12 @@ import NavigationPane from '../NavigationPane';
 
 export default function Profile({ route }) {
   console.log('route: ', route);
+
   /*
   Condition render: If the User clicks on a different user, recieve the user_uid
   of said user in nav and render their stats
 */
+
   const [uid, setUid] = useContext(UserContext);
   const [curUser, setCurUser] = useState({});
   const [bioChange, setBio] = useState('');
@@ -325,7 +327,10 @@ export default function Profile({ route }) {
             style={styles.wButton}
             className="message-button"
           // WILL CHANGE WHEN QUERIES ARE CREATED, CHANGE curUser.ID TO CORRECT BODY REFERENCE
-            onPress={() => navigation.navigate('WishList', { uid })}
+            onPress={() =>
+              foreign ? navigation.navigate('WishList', { uid: curUser.uid, foreign})
+              : navigation.navigate('WishList', { uid: curUser.uid, foreign})
+              }
           >
             <Text style={styles.buttonText}>Wishlist</Text>
           </TouchableOpacity>
@@ -380,7 +385,6 @@ const styles = StyleSheet.create({
     width: '90%',
     height: '28%',
     marginTop: '5%',
-    marginBottom: '21%',
     margin: '5%',
     paddingTop: '5%',
     paddingBottom: '5%',
@@ -411,7 +415,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#800000',
   },
   wButton: {
-    marginTop: 20,
+    flex: 1,
+    justifyContent: 'flex-end',
     backgroundColor: '#800000',
     paddingVertical: 10,
     borderRadius: 8,
