@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Button } from 'react-native';
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -12,7 +11,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#e0e0e0',
     padding: 10,
-    position: 'fixed',
+    position: 'absolute',
     bottom: 20,
     left: 0,
     right: 0,
@@ -21,16 +20,13 @@ const styles = StyleSheet.create({
     color: '#800000',
   },
 });
-
 export default function NavigationPane({ children }) {
   const navigation = useNavigation();
   const [activeButton, setActiveButton] = useState('Login');
-
   const handlePress = (button) => {
     setActiveButton(button);
     navigation.navigate(button);
   };
-
   return (
     <View style={styles.container}>
       {children}

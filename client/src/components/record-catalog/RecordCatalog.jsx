@@ -29,16 +29,19 @@ export default function RecordCatalog() {
         {searchState
           ? categories.map((category) => (
             <SearchEntries
+              setSearchState={setSearchState}
               search={search}
               category={category}
               key={category}
             />
           ))
           : genres.map((genre) => (
-            <GenreEntries genre={genre} key={genre} />
+            <GenreEntries
+              genre={genre}
+              key={genre}
+            />
           ))}
       </ScrollView>
-      <NavigationPane />
     </View>
   );
 }

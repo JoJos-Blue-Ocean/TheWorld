@@ -73,7 +73,8 @@ export default function IndividualAlbums({ album }) {
   };
 
   const closeModal = () => {
-    setModalVisible(false);
+    // e.stopPropagation();
+    setModalVisible(false)
   };
 
   const addWishlist = () => {
@@ -113,7 +114,8 @@ export default function IndividualAlbums({ album }) {
                   <View style={styles.trackInfo}>
                     <Text style={styles.trackTitle}>{item.title}</Text>
                     <Button
-                      title="music"
+                      title={<AntDesign name="play" size={24} color="black" />}
+                      color="white"
                       onPress={() => {
                         axios.get(url, {
                           params: {
@@ -263,7 +265,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 160,
-    alignSelf: 'center', // Center horizontally
+    alignSelf: 'center',
   },
   wishlistButton: {
     marginTop: 10,

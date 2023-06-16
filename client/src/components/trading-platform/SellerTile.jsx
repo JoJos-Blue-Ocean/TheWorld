@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React from 'react';
 import {
-  StyleSheet, Text, View, Image, Dimensions, Button,
+  StyleSheet, Text, View, Image, Dimensions, Button, Pressable,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import Constants from 'expo-constants';
-import StarRating from '../StarRating';
+import { Rating } from 'react-native-ratings';
+import { AntDesign } from '@expo/vector-icons';
 
 const { useState, useEffect } = React;
 
@@ -19,8 +20,8 @@ const styles = StyleSheet.create({
   },
   profilePicture: {
     borderRadius: 50,
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
     borderWidth: 2,
     borderColor: '#333333',
     marginRight: 5,
@@ -30,7 +31,8 @@ const styles = StyleSheet.create({
   },
   leftSection: {
     flexDirection: 'column',
-    width: '90%',
+    width: 50,
+    marginRight: 10,
   },
   topRow: {
     flexDirection: 'row',
@@ -38,16 +40,31 @@ const styles = StyleSheet.create({
   bottomRow: {
 
   },
-  rightSection: {
+  openDetails: {
     justifyContent: 'center',
     height: '100%',
     width: '10%',
+  },
+  starRatings: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: 5,
+  },
+  rightSection: {
+    width: '75%',
   },
 });
 
 export default function SellerTile({ trade, master }) {
   const [wantMaster, setWantMaster] = useState(null);
   const navigation = useNavigation();
+
+  let descriptionDisplay = 'N/A';
+  if (trade.description.length > 50) {
+    descriptionDisplay = `${trade.description.slice(0, 50)}...`;
+  } else if (trade.description.length > 0) {
+    descriptionDisplay = trade.description;
+  }
 
   useEffect(() => {
     axios
@@ -66,32 +83,38 @@ export default function SellerTile({ trade, master }) {
   return (
     <View style={styles.tileContainer}>
       <View style={styles.leftSection}>
-        <View style={styles.topRow}>
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Image
-              style={styles.profilePicture}
-              source={{ uri: trade.profile_picture }}
-            />
-          </View>
-          <View>
-            <Text style={styles.username}>{trade.username}</Text>
-            <StarRating rating={trade.average_rating} />
-          </View>
-        </View>
-        <View style={styles.bottomRow}>
-          <Text>{`${trade.description.slice(0, 90)}...`}</Text>
-        </View>
+        <Image
+          style={styles.profilePicture}
+          source={{ uri: trade.profile_picture }}
+        />
       </View>
       <View style={styles.rightSection}>
+        <Text style={styles.username}>{trade.username}</Text>
+        <View>
+          <View style={styles.starRatings}>
+            <Rating
+              type="custom"
+              defaultRating={trade.average_rating}
+              readonly
+              imageSize={20}
+              fractions={2}
+              tintColor="#F5F5F5"
+              ratingBackgroundColor="#C0C0C0"
+            />
+            <Text>{`${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}</Text>
+          </View>
+        </View>
+        <Text>{descriptionDisplay}</Text>
+      </View>
+
+      <View style={styles.openDetails}>
         {
           wantMaster
             ? (
-              <Button
-                title=">"
-                onPress={() => navigation.navigate('ActiveTradeDetails', { trade, master, wantMaster })}
-              />
-            )
-            : null
+              <Pressable onPress={() => navigation.navigate('ActiveTradeDetails', { trade, master, wantMaster })}>
+                <AntDesign name="right" size={24} color="black" />
+              </Pressable>
+            ) : null
         }
       </View>
     </View>

@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React from 'react';
 import {
-  StyleSheet, Text, View, Image, Dimensions, ScrollView, Button, Alert, TextInput, Pressable,
+  StyleSheet, Text, View, Image, Dimensions, ScrollView, Button, Alert, TextInput, Pressable, TouchableOpacity
 } from 'react-native';
 import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/core';
+import { Rating } from 'react-native-ratings';
 import UserContext from '../UserContext';
+
 const { useState, useEffect, useContext } = React;
 
 const styles = StyleSheet.create({
@@ -24,10 +26,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   sellerSection: {
-    flexDirection: 'row',
     borderBottomWidth: 1,
     borderColor: 'black',
-    alignItems: 'center',
     padding: 10,
   },
   sellerIcon: {
@@ -37,6 +37,10 @@ const styles = StyleSheet.create({
     marginRight: 5,
     borderWidth: 2,
     borderColor: '#333333',
+  },
+  sellerDetails: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   detailsSection: {
     padding: 10,
@@ -58,24 +62,30 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 100,
   },
-  button: {
+  messageButton: {
+    marginTop: 20,
+    color: 'white',
+    backgroundColor: '#800000',
+    paddingVertical: 10,
+    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    elevation: 3,
-    backgroundColor: '#A30000',
+    width: 160,
+    alignSelf: 'center',
+    marginBottom: 40,
   },
   buttonText: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
     color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   textInput: {
     borderWidth: 1,
+  },
+  starRatings: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: 5,
   },
 });
 
@@ -101,7 +111,7 @@ export default function ActiveTradeDetails({ route }) {
               },
             })
             .then((results) => {
-              navigation.navigate('Messages', { user: results.data });
+              navigation.navigate('Messages', { user: results.data, roomId: data[0].id });
             });
         } else {
           navigation.navigate('NewMessage', { userId: trade.seller_id });
@@ -121,18 +131,30 @@ export default function ActiveTradeDetails({ route }) {
             {`${master.artists[0].name} - ${master.title}`}
           </Text>
         </View>
-        <View style={styles.sellerSection}>
-          <Image
-            style={styles.sellerIcon}
-            source={{ uri: trade.profile_picture }}
-          />
-          <View>
-            <Text>{`Owner: ${trade.username}`}</Text>
-            <Text>
-              {`Rating: ${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}
-            </Text>
+        <Pressable style={styles.sellerSection} onPress={() => navigation.navigate('Profile')}>
+          <Text style={styles.heading}>Owner Information</Text>
+          <View style={styles.sellerDetails}>
+            <Image
+              style={styles.sellerIcon}
+              source={{ uri: trade.profile_picture }}
+            />
+            <View>
+              <Text style={{ fontWeight: 'bold' }}>{trade.username}</Text>
+              <View style={styles.starRatings}>
+                <Rating
+                  type="custom"
+                  defaultRating={trade.average_rating}
+                  readonly
+                  imageSize={20}
+                  fractions={2}
+                  tintColor="#f5f5f5"
+                  ratingBackgroundColor="#c0c0c0"
+                />
+                <Text>{`${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}</Text>
+              </View>
+            </View>
           </View>
-        </View>
+        </Pressable>
         <View style={styles.detailsSection}>
           <Text style={styles.heading}>Description</Text>
           <Text>{trade.description ? trade.description : 'N/A'}</Text>
@@ -151,12 +173,13 @@ export default function ActiveTradeDetails({ route }) {
             </View>
           </View>
         </View>
-        <View style={styles.buttonSection}>
-          <Button
-            title="Send Message"
+        <View style={styles.messageButton}>
+          <TouchableOpacity
             onPress={handleSendMessage}
             color="#A30000"
-          />
+          >
+            <Text style={styles.buttonText}>Send Message</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
