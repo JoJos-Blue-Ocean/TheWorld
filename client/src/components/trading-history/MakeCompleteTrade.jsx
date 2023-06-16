@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   StyleSheet, Text, View, Image, Pressable,
 } from 'react-native';
-import Swipeable from 'react-native-swipeable';
+// import Swipeable from 'react-native-swipeable';
 import axios from 'axios';
 
 const styles = StyleSheet.create({

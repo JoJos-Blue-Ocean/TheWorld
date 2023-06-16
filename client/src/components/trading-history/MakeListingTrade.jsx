@@ -3,7 +3,7 @@ import {
   StyleSheet, Text, View, Image, Pressable, TouchableHighlight,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import Swipeable from 'react-native-swipeable';
+// import Swipeable from 'react-native-swipeable';
 import axios from 'axios';
 import { FontAwesome } from '@expo/vector-icons';
 
