@@ -5,45 +5,41 @@ import {
 import { useNavigation } from '@react-navigation/core';
 import Swipeable from 'react-native-swipeable';
 import axios from 'axios';
+import { FontAwesome } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
   trade: {
-    height: 300,
+    height: 225,
+    // flex: 1
     width: '100%',
-    marginTop: '5%',
   },
   tradeIdContainer: {
-    position: 'absolute',
-    height: '15%',
+    height: '10%',
     width: '100%',
   },
   tradeId: {
-    top: '30%',
-    left: '15%',
+    top: '40%',
+    left: '40%',
     fontSize: 20,
   },
   albumsContainer: {
-    position: 'absolute',
     height: '100%',
-    width: '80%',
+    width: '100%',
     flexDirection: 'row',
+    alignItems: 'center',
   },
   albumContainer: {
-    position: 'relative',
-    top: '10%',
     justifyContent: 'center',
     marginRight: '10%',
     height: '70%',
     width: '45%',
   },
   albumImageContainer: {
-    position: 'relative',
-    left: '10%',
-    height: '70%',
-    width: '70%',
-    backgroundColor: '#800000',
+    height: '100%',
+    width: '80%',
     borderRadius: '5%',
-    marginBottom: '5%',
+    left: '10%',
+    // backgroundColor: 'blue',
   },
   albumImage: {
     left: '7%',
@@ -52,23 +48,39 @@ const styles = StyleSheet.create({
     width: '86%',
     borderRadius: '5%',
   },
+  albumInfo: {
+    // backgroundColor: 'red',
+    // textAlign: 'start',
+    left: '15%',
+    height: '35%',
+    width: '80%',
+    overflow: 'hidden',
+  },
   albumSongName: {
-    textAlign: 'center',
+    textAlign: 'start',
+    // textAlign: 'center',
     fontSize: 14,
     marginBottom: '3%',
-    marginTop: 'auto',
     fontWeight: 'bold',
+    width: '80%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
   albumArtist: {
-    textAlign: 'center',
+    textAlign: 'start',
+    // textAlign: 'center',
     fontSize: 10,
-    marginTop: 'auto',
+    width: '80%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
   date: {
     position: 'absolute',
-    right: '30%',
+    top: '60%',
+    right: '5%',
     fontSize: 12,
-    bottom: 0,
   },
   statusContainer: {
     position: 'absolute',
@@ -97,17 +109,21 @@ const styles = StyleSheet.create({
   rightButtonOne: {
     width: '100%',
     height: '50%',
-    backgroundColor: 'red',
+    backgroundColor: '# ',
   },
   rightButtonTwo: {
     width: '100%',
     height: '50%',
-    backgroundColor: 'grey',
+    backgroundColor: '#A30000',
   },
   rightButtonsContainer: {
     flexDirection: 'column',
     height: '100%',
     width: '40%',
+  },
+  arrows: {
+    position: 'absolute',
+    left: '46%',
   },
 });
 
@@ -226,16 +242,22 @@ export default function MakeListingTrade({
             <View style={styles.albumImageContainer}>
               <Image source={{ uri: tradingAlbum.images[0].uri }} style={styles.albumImage} />
             </View>
-            <Text style={styles.albumSongName}>{tradingAlbum.title}</Text>
-            <Text style={styles.albumArtist}>{tradingAlbum.artists[0].name}</Text>
+            <View style={styles.albumInfo}>
+              <Text style={styles.albumSongName} numberOfLines={1}>{tradingAlbum.title}</Text>
+              <Text style={styles.albumArtist} numberOfLines={1}>{tradingAlbum.artists[0].name}</Text>
+            </View>
           </View>
+
+          <FontAwesome name="exchange" size={35} color="black" style={styles.arrows}/>
 
           <View style={styles.albumContainer}>
             <View style={styles.albumImageContainer}>
               <Image source={{ uri: desiredAlbum.images[0].uri }} style={styles.albumImage} />
             </View>
-            <Text style={styles.albumSongName}>{desiredAlbum.title}</Text>
-            <Text style={styles.albumArtist}>{desiredAlbum.artists[0].name}</Text>
+            <View style={styles.albumInfo}>
+              <Text style={styles.albumSongName} numberOfLines={1}>{desiredAlbum.title}</Text>
+              <Text style={styles.albumArtist} numberOfLines={1}>{desiredAlbum.artists[0].name}</Text>
+            </View>
           </View>
         </View>
 
