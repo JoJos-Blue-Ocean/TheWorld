@@ -21,6 +21,7 @@
         "NSCameraUsageDescription": "This app uses the camera to Upload photos for profile."
       }
     },
+    "plugins": ["expo-image-picker"],
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
