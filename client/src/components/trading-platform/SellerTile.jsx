@@ -6,8 +6,7 @@ import {
 import { useNavigation } from '@react-navigation/core';
 import Constants from 'expo-constants';
 import { Rating } from 'react-native-ratings';
-import { AntDesign } from '@expo/vector-icons';
-
+import { Entypo } from '@expo/vector-icons';
 const { useState, useEffect } = React;
 
 const styles = StyleSheet.create({
@@ -115,7 +114,7 @@ export default function SellerTile({ trade, master }) {
           wantMaster
             ? (
               <Pressable onPress={() => navigation.navigate('ActiveTradeDetails', { trade, master, wantMaster })}>
-                <AntDesign name="right" size={24} color="black" />
+                <Entypo name="chevron-right" size={24} color="black" />
               </Pressable>
             ) : null
         }

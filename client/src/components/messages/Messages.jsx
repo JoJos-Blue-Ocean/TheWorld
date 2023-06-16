@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import axios from 'axios';
 import {
-  StyleSheet, Text, View, TextInput, Button, Modal, TouchableOpacity, Image, ScrollView,
+  StyleSheet, Text, View, TextInput, Button, Modal, TouchableOpacity, Image, ScrollView, Dimensions,
 } from 'react-native';
 import UserContext from '../UserContext';
+import { Entypo } from '@expo/vector-icons';
+
 
 export default function Messages({ route }) {
   const [uid, setUid] = useContext(UserContext);
@@ -13,7 +15,10 @@ export default function Messages({ route }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [messages, setMessages] = useState([]);
   const [otherUserInfo, setOtherUserInfo] = useState(null);
-  const scrollViewRef = useRef(null);
+  const scrollRef = useRef();
+  const hasRendered = useRef(false);
+  let intervalTimeout = null;
+  console.log(Dimensions.get('window'))
 
   useEffect(() => {
     if (route.params?.user) {
@@ -28,18 +33,21 @@ export default function Messages({ route }) {
       fetchRooms();
     }
   }, []);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchRooms();
-      console.log('im in here');
-      if (otherUserInfo && otherUserInfo.room_id) {
-        fetchMessages(otherUserInfo.room_id);
-      }
-    }, 500);
 
+  useEffect(() => {
+    if (hasRendered.current) {
+      intervalTimeout = setInterval(() => {
+        fetchRooms();
+        console.log('im in here');
+        // console.log('OTHER USER', otherUserInfo.room_id);
+        fetchMessages(otherUserInfo.room_id || route.params.roomId);
+      }, 500);
+    } else {
+      hasRendered.current = true;
+    }
     // Cleanup the interval on component unmount
-    return () => clearInterval(interval);
-  }, [route, otherUserInfo]);
+    return () => clearInterval(intervalTimeout);
+  }, [otherUserInfo]);
 
   const fetchRooms = () => {
     axios
@@ -68,11 +76,13 @@ export default function Messages({ route }) {
   };
 
   const fetchMessages = (roomId) => {
+    console.log('ROOM ID', roomId);
     axios
       .get('http://localhost:3000/api/messages/', {
         params: { roomId },
       })
       .then(({ data }) => {
+        console.log('LENGTH OF MESSAGES', data.length);
         setMessages(data);
       })
       .catch((error) => console.error('Error fetching messages:', error));
@@ -95,7 +105,12 @@ export default function Messages({ route }) {
       .then(({ data }) => {
         setMessages((prevMessages) => [...prevMessages, data]);
         setNewMessage('');
-        scrollViewRef.current.scrollToEnd({ animated: true });
+        // scrollRef.current?.scrollTo({
+        //   y: Dimensions.get('window').height + 16,
+        //   animated: true,
+        // });
+        console.log('SCROLL TO END');
+        scrollRef.current.scrollToEnd({ animated: true });
       })
       .catch((error) => console.error('Error sending message:', error));
   };
@@ -118,26 +133,26 @@ export default function Messages({ route }) {
         <View style={styles.modalContainer}>
           <View style={styles.modalHeader}>
             <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButtonModal}>
-              <Text style={styles.closeButtonTextModal}>{'<'}</Text>
+              <Entypo name="chevron-left" size={24} color="black" />
             </TouchableOpacity>
             <Text style={styles.modalTitle}>{otherUserInfo && otherUserInfo.username}</Text>
           </View>
-          <ScrollView contentContainerStyle={styles.messageContainer} ref={scrollViewRef}>
-            {messages.map((message) => (
-              <View
-                key={message.id}
-                style={[
-                  styles.messageBubble,
-                  {
-                    backgroundColor: message.sender_user_id === uid ? '#0099ff' : '#808080',
-                    alignSelf: message.sender_user_id === uid ? 'flex-end' : 'flex-start',
-                  },
-                ]}
-              >
-                <Text style={styles.messageText}>{message.body}</Text>
-              </View>
-            ))}
-          </ScrollView>
+            <ScrollView contentContainerStyle={styles.messageContainer} ref={scrollRef} >
+              {messages.map((message) => (
+                <View
+                  key={message.id}
+                  style={[
+                    styles.messageBubble,
+                    {
+                      backgroundColor: message.sender_user_id === uid ? '#0099ff' : '#808080',
+                      alignSelf: message.sender_user_id === uid ? 'flex-end' : 'flex-start',
+                    },
+                  ]}
+                >
+                  <Text style={styles.messageText}>{message.body}</Text>
+                </View>
+              ))}
+            </ScrollView>
           <View style={styles.inputContainer}>
             <TextInput
               value={newMessage}
@@ -175,6 +190,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     padding: 20,
+    height: '95%',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -204,6 +220,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
+    paddingBottom: 60,
   },
   messageBubble: {
     padding: 15,
