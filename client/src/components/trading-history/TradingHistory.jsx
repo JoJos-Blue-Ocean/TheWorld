@@ -125,6 +125,7 @@ export default function TradingHistory() {
         z={2}
         minX={0}
         minY={0}
+        maxY={750}
         renderSize={60}
         onShortPressRelease={() => navigation.navigate('Add Trade Form', addTradeParams)}
         renderColor="#A30000"

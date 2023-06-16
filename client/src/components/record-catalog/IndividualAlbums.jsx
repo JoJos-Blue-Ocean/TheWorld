@@ -114,7 +114,8 @@ export default function IndividualAlbums({ album }) {
                   <View style={styles.trackInfo}>
                     <Text style={styles.trackTitle}>{item.title}</Text>
                     <Button
-                      title="music"
+                      title={<AntDesign name="play" size={24} color="black" />}
+                      color="white"
                       onPress={() => {
                         axios.get(url, {
                           params: {
