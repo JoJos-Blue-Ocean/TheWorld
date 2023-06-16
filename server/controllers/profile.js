@@ -7,7 +7,7 @@ module.exports = {
       .then((results) => res.json(results));
   },
   updateProfile(req, res) {
-    const user = req.body.user;
+    const { user } = req.body;
     models.updateProfile(user)
       .then((results) => res.json(results));
   },
