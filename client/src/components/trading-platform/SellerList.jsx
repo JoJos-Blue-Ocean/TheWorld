@@ -5,6 +5,7 @@ import {
 import SellerTile from './SellerTile';
 
 export default function SellerList({ openTrades, master }) {
+  console.log('LIST OF TRADES', openTrades.length);
   return (
     <View>
       {openTrades.map(

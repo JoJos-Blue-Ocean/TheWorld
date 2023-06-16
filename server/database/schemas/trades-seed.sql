@@ -42,5 +42,5 @@ VALUES('j', 1083521, 69626, 'open', 'Lorem ipsum dolor sit amet, consectetur adi
 -- UPDATE users SET profile_picture='https://pajamawolfie.files.wordpress.com/2018/06/jjba-sd-iggy-ugly.png' WHERE uid='sU9VGP8OI2P2M0piPw473pWeQ0z1';
 -- UPDATE users SET biography='I am a dog' WHERE uid='sU9VGP8OI2P2M0piPw473pWeQ0z1';
 -- UPDATE users SET location='Cairo, Egypt' WHERE uid='sU9VGP8OI2P2M0piPw473pWeQ0z1';
--- INSERT INTO ratings(sender_id, recipient_id, rating, trade_id)
--- VALUES('a', 'sU9VGP8OI2P2M0piPw473pWeQ0z1', 4, 1);
+INSERT INTO ratings(sender_id, recipient_id, rating, trade_id)
+VALUES('a', 'sU9VGP8OI2P2M0piPw473pWeQ0z1', 4, 1);

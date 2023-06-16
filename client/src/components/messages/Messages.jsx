@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import axios from 'axios';
 import {
   StyleSheet, Text, View, TextInput, Button, Modal, TouchableOpacity, Image, ScrollView,
@@ -13,6 +13,7 @@ export default function Messages({ route }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [messages, setMessages] = useState([]);
   const [otherUserInfo, setOtherUserInfo] = useState(null);
+  const scrollViewRef = useRef(null);
 
   useEffect(() => {
     if (route.params?.user) {
@@ -38,7 +39,7 @@ export default function Messages({ route }) {
 
     // Cleanup the interval on component unmount
     return () => clearInterval(interval);
-  }, [route, otherUserInfo, modalVisible]);
+  }, [route, otherUserInfo]);
 
   const fetchRooms = () => {
     axios
@@ -94,6 +95,7 @@ export default function Messages({ route }) {
       .then(({ data }) => {
         setMessages((prevMessages) => [...prevMessages, data]);
         setNewMessage('');
+        scrollViewRef.current.scrollToEnd({ animated: true });
       })
       .catch((error) => console.error('Error sending message:', error));
   };
@@ -120,7 +122,7 @@ export default function Messages({ route }) {
             </TouchableOpacity>
             <Text style={styles.modalTitle}>{otherUserInfo && otherUserInfo.username}</Text>
           </View>
-          <ScrollView contentContainerStyle={styles.messageContainer}>
+          <ScrollView contentContainerStyle={styles.messageContainer} ref={scrollViewRef}>
             {messages.map((message) => (
               <View
                 key={message.id}

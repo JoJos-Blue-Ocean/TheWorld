@@ -68,7 +68,7 @@ export default function SellerTile({ trade, master }) {
   // } else if (trade.description.length > 0) {
   //   descriptionDisplay = trade.description;
   // }
-
+  console.log('USERNAME', trade.username);
   useEffect(() => {
     axios
       .get(`https://api.discogs.com/masters/${trade.want_album_id}`, {
