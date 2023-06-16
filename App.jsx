@@ -10,7 +10,7 @@ import Login from './client/src/components/login/Login';
 import Register from './client/src/components/login/Register';
 import TradingPlatform from './client/src/components/trading-platform/TradingPlatform';
 import ActiveTradeDetails from './client/src/components/trading-platform/ActiveTradeDetails';
-// import TradingHistory from './client/src/components/trading-history/TradingHistory';
+import TradingHistory from './client/src/components/trading-history/TradingHistory';
 import RecordCatalog from './client/src/components/record-catalog/RecordCatalog';
 import Profile from './client/src/components/users/Profile';
 import Messages from './client/src/components/messages/Messages';
@@ -33,20 +33,20 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
             <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
-            <Stack.Screen name="TradingPlatform" component={TradingPlatform} />
-            <Stack.Screen name="ActiveTradeDetails" component={ActiveTradeDetails} />
-            {/* <Stack.Screen name="TradingHistory" component={TradingHistory} /> */}
-            <Stack.Screen name="RecordCatalog" component={RecordCatalog} />
-            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="TradingPlatform" component={TradingPlatform} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
+            <Stack.Screen name="ActiveTradeDetails" component={ActiveTradeDetails} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
+            <Stack.Screen name="TradingHistory" component={TradingHistory} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
+            <Stack.Screen name="RecordCatalog" component={RecordCatalog} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
+            <Stack.Screen name="Profile" component={Profile} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
             <Stack.Screen
               name="Messages"
               component={Messages}
               options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}
             />
-            <Stack.Screen name="NewMessage" component={NewMessage} />
-            <Stack.Screen name="WishList" component={Wishlist} />
-            <Stack.Screen name="Trade Completion Form" component={CompleteTradeForm} />
-            <Stack.Screen name="Add Trade Form" component={AddTrade} />
+            <Stack.Screen name="NewMessage" component={NewMessage} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
+            <Stack.Screen name="WishList" component={Wishlist} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
+            <Stack.Screen name="Trade Completion Form" component={CompleteTradeForm} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
+            <Stack.Screen name="Add Trade Form" component={AddTrade} options={{ headerStyle: { backgroundColor: '#a30000' }, headerTintColor: '#fff' }}/>
           </Stack.Navigator>
         </NavigationPane>
       </NavigationContainer>
