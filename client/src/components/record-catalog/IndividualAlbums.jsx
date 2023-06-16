@@ -92,6 +92,17 @@ export default function IndividualAlbums({ album }) {
   const API_KEY = Constants.expoConfig.extra.youtubeAPIKey;
   const url = 'https://www.googleapis.com/youtube/v3/search';
 
+  const getButtonStyle = () => ({
+    marginTop: 10,
+    backgroundColor: enableWishlist ? '#808080' : '#800000',
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 160,
+    alignSelf: 'center', // Center horizontally
+  });
+
   return (
     <View>
       <Modal
@@ -103,7 +114,7 @@ export default function IndividualAlbums({ album }) {
           <View style={styles.modalContent}>
             <ScrollView>
               <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
-              {/* {youtubeId.length > 0 ? <iframe src={{uri:`https://www.youtube.com/embed/${youtubeId}?autoplay=1`}} title="Tracklist Player" /> : null } */}
+              {/* {youtubeId.length > 0 ? <iframe src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`} title="Tracklist Player" /> : null } */}
               {youtubeId.length > 0
                 ? (
                   <YoutubePlayer
@@ -123,17 +134,17 @@ export default function IndividualAlbums({ album }) {
                   <View style={styles.trackInfo}>
                     <Text style={styles.trackTitle}>{item.title}</Text>
                     <TouchableOpacity
+                      style={styles.playButton}
                       onPress={() => {
                         axios.get(url, {
                           params: {
                             key: API_KEY,
                             part: 'snippet',
                             type: 'video',
-                            q: item.title,
+                            q: `${item.title} ${artistTitle}`,
                           },
                         })
                           .then((response) => {
-                            // console.log(response.data.items[0].id.videoId);
                             setYoutubeId(response.data.items[0].id.videoId);
                           })
                           .catch((error) => {
@@ -141,7 +152,7 @@ export default function IndividualAlbums({ album }) {
                           });
                       }}
                     >
-                      <AntDesign name="play" size={24} color="black" />
+                      <AntDesign name="play" size={18} color="black" />
                     </TouchableOpacity>
                     <Text style={styles.trackDuration}>{item.duration || '0:00'}</Text>
                   </View>
@@ -158,7 +169,7 @@ export default function IndividualAlbums({ album }) {
                 <Text style={styles.buttonText}>Trade</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.wishlistButton}
+                style={getButtonStyle()}
                 onPress={addWishlist}
                 disabled={enableWishlist}
               >
@@ -183,9 +194,8 @@ export default function IndividualAlbums({ album }) {
 }
 
 const styles = StyleSheet.create({
-  webPlayer: {
-    height: 250,
-    width: 350,
+  playButton: {
+    marginRight: 20,
   },
   image: {
     width: 160,
