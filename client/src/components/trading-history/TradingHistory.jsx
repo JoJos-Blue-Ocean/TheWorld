@@ -19,10 +19,18 @@ const styles = StyleSheet.create({
     // display: 'flex',
     // flexDirection: 'row',
     // height: '10%',
+    // position: 'absolute',
+    // display: 'flex',
+    // flexDirection: 'row',
+    // height: '10%',
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     height: '10%',
+    paddingHorizontal: 16,
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 16,
     backgroundColor: '#FFFFFF',
   },
@@ -35,7 +43,25 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
+    // position: 'relative',
+    // padding: '5%',
+    // borderWidth: 1,
+    // borderColor: 'black',
+    // marginRight: '5%',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
     borderWidth: 1,
+    borderColor: '#000000',
+    marginRight: 10,
+  },
+  // added
+  activeTab: {
+    backgroundColor: '#C0C0C0',
+  },
+  tabText: {
+    fontSize: 16,
+    color: '#000000',
     borderColor: '#000000',
     marginRight: 10,
   },
@@ -109,7 +135,17 @@ export default function TradingHistory() {
           onPress={() => setTab('Your Listing')}
         >
           <Text style={[styles.tabText, tab === 'Your Listing' && styles.activeTabText]}>Your Listing</Text>
+        <Pressable
+          style={[styles.tab, tab === 'Your Listing' && styles.activeTab]}
+          onPress={() => setTab('Your Listing')}
+        >
+          <Text style={[styles.tabText, tab === 'Your Listing' && styles.activeTabText]}>Your Listing</Text>
         </Pressable>
+        <Pressable
+          style={[styles.tab, tab === 'Transaction History' && styles.activeTab]}
+          onPress={() => setTab('Transaction History')}
+        >
+          <Text style={[styles.tabText, tab === 'Transaction History' && styles.activeTabText]}>Transaction History</Text>
         <Pressable
           style={[styles.tab, tab === 'Transaction History' && styles.activeTab]}
           onPress={() => setTab('Transaction History')}
@@ -118,6 +154,8 @@ export default function TradingHistory() {
         </Pressable>
       </View>
       <View style={styles.tradesHistoryMain}>
+        {tab === 'Your Listing' && <YourListing list={listedTrades} userId={uid} />}
+        {tab === 'Transaction History' && <TransactionHistory list={completeTrades} userId={uid} />}
         {tab === 'Your Listing' && <YourListing list={listedTrades} userId={uid} />}
         {tab === 'Transaction History' && <TransactionHistory list={completeTrades} userId={uid} />}
       </View>

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import {
-  StyleSheet, View, Button, TouchableOpacity,
-} from 'react-native';
-import { AntDesign, FontAwesome, Ionicons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
+import { StyleSheet, View, Button } from 'react-native';
+import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,16 +22,13 @@ const styles = StyleSheet.create({
     color: '#800000',
   },
 });
-
 export default function NavigationPane({ children }) {
   const navigation = useNavigation();
   const [activeButton, setActiveButton] = useState('Login');
-
   const handlePress = (button) => {
     setActiveButton(button);
     navigation.navigate(button);
   };
-
   return (
     <View style={styles.container}>
       {children}
