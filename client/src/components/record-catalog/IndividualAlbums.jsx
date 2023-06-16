@@ -141,7 +141,7 @@ export default function IndividualAlbums({ album }) {
                             key: API_KEY,
                             part: 'snippet',
                             type: 'video',
-                            q: item.title,
+                            q: `${item.title} ${artistTitle}`,
                           },
                         })
                           .then((response) => {
