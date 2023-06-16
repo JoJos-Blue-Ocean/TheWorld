@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 import { WebView } from 'react-native-webview';
+import YoutubePlayer from 'react-native-youtube-iframe';
 import { useNavigation } from '@react-navigation/core';
 import { AntDesign } from '@expo/vector-icons'; // Import the required icon
 import UserContext from '../UserContext';
@@ -102,8 +103,16 @@ export default function IndividualAlbums({ album }) {
           <View style={styles.modalContent}>
             <ScrollView>
               <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
-              {/* {youtubeId.length > 0 ? <iframe src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`} title="Tracklist Player" /> : null } */}
-              {youtubeId.length > 0 ? <WebView style={styles.webPlayer} source={{ uri: `https://www.youtube.com/embed/${youtubeId}?autoplay=1` }} /> : null }
+              {/* {youtubeId.length > 0 ? <iframe src={{uri:`https://www.youtube.com/embed/${youtubeId}?autoplay=1`}} title="Tracklist Player" /> : null } */}
+              {youtubeId.length > 0
+                ? (
+                  <YoutubePlayer
+                    height={300}
+                    play="true"
+                    videoId={youtubeId}
+                  />
+                )
+                : null }
               <Text style={styles.modalTitleText}>{collectionTitle}</Text>
               <Text style={styles.modalArtistText}>{artistTitle}</Text>
               {trackList.map((item, index) => (

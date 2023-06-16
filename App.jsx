@@ -20,6 +20,13 @@ import NavigationPane from './client/src/components/NavigationPane';
 import CompleteTradeForm from './client/src/components/trading-history/CompleteTradeForm';
 import UserContext from './client/src/components/UserContext';
 import AddTrade from './client/src/components/trading-history/AddTrade';
+import { LogBox } from 'react-native';
+
+// Ignore log notification by message
+LogBox.ignoreLogs(['Warning: ...']);
+
+//Ignore all log notifications
+LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 
