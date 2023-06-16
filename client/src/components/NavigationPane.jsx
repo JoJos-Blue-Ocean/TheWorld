@@ -42,11 +42,6 @@ export default function NavigationPane({ children }) {
           color={activeButton === 'TradingHistory' ? '#800000' : '#808080'}
         />
         <Button
-          title="TP"
-          onPress={() => handlePress('TradingPlatform')}
-          color={activeButton === 'TradingPlatform' ? '#800000' : '#808080'}
-        />
-        <Button
           title="M"
           onPress={() => handlePress('Messages')}
           color={activeButton === 'Messages' ? '#800000' : '#808080'}
@@ -55,16 +50,6 @@ export default function NavigationPane({ children }) {
           title="P"
           onPress={() => handlePress('Profile')}
           color={activeButton === 'Profile' ? '#800000' : '#808080'}
-        />
-        <Button
-          title="L"
-          onPress={() => handlePress('Login')}
-          color={activeButton === 'Login' ? '#800000' : '#808080'}
-        />
-        <Button
-          title="W"
-          onPress={() => handlePress('WishList')}
-          color={activeButton === 'WishList' ? '#800000' : '#808080'}
         />
       </View>
     </View>
