@@ -27,19 +27,18 @@ export default function Messages({ route }) {
       fetchRooms();
     }
   }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchRooms();
+      console.log('im in here');
+      if (otherUserInfo && otherUserInfo.room_id) {
+        fetchMessages(otherUserInfo.room_id);
+      }
+    }, 500);
 
-    // Fetch messages and update users list every 0.5 seconds
-  //   const interval = setInterval(() => {
-  //     fetchRooms();
-  //     console.log('im in here');
-  //     if (otherUserInfo && otherUserInfo.room_id) {
-  //       fetchMessages(otherUserInfo.room_id);
-  //     }
-  //   }, 500);
-
-  //   // Cleanup the interval on component unmount
-  //   return () => clearInterval(interval);
-  // }, [route, otherUserInfo]);
+    // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
+  }, [route, otherUserInfo, modalVisible]);
 
   const fetchRooms = () => {
     axios
@@ -128,7 +127,7 @@ export default function Messages({ route }) {
                 style={[
                   styles.messageBubble,
                   {
-                    backgroundColor: message.sender_user_id === uid ? '#4CAF50' : '#808080',
+                    backgroundColor: message.sender_user_id === uid ? '#0099ff' : '#808080',
                     alignSelf: message.sender_user_id === uid ? 'flex-end' : 'flex-start',
                   },
                 ]}
@@ -137,16 +136,17 @@ export default function Messages({ route }) {
               </View>
             ))}
           </ScrollView>
-
-          <TextInput
-            value={newMessage}
-            onChangeText={(text) => setNewMessage(text)}
-            placeholder="Type your message"
-            style={styles.input}
-          />
-          <TouchableOpacity onPress={() => handleSendMessage(messages[0].room_id)} style={styles.sendButton}>
-            <Text style={styles.sendButtonText}>Send</Text>
-          </TouchableOpacity>
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={newMessage}
+              onChangeText={(text) => setNewMessage(text)}
+              placeholder="Type your message"
+              style={styles.input}
+            />
+            <TouchableOpacity onPress={() => handleSendMessage(messages[0].room_id)} style={styles.sendButton}>
+              <Text style={styles.sendButtonText}>Send</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
     </View>
@@ -211,18 +211,23 @@ const styles = StyleSheet.create({
   },
   messageText: {
     color: 'white',
+    fontWeight: 'bold',
     fontSize: 16,
   },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   input: {
-    width: '100%',
-    height: 40,
+    flex: 1,
     borderWidth: 1,
-    borderColor: 'gray',
-    marginBottom: 10,
+    borderRadius: 5,
     padding: 10,
+    marginRight: 10,
   },
   sendButton: {
-    backgroundColor: 'green',
+    backgroundColor: '#4CAF50',
     padding: 10,
     borderRadius: 10,
     alignSelf: 'flex-end',

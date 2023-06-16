@@ -143,14 +143,14 @@ export default function ActiveTradeDetails({ route }) {
               <View style={styles.starRatings}>
                 <Rating
                   type="custom"
-                  defaultRating={trade.average_rating}
+                  startingValue={trade.average_rating ? trade.average_rating : 0}
                   readonly
                   imageSize={20}
                   fractions={2}
                   tintColor="#f5f5f5"
                   ratingBackgroundColor="#c0c0c0"
                 />
-                <Text>{`${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}</Text>
+                <Text>{`${trade.average_rating ? trade.average_rating.slice(0, 4) : '0'} (${trade.ratings_count} ratings)`}</Text>
               </View>
             </View>
           </View>
@@ -167,7 +167,7 @@ export default function ActiveTradeDetails({ route }) {
               source={{ uri: wantMaster.images[0].uri }}
             />
             <View>
-              <Text>{wantMaster.title}</Text>
+              <Text style={{ fontWeight: 'bold' }}>{wantMaster.title}</Text>
               <Text>{wantMaster.artists[0].name}</Text>
               <Text>{wantMaster.year}</Text>
             </View>

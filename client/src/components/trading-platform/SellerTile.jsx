@@ -52,6 +52,9 @@ const styles = StyleSheet.create({
   },
   rightSection: {
     width: '75%',
+    // overflow: 'hidden',
+    // whiteSpace: 'nowrap',
+    // textOverflow: 'ellipsis',
   },
 });
 
@@ -59,12 +62,12 @@ export default function SellerTile({ trade, master }) {
   const [wantMaster, setWantMaster] = useState(null);
   const navigation = useNavigation();
 
-  let descriptionDisplay = 'N/A';
-  if (trade.description.length > 50) {
-    descriptionDisplay = `${trade.description.slice(0, 50)}...`;
-  } else if (trade.description.length > 0) {
-    descriptionDisplay = trade.description;
-  }
+  // let descriptionDisplay = 'N/A';
+  // if (trade.description.length > 50) {
+  //   descriptionDisplay = `${trade.description.slice(0, 50)}...`;
+  // } else if (trade.description.length > 0) {
+  //   descriptionDisplay = trade.description;
+  // }
 
   useEffect(() => {
     axios
@@ -94,17 +97,17 @@ export default function SellerTile({ trade, master }) {
           <View style={styles.starRatings}>
             <Rating
               type="custom"
-              defaultRating={trade.average_rating}
+              startingValue={trade.average_rating ? trade.average_rating : 0}
               readonly
               imageSize={20}
               fractions={2}
               tintColor="#F5F5F5"
               ratingBackgroundColor="#C0C0C0"
             />
-            <Text>{`${trade.average_rating.slice(0, 4)} (${trade.ratings_count} ratings)`}</Text>
+            <Text>{`${trade.average_rating ? trade.average_rating.slice(0, 4) : '0'} (${trade.ratings_count} ratings)`}</Text>
           </View>
         </View>
-        <Text>{descriptionDisplay}</Text>
+        <Text numberOfLines={2}>{trade.description ? trade.description : 'N/A'}</Text>
       </View>
 
       <View style={styles.openDetails}>
