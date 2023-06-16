@@ -42,14 +42,23 @@ module.exports = {
     const query = ` UPDATE
     users
     SET
-    profile_picture=$1,
-    location=$2,
-    biography=$3
-    WHERE users.uid=$4;
+    location=$1,
+    biography=$2
+    WHERE users.uid=$3;
     `;
-    const values = [user.profile_picture, user.location, user.biography, user.uid];
+    const values = [ user.location, user.biography, user.uid];
     return pool.query(query, values)
       .then((results) => results.rows);
+  },
+  updatePfp(user) {
+    const query = ` UPDATE
+    users
+    SET
+    profile_picture=$1
+    WHERE users.uid=$2;`;
+    const values = [user.profile_picture, user.user_id];
+    return pool.query(query, values)
+      .then(() => user.profile_picture);
   },
   getSimpleProfile(selectedUserId, personalId) {
     const query = 'SELECT users.uid, users.username, users.profile_picture, rooms.id AS room_id from users JOIN rooms on ((users.uid=rooms.user_one OR users.uid=rooms.user_two) AND (rooms.user_one=$2 OR rooms.user_two=$2)) WHERE users.uid=$1';
