@@ -7,7 +7,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 import { StackActions } from '@react-navigation/native';
 import { auth } from '../../firebase';
 import UserContext from '../UserContext';
-import logo from '../../../../assets/vinyl_logo.png';
+import logo from '../../../../assets/TW.png';
 
 export default function Login({ route }) {
   const navigation = useNavigation();
@@ -42,7 +42,7 @@ export default function Login({ route }) {
       style={styles.container}
       behavior="padding"
     >
-      <Image source={logo} />
+      <Image source={logo} style={styles.logo}/>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
@@ -93,6 +93,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+  },
+  logo: {
+    width: '60%',
+    height: '28%',
+    resizeMode: 'cover',
+    marginBottom: '22%',
   },
   input: {
     backgroundColor: 'white',

@@ -1,6 +1,6 @@
 import {
-  StyleSheet, Text, View, Image, Pressable, Modal,
-  TextInput, Alert,
+  StyleSheet, Text, View, Image, TouchableOpacity, Pressable, Modal,
+  TextInput, FlatList,
 } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
@@ -9,12 +9,11 @@ import { useNavigation } from '@react-navigation/core';
 import UserContext from '../UserContext';
 import NavigationPane from '../NavigationPane';
 
-// TODO: implement route.user_uid in props
+// TODO: MAKE LIST MAX 30 CHAR
 
 export default function Profile({ route }) {
-
-  console.log('route: ', route)
-/*
+  console.log('route: ', route);
+  /*
   Condition render: If the User clicks on a different user, recieve the user_uid
   of said user in nav and render their stats
 */
@@ -108,24 +107,24 @@ export default function Profile({ route }) {
   //  QUERY DATABASE FOR STATS
     if (route.params) {
       axios.get(`http://localhost:3000/api/profile/${route.params.uid}`)
-      .then((results) => {
-        console.log('RETRIEVE STATS', results.data);
-        setCurUser(results.data[0]);
-        setCurPfp(results.data[0].profile_picture);
-        setLoading(false);
-      })
-      .catch((err) => console.log('error: ', err));
-  } else {
-    axios.get(`http://localhost:3000/api/profile/${uid}`)
-      .then((results) => {
-        console.log('RETRIEVE STATS', results.data);
-        setCurUser(results.data[0]);
-        setCurPfp(results.data[0].profile_picture);
-        setLoading(false);
-      })
-      .catch((err) => console.log('error: ', err));
-  }
+        .then((results) => {
+          console.log('RETRIEVE STATS', results.data);
+          setCurUser(results.data[0]);
+          setCurPfp(results.data[0].profile_picture);
+          setLoading(false);
+        })
+        .catch((err) => console.log('error: ', err));
+    } else {
+      axios.get(`http://localhost:3000/api/profile/${uid}`)
+        .then((results) => {
+          console.log('RETRIEVE STATS', results.data);
+          setCurUser(results.data[0]);
+          setCurPfp(results.data[0].profile_picture);
+          setLoading(false);
+        })
+        .catch((err) => console.log('error: ', err));
     }
+  };
 
   const openModal = () => {
     setModalState(true);
@@ -154,12 +153,12 @@ export default function Profile({ route }) {
             onRequestClose={closeModal}
           >
             <View style={styles.modalContainer}>
-              <Pressable
+              <TouchableOpacity
                 style={styles.cButton}
                 onPress={() => closeModal()}
               >
                 <Text style={{ fontSize: '20', fontWeight: 'bold' }}>Return</Text>
-              </Pressable>
+              </TouchableOpacity>
               <Text style={styles.modalHeader}>Settings</Text>
               <View style={styles.modalForms}>
                 <Pressable
@@ -173,7 +172,7 @@ export default function Profile({ route }) {
                     {curUser.profile_picture ? (
                       <Image
                         key={curPfp}
-                        source={{ uri: curPfp}}
+                        source={{ uri: curPfp }}
                         style={styles.modalImg}
                         resizeMode="cover"
                       />
@@ -213,13 +212,13 @@ export default function Profile({ route }) {
                     />
                     <Text style={{ fontSize: 15, marginLeft: '60%', color: '#757575' }}>Max 150 chars</Text>
                   </View>
-                  <Pressable
+                  <TouchableOpacity
                     style={styles.confButton}
                     className="confirm-button"
                     onPress={() => { changeSettings({ bioChange, locationChange, pfpChange }); }}
                   >
                     <Text style={styles.buttonText}>Confirm</Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
@@ -291,16 +290,26 @@ export default function Profile({ route }) {
               </Text>
             </View>
           </View>
+          <View  style={styles.list}>
+          <FlatList
+          data={[
+            {key:'Likes long walks on the beach'},
+            {key:'Loves Dogs'},
+            {key:'Hates vampires'},
+          ]}
+          renderItem={({item}) => <Text style={{fontSize: 18, marginVertical: '3%'}}>·{item.key}</Text>}
+          />
+          </View>
           {
           foreign ? (
             (
-              <Pressable
+              <TouchableOpacity
                 style={styles.mButton}
                 className="message-button"
                 onPress={() => handleSendMessage()}
               >
                 <Text style={styles.buttonText}>Message</Text>
-              </Pressable>
+              </TouchableOpacity>
             )) : (
               <View />
           )
@@ -312,14 +321,14 @@ export default function Profile({ route }) {
               {curUser.biography}
             </Text>
           </View>
-          <Pressable
+          <TouchableOpacity
             style={styles.wButton}
             className="message-button"
           // WILL CHANGE WHEN QUERIES ARE CREATED, CHANGE curUser.ID TO CORRECT BODY REFERENCE
             onPress={() => navigation.navigate('WishList', { uid })}
           >
             <Text style={styles.buttonText}>Wishlist</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       ) }
     </View>
@@ -363,13 +372,16 @@ const styles = StyleSheet.create({
   info: {
     alignItems: 'center',
   },
+  list: {
+    marginTop: '5%',
+    marginLeft: '3%',
+  },
   bio: {
     width: '90%',
     height: '28%',
     marginTop: '5%',
     marginBottom: '21%',
     margin: '5%',
-    justifyContent: 'center',
     paddingTop: '5%',
     paddingBottom: '5%',
     borderTopWidth: 2,
@@ -393,10 +405,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     borderRadius: 4,
     elevation: 3,
-    marginLeft: 'auto',
+    marginLeft: '5%',
     marginRight: '10%',
-    marginBottom: '15%',
-    backgroundColor: '#A30000',
+    marginVertical: '15%',
+    backgroundColor: '#800000',
   },
   wButton: {
     marginTop: 20,
@@ -415,7 +427,8 @@ const styles = StyleSheet.create({
   },
   sButton: {
     marginLeft: '85%',
-    marginTop: '2%',
+    marginTop: '5%',
+    marginBottom: '5%',
   },
   // ###### MODAL ######
   modalContainer: {
@@ -435,6 +448,7 @@ const styles = StyleSheet.create({
   cButton: {
     marginRight: '80%',
     marginTop: '17%',
+    marginBottom: '5%',
   },
   modalsubHeader: {
     margin: '5%',
@@ -488,7 +502,7 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     marginRight: '33%',
     elevation: 3,
-    backgroundColor: '#A30000',
+    backgroundColor: '#800000',
     alignItems: 'center',
   },
 });

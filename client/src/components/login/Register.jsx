@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/core';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import NavigationPane from '../NavigationPane';
-import logo from '../../../../assets/vinyl_logo.png';
+import logo from '../../../../assets/TW.png';
 
 export default function Login({ route }) {
   const navigation = useNavigation();
@@ -46,7 +46,7 @@ export default function Login({ route }) {
       style={styles.container}
       behavior="padding"
     >
-      <Image source={logo} />
+      <Image source={logo} style={styles.logo}/>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Username"
@@ -96,6 +96,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  logo: {
+    width: '60%',
+    height: '28%',
+    resizeMode: 'cover',
+    marginBottom: '5%',
   },
   inputContainer: {
     width: '70%',
