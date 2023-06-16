@@ -21,7 +21,7 @@ module.exports = {
       JOIN trades
       ON users.uid=seller_id
       WHERE users.uid=$1
-      AND trades.status='closed')
+      AND trades.status='completed')
     FROM users
     JOIN ratings on users.uid=recipient_id
     WHERE users.uid=$1
