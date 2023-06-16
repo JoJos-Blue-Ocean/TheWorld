@@ -57,22 +57,26 @@ const styles = StyleSheet.create({
   },
   // added
   activeTab: {
-    backgroundColor: '#C0C0C0',
+    // backgroundColor: '#C0C0C0',
+      color: '#800000',
+  },
+  activeTabText: {
+    color: '#800000',
   },
   tabText: {
     fontSize: 16,
-    color: '#000000',
+    color: '#666',
     borderColor: '#000000',
-    marginRight: 10,
+    marginRight: 5,
   },
   // added
-  activeTab: {
-    backgroundColor: '#C0C0C0',
-  },
-  tabText: {
-    fontSize: 16,
-    color: '#000000',
-  },
+  // activeTab: {
+  //   color: '#800000',
+  // },
+  // tabText: {
+  //   fontSize: 16,
+  //   color: '#000000',
+  // },
   tradesHistoryMain: {
     // position: 'absolute',
     // top: '15%',
@@ -82,10 +86,10 @@ const styles = StyleSheet.create({
   },
   addListing: {
     position: 'absolute',
-    top: '2%',
-    left: '85%',
-    height: '6%',
-    width: '10%',
+    top: '2.4%',
+    left: '82%',
+    height: '5%',
+    width: '12%',
     backgroundColor: '#800000',
     borderRadius: '5%',
   },
@@ -97,8 +101,12 @@ export default function TradingHistory() {
   const [listedTrades, setListedTrades] = useState([]);
   const [completeTrades, setCompleteTrades] = useState([]);
   const [uid, setUid] = useContext(UserContext);
+  const [refresh, setRefresh] = useState(false);
+
   const addTradeParams = {
     uid,
+    refresh,
+    setRefresh,
   };
 
   useEffect(() => {
@@ -126,22 +134,49 @@ export default function TradingHistory() {
     }
     fetchData();
   }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get('http://localhost:3000/api/trade-history/listed-trades', {
+          params: {
+            user_id: uid,
+          },
+        });
+        setListedTrades(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+      try {
+        const response = await axios.get('http://localhost:3000/api/trade-history/complete-trades', {
+          params: {
+            user_id: uid,
+          },
+        });
+        setCompleteTrades(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, [refresh]);
+
   return (
 
     <View style={styles.container}>
       <View style={styles.tabs}>
-        <Pressable
+        <TouchableOpacity
           style={[styles.tab, tab === 'Your Listing' && styles.activeTab]}
           onPress={() => setTab('Your Listing')}
         >
           <Text style={[styles.tabText, tab === 'Your Listing' && styles.activeTabText]}>Your Listing</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[styles.tab, tab === 'Transaction History' && styles.activeTab]}
           onPress={() => setTab('Transaction History')}
         >
           <Text style={[styles.tabText, tab === 'Transaction History' && styles.activeTabText]}>Transaction History</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
       <View style={styles.tradesHistoryMain}>
         {tab === 'Your Listing' && <YourListing list={listedTrades} userId={uid} />}
