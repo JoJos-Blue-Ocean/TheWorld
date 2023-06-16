@@ -327,9 +327,10 @@ export default function Profile({ route }) {
             style={styles.wButton}
             className="message-button"
           // WILL CHANGE WHEN QUERIES ARE CREATED, CHANGE curUser.ID TO CORRECT BODY REFERENCE
-            onPress={() => foreign ? navigation.navigate('WishList', { uid: curUser.uid, foreign})
-            : navigation.navigate('WishList', { uid: curUser.uid, foreign})
-            }
+            onPress={() =>
+              foreign ? navigation.navigate('WishList', { uid: curUser.uid, foreign})
+              : navigation.navigate('WishList', { uid: curUser.uid, foreign})
+              }
           >
             <Text style={styles.buttonText}>Wishlist</Text>
           </TouchableOpacity>

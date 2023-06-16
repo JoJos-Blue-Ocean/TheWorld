@@ -99,9 +99,13 @@ export default function Wishlist({ route }) {
             <Text style={{ marginBottom: 10, fontSize: 15 }}>
               {data.genre.substring(2, data.genre.length - 2)}
             </Text>
-            <TouchableOpacity title="Remove" style={styles.removeButton} onPress={() => removeFromWishList(data.id)}>
-              <Text style={styles.buttonText}>Remove</Text>
-            </TouchableOpacity>
+            {route.params.foreign ? (
+              <View />
+            ) : (
+              <TouchableOpacity title="Remove" style={styles.removeButton} onPress={() => removeFromWishList(data.id)}>
+                <Text style={styles.buttonText}>Remove</Text>
+              </TouchableOpacity>
+            )}
           </View>
         ))}
       </View>
