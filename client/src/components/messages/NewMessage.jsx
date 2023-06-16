@@ -27,7 +27,7 @@ function NewMessage({ route }) {
       })
       .then(({ data }) => {
         const { user, roomId } = data;
-        navigation.navigate('Messages', { user, roomId});
+        navigation.replace('Messages', { user, roomId });
       });
   };
 

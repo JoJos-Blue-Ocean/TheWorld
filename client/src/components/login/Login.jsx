@@ -11,8 +11,8 @@ import logo from '../../../../assets/TW.png';
 
 export default function Login({ route }) {
   const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('123@gmail.com');
+  const [password, setPassword] = useState('123123');
   const [uid, setUid] = useContext(UserContext);
 
   const handleLogIn = () => {
@@ -58,7 +58,6 @@ export default function Login({ route }) {
           secureTextEntry
         />
       </View>
-
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={() => { console.log('EMAIL', email); console.log('PASSWORD', password); handleLogIn(); }}
