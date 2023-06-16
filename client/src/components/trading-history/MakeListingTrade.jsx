@@ -148,6 +148,8 @@ export default function MakeListingTrade({
   tradingAlbumId,
   desiredAlbumId,
   userId,
+  refresh,
+  setRefresh,
 }) {
   const [tradingAlbum, setTradingAlbum] = useState({
     images: [
@@ -181,6 +183,8 @@ export default function MakeListingTrade({
     desiredAlbumSongName: desiredAlbum.title,
     desiredAlbumArtist: desiredAlbum.artists[0].name,
     tradeId: id,
+    refresh,
+    setRefresh,
   };
 
   const rightButtons = [

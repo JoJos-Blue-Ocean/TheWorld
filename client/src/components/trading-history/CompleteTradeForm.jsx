@@ -154,6 +154,8 @@ export default function CompleteTradeForm({ route }) {
     desiredAlbumSongName,
     desiredAlbumArtist,
     tradeId,
+    refresh,
+    setRefresh,
   } = route.params;
   return (
     <View style={styles.container}>
@@ -234,6 +236,7 @@ export default function CompleteTradeForm({ route }) {
               }
               fetch()
                 .then(() => {
+                  setRefresh(!refresh);
                   navigation.navigate('TradingHistory');
                 });
             }}

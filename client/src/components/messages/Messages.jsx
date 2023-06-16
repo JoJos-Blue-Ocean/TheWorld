@@ -126,6 +126,7 @@ export default function Messages({ route }) {
         >
           <Image source={{ uri: user.profile_picture }} style={styles.profilePicture} />
           <Text style={styles.username}>{user.username}</Text>
+
         </TouchableOpacity>
       ))}
 
