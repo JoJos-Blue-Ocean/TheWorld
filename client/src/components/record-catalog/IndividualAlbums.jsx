@@ -113,7 +113,7 @@ export default function IndividualAlbums({ album }) {
                   </Text>
                   <View style={styles.trackInfo}>
                     <Text style={styles.trackTitle}>{item.title}</Text>
-                    <Button
+                    <TouchableOpacity
                       title={<AntDesign name="play" size={24} color="black" />}
                       color="white"
                       onPress={() => {
