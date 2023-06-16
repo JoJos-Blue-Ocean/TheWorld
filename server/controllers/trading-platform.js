@@ -5,6 +5,9 @@ module.exports = {
     const albumId = req.params.album_id;
     models
       .getActiveTrades(albumId)
-      .then((results) => res.json(results));
+      .then((results) => {
+        console.log(results);
+        res.json(results);
+      });
   },
 };

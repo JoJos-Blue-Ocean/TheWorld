@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
-  StyleSheet, Text, View, Pressable,
+  StyleSheet, Text, View, Pressable, TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
@@ -19,14 +19,30 @@ const styles = StyleSheet.create({
     // display: 'flex',
     // flexDirection: 'row',
     // height: '10%',
+    // position: 'absolute',
+    // display: 'flex',
+    // flexDirection: 'row',
+    // height: '10%',
     flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'flex-start',
     alignItems: 'center',
     height: '10%',
     paddingHorizontal: 16,
     backgroundColor: '#FFFFFF',
+    paddingHorizontal: 16,
+    backgroundColor: '#FFFFFF',
   },
   tab: {
+    // position: 'relative',
+    // padding: '5%',
+    // borderWidth: 1,
+    // borderColor: 'black',
+    // marginRight: '5%',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
     // position: 'relative',
     // padding: '5%',
     // borderWidth: 1,
@@ -41,25 +57,41 @@ const styles = StyleSheet.create({
   },
   // added
   activeTab: {
-    backgroundColor: '#C0C0C0',
+    // backgroundColor: '#C0C0C0',
+      color: '#800000',
+  },
+  activeTabText: {
+    color: '#800000',
   },
   tabText: {
     fontSize: 16,
-    color: '#000000',
+    color: '#666',
+    borderColor: '#000000',
+    marginRight: 5,
   },
+  // added
+  // activeTab: {
+  //   color: '#800000',
+  // },
+  // tabText: {
+  //   fontSize: 16,
+  //   color: '#000000',
+  // },
   tradesHistoryMain: {
     // position: 'absolute',
     // top: '15%',
     // height: '80%',
     // width: '100%',
     flex: 1,
-    marginTop: '15%',
   },
   addListing: {
     position: 'absolute',
-    top: '8%',
-    height: '6%',
-    backgroundColor: 'red',
+    top: '2.4%',
+    left: '82%',
+    height: '5%',
+    width: '12%',
+    backgroundColor: '#800000',
+    borderRadius: '5%',
   },
 });
 
@@ -69,8 +101,12 @@ export default function TradingHistory() {
   const [listedTrades, setListedTrades] = useState([]);
   const [completeTrades, setCompleteTrades] = useState([]);
   const [uid, setUid] = useContext(UserContext);
+  const [refresh, setRefresh] = useState(false);
+
   const addTradeParams = {
     uid,
+    refresh,
+    setRefresh,
   };
 
   useEffect(() => {
@@ -98,42 +134,60 @@ export default function TradingHistory() {
     }
     fetchData();
   }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get('http://localhost:3000/api/trade-history/listed-trades', {
+          params: {
+            user_id: uid,
+          },
+        });
+        setListedTrades(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+      try {
+        const response = await axios.get('http://localhost:3000/api/trade-history/complete-trades', {
+          params: {
+            user_id: uid,
+          },
+        });
+        setCompleteTrades(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, [refresh]);
+
   return (
 
     <View style={styles.container}>
       <View style={styles.tabs}>
-        <Pressable
+        <TouchableOpacity
           style={[styles.tab, tab === 'Your Listing' && styles.activeTab]}
           onPress={() => setTab('Your Listing')}
         >
           <Text style={[styles.tabText, tab === 'Your Listing' && styles.activeTabText]}>Your Listing</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[styles.tab, tab === 'Transaction History' && styles.activeTab]}
           onPress={() => setTab('Transaction History')}
         >
           <Text style={[styles.tabText, tab === 'Transaction History' && styles.activeTabText]}>Transaction History</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
       <View style={styles.tradesHistoryMain}>
         {tab === 'Your Listing' && <YourListing list={listedTrades} userId={uid} />}
         {tab === 'Transaction History' && <TransactionHistory list={completeTrades} userId={uid} />}
       </View>
-      <Draggable
-        x={150}
-        y={450}
-        z={2}
-        minX={0}
-        minY={0}
-        maxY={750}
-        renderSize={60}
-        onShortPressRelease={() => navigation.navigate('Add Trade Form', addTradeParams)}
-        renderColor="#A30000"
-        isCircle
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Add Trade Form', addTradeParams)}
         style={styles.addListing}
       >
-        <Text style={{ fontSize: 30, color: 'white' }}>+</Text>
-      </Draggable>
+        <Text style={{ fontSize: 30, color: 'white', textAlign: 'center' }}>+</Text>
+      </TouchableOpacity>
     </View>
   );
 }

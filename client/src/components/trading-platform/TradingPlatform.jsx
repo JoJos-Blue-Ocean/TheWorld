@@ -31,19 +31,21 @@ const styles = StyleSheet.create({
     color: '#f5f5f5',
     flexWrap: 'wrap',
     fontWeight: 'bold',
+    marginLeft: 8,
   },
   releaseDate: {
     color: '#f5f5f5',
+    marginLeft: 8,
   },
   forTrade: {
     color: '#f5f5f5',
     marginTop: 20,
+    marginLeft: 8,
   },
 });
 
 export default function TradingPlatform({ route }) {
-  // const { master_id } = route.params;
-  const master_id = 20319;
+  const { master_id } = route.params;
   const [master, setMaster] = useState(null);
   const [openTrades, setOpenTrades] = useState([]);
 
