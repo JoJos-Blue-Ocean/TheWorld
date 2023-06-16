@@ -118,7 +118,7 @@ export default function IndividualAlbums({ album }) {
               {youtubeId.length > 0
                 ? (
                   <YoutubePlayer
-                    height={300}
+                    height={200}
                     play="true"
                     videoId={youtubeId}
                   />
