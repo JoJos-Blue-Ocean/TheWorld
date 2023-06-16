@@ -4,14 +4,14 @@ import {
 } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { launchImageLibrary } from 'react-native-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/core';
 import UserContext from '../UserContext';
 import NavigationPane from '../NavigationPane';
 
 // TODO: implement route.user_uid in props
 
-export default function Profile({route}) {
+export default function Profile({ route }) {
 /*
   Condition render: If the User clicks on a different user, recieve the user_uid
   of said user in nav and render their stats
@@ -23,27 +23,50 @@ export default function Profile({route}) {
   const [pfpChange, setPfp] = useState('');
   const [loading, setLoading] = useState(true);
   const [foreign, setForeign] = useState(false);
+  const [curPfp, setCurPfp] = useState();
   const [modalState, setModalState] = useState(false);
 
   const navigation = useNavigation({ route });
 
+  const chooseImage = async () => {
+    const img = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!img.canceled) {
+      const newFile = {
+        uri: img.assets[0].uri,
+        type: `test/${img.assets[0].uri.split('.')[1]}`,
+        name: `test.${img.assets[0].uri.split('.')[1]}`,
+      };
+      setCurPfp(img.assets[0].uri);
+      setPfp(newFile);
+      console.log('newFILE****', newFile);
+    }
+  };
+
   const changeSettings = (changes) => {
     // Update uid
-    console.log(changes);
     axios.put(`http://localhost:3000/api/profile/${uid}`, {
       user: {
-        uid: uid,
-        profile_picture: changes.pfpChange || curUser.profile_picture,
+        uid,
         biography: changes.bioChange || curUser.biography,
         location: changes.locationChange || curUser.location,
       },
-    }).then((results) => {
-      retrieveStats();
-      setLocation('');
-      setBio('');
-      setPfp('');
-      closeModal();
+    }).then(() => {
+      const data = new FormData();
+      data.append('file', pfpChange);
+      axios.post(`http://localhost:3000/api/photo/${uid}/upload`, data);
     })
+      .then((results) => {
+        retrieveStats();
+        setLocation('');
+        setBio('');
+        setPfp('');
+        closeModal();
+      })
       .catch((err) => console.error('ERROR: ', err));
   };
 
@@ -57,7 +80,7 @@ export default function Profile({route}) {
       })
       .then(({ data }) => {
         if (data.length) {
-          console.log('IN IF STATEMENT')
+          console.log('IN IF STATEMENT');
           axios
             .get('http://localhost:3000/api/profile/getSingleUser', {
               params: {
@@ -68,8 +91,8 @@ export default function Profile({route}) {
               navigation.navigate('Messages', { user: results.data });
             });
         } else {
-          console.log('IN ELSE STATEMENT')
-          navigation.navigate('NewMessage', { userId: curUser.uid});
+          console.log('IN ELSE STATEMENT');
+          navigation.navigate('NewMessage', { userId: curUser.uid });
         }
       });
   };
@@ -83,7 +106,9 @@ export default function Profile({route}) {
   //  QUERY DATABASE FOR STATS
     axios.get(`http://localhost:3000/api/profile/${uid}`)
       .then((results) => {
-        setCurUser(results.data[0] || {});
+        console.log('RETRIEVE STATS', results.data);
+        setCurUser(results.data[0]);
+        setCurPfp(results.data[0].profile_picture);
         setLoading(false);
       })
       .catch((err) => console.log('error: ', err));
@@ -127,14 +152,15 @@ export default function Profile({route}) {
                 <Pressable
                   className="settings-picture"
                   onPress={() => {
-                  // launchImageLibrary();
+                    chooseImage();
                   }}
                 >
                   <Text style={styles.modalsubHeader}>Change Profile Picture</Text>
                   <View className="profile-picture" style={styles.modalprofile_picture}>
                     {curUser.profile_picture ? (
                       <Image
-                        source={{ uri: curUser.profile_picture }}
+                        key={curPfp}
+                        source={{ uri: curPfp}}
                         style={styles.modalImg}
                         resizeMode="cover"
                       />
@@ -256,12 +282,12 @@ export default function Profile({route}) {
           foreign ? (
             (
               <Pressable
-            style={styles.mButton}
-            className="message-button"
-            onPress={() => handleSendMessage()}
-          >
-            <Text style={styles.buttonText}>Message</Text>
-          </Pressable>
+                style={styles.mButton}
+                className="message-button"
+                onPress={() => handleSendMessage()}
+              >
+                <Text style={styles.buttonText}>Message</Text>
+              </Pressable>
             )) : (
               <View />
           )
@@ -277,7 +303,7 @@ export default function Profile({route}) {
             style={styles.wButton}
             className="message-button"
           // WILL CHANGE WHEN QUERIES ARE CREATED, CHANGE curUser.ID TO CORRECT BODY REFERENCE
-            onPress={() => navigation.navigate('WishList', { uid: uid })}
+            onPress={() => navigation.navigate('WishList', { uid })}
           >
             <Text style={styles.buttonText}>Wishlist</Text>
           </Pressable>
@@ -319,7 +345,7 @@ const styles = StyleSheet.create({
   statsMeta: {
     lineHeight: 18,
     textAlign: 'left',
-    fontSize: 17,
+    fontSize: 19,
   },
   info: {
     alignItems: 'center',

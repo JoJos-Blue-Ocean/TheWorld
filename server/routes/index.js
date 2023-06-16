@@ -5,3 +5,4 @@ module.exports.tradeHistory = require('./trade-history');
 module.exports.messages = require('./messages');
 module.exports.register = require('./register');
 module.exports.wishlist = require('./wishlist');
+module.exports.photo = require('./photo');
