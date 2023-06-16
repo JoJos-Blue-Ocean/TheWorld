@@ -12,6 +12,8 @@ import NavigationPane from '../NavigationPane';
 // TODO: implement route.user_uid in props
 
 export default function Profile({ route }) {
+
+  console.log('route: ', route)
 /*
   Condition render: If the User clicks on a different user, recieve the user_uid
   of said user in nav and render their stats
@@ -104,6 +106,16 @@ export default function Profile({ route }) {
 
   const retrieveStats = () => {
   //  QUERY DATABASE FOR STATS
+    if (route.params) {
+      axios.get(`http://localhost:3000/api/profile/${route.params.uid}`)
+      .then((results) => {
+        console.log('RETRIEVE STATS', results.data);
+        setCurUser(results.data[0]);
+        setCurPfp(results.data[0].profile_picture);
+        setLoading(false);
+      })
+      .catch((err) => console.log('error: ', err));
+  } else {
     axios.get(`http://localhost:3000/api/profile/${uid}`)
       .then((results) => {
         console.log('RETRIEVE STATS', results.data);
@@ -112,7 +124,8 @@ export default function Profile({ route }) {
         setLoading(false);
       })
       .catch((err) => console.log('error: ', err));
-  };
+  }
+    }
 
   const openModal = () => {
     setModalState(true);

@@ -131,7 +131,7 @@ export default function ActiveTradeDetails({ route }) {
             {`${master.artists[0].name} - ${master.title}`}
           </Text>
         </View>
-        <Pressable style={styles.sellerSection} onPress={() => navigation.navigate('Profile')}>
+        <Pressable style={styles.sellerSection} onPress={() => navigation.navigate('Profile', { uid: trade.seller_id })}>
           <Text style={styles.heading}>Owner Information</Text>
           <View style={styles.sellerDetails}>
             <Image
