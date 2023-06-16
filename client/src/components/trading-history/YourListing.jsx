@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import MakeListingTrade from './MakeListingTrade';
 import adaptiveIcon from '../../../../assets/favicon.png';
 
 export default function YourListing({ list, userId }) {
+
   const exampleTrades = [{
     id: 1,
     sellingAlbumImage: adaptiveIcon,
@@ -78,7 +79,7 @@ export default function YourListing({ list, userId }) {
   ];
 
   return (
-    <View style={styles.trades} contentContainerStyle={styles.contentContainer}>
+    <View style={styles.trades}>
       <ScrollView>
         {
           list.map((trade) => (
