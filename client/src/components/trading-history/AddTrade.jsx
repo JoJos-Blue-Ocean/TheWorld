@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   descriptionPrompt: {
     fontSize: 20,
     top: '50%',
-    textAlign: 'center',
+    left: '10%',
   },
   descriptionBox: {
     position: 'absolute',
@@ -53,6 +53,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   submitButton: {
+    // top: '75%',
+    // width: '30%',
+    // left: '35%',
+    // backgroundColor: 'grey',
+    // height: '6%',
+    marginTop: 20,
+    backgroundColor: '#800000',
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 160,
+    alignSelf: 'center',
+    top: '70%',
     // top: '75%',
     // width: '30%',
     // left: '35%',
@@ -85,9 +99,10 @@ const styles = StyleSheet.create({
   },
   image: {
     position: 'absolute',
-    left: '3%',
+    left: '5%',
     height: '100%',
     width: '25%',
+    borderRadius: '5%',
   },
   desiredAlbumContainer: {
     position: 'absolute',
@@ -100,8 +115,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     height: '100%',
     width: '50%',
-    left: '50%',
+    left: '40%',
     textAlign: 'left',
+    justifyContent: 'center',
+  },
+  songName: {
+    fontSize: 16,
   },
 });
 
@@ -143,7 +162,7 @@ export default function AddTrade({ route }) {
         <Pressable style={styles.tradingAlbumContainer}>
           <Image source={{ uri: tradingAlbum.uri }} style={styles.image} />
           <View style={styles.detailsContainer}>
-            <Text>{tradingAlbum.title}</Text>
+            <Text style={styles.songName}>{tradingAlbum.title}</Text>
           </View>
         </Pressable>
       ) : (
@@ -159,7 +178,7 @@ export default function AddTrade({ route }) {
         <Pressable style={styles.desiredAlbumContainer}>
           <Image Image source={{ uri: desiredAlbum.uri }} style={styles.image} />
           <View style={styles.detailsContainer}>
-            <Text>{desiredAlbum.title}</Text>
+            <Text style={styles.songName}>{desiredAlbum.title}</Text>
           </View>
         </Pressable>
       ) : (
