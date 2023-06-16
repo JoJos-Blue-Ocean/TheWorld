@@ -8,7 +8,7 @@ import {
 import MakeListingTrade from './MakeListingTrade';
 import adaptiveIcon from '../../../../assets/favicon.png';
 
-export default function YourListing({ list, userId }) {
+export default function YourListing({ list, userId, refresh, setRefresh }) {
   const exampleTrades = [{
     id: 1,
     sellingAlbumImage: adaptiveIcon,
@@ -96,6 +96,8 @@ export default function YourListing({ list, userId }) {
               tradingAlbumId={trade.have_album_id}
               desiredAlbumId={trade.want_album_id}
               userId={userId}
+              refresh={refresh}
+              setRefresh={setRefresh}
             />
           ))
         }
