@@ -38,9 +38,8 @@ const styles = StyleSheet.create({
   albumImageContainer: {
     position: 'relative',
     left: '10%',
-    height: '70%',
-    width: '70%',
-    backgroundColor: '#800000',
+    height: '80%',
+    width: '80%',
     borderRadius: '5%',
     marginBottom: '5%',
   },

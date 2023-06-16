@@ -13,8 +13,10 @@ const styles = StyleSheet.create({
     width: '90%',
     left: '5%',
     zIndex: 1,
-    backgroundColor: '#800000',
+    backgroundColor: 'white',
     borderRadius: '8%',
+    borderWidth: 1,  // Add border width
+    borderColor: 'gray',  // Add border color
   },
   search: {
     position: 'absolute',
@@ -24,6 +26,9 @@ const styles = StyleSheet.create({
     left: '10%',
     backgroundColor: 'white',
     borderRadius: '2%',
+    border: 'solid',
+    borderWidth: 1,
+    borderColor: 'gray',
   },
   albumContainer: {
     position: 'absolute',
