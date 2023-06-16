@@ -29,6 +29,14 @@ const styles = StyleSheet.create({
     border: 'solid',
     borderWidth: 1,
     borderColor: 'gray',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   albumContainer: {
     position: 'absolute',

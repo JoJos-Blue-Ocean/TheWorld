@@ -13,7 +13,10 @@ const upload = Multer({ storage });
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
-
+// app.use((req, res, next) => {
+//   res.set('Cache-Control', 'no-store');
+//   next();
+// });
 // ROUTES
 
 app.use('/api/record-catalog', router.helpers);
@@ -26,6 +29,5 @@ app.use('/api/register', router.register);
 app.use('/api/photo', router.photo);
 
 const PORT = process.env.PORT || 3000;
-
 
 app.listen(PORT, () => console.log(`Server available at http://localhost:${PORT}`));
