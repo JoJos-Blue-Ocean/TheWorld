@@ -1,10 +1,9 @@
 require('dotenv').config();
-import Constants from 'expo-constants';
 const axios = require('axios');
 
-const consumerKey = Constants.expoConfig.extra.discog_consumer_key;
-const consumerSecret = Constants.expoConfig.extra.discog_consumer_secret;
-const token = Constants.expoConfig.extra.discog_token;
+const consumerKey = process.env.DISCOGS_CONSUMER_KEY;
+const consumerSecret = process.env.DISCOGS_CONSUMER_SECRET;
+const token = process.env.DISCOGS_TOKEN;
 
 module.exports = {
   getAlbums: (req, res) => {
