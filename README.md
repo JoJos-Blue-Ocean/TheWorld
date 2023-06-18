@@ -7,11 +7,11 @@ The World is a vinyl record exchange app. The target audience for this app is at
 | Name | Component | Role | LinkedIn |
 |---|---|---|---|
 | Dilly Migdol| Profile | Product Manager | [Dilly](https://www.linkedin.com/in/dillonmigdol/)
-| Philip Wang | Record Catalog & Messages | UI Owner |[Philip](linkedin.com/in/philip-wang-390818120/)
+| Philip Wang | Record Catalog & Messages | UI Owner | [Philip](https://www.linkedin.com/in/philip-wang-390818120/)
 | David Tran | Trading Platform | Architecture Owner | [David](https://www.linkedin.com/in/davidtran3237/)
 | Seguy Gencoglu | Wishlists | Software Engineer | [Seguy](https://www.linkedin.com/in/seguygencoglu/)
 | Anthony Tzeng | Record Catalog | Software Engineer | [Anthony](https://www.linkedin.com/in/anthonytzeng/)
-|Julie Kravchenko| Login/Sign-up & Navigation | Software Engineer | [Julie](https://github.com/jkrav07)
+|Julie Kravchenko| Login/Sign-up & Navigation | Software Engineer | [Julie](https://www.linkedin.com/in/julie-kravchenko/)
 | Tony Troung | Trade History| Software Engineer | [Tony](https://www.linkedin.com/in/tonytruong575/)
 
 
