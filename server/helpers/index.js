@@ -1,24 +1,15 @@
 require('dotenv').config();
+import Constants from 'expo-constants';
 const axios = require('axios');
-// const Discogs = require('disconnect').Client;
 
-const consumerKey = 'ZvHBoFkrLyXPIeKeOXNT';
-const consumerSecret = 'hxwocTTpjbwSyqxpzxmPrOvCskCxiPrF';
-const token = 'mrsOtFtkMeCRTyFvAFJFPoxRPcCXUMKmICIkypqC';
-
-// const dis = new Discogs({
-//   consumerKey,
-//   consumerSecret,
-// });
+const consumerKey = Constants.expoConfig.extra.discog_consumer_key;
+const consumerSecret = Constants.expoConfig.extra.discog_consumer_secret;
+const token = Constants.expoConfig.extra.discog_token;
 
 module.exports = {
-
-  //  master id
   getAlbums: (req, res) => {
     axios.get(`https://api.discogs.com/database/search?q=&type=release${req.query.text}&genre=${req.query.genre}&key=${consumerKey}&secret=${consumerSecret}&page=${req.query.page}&per_page=10`)
       .then((response) => {
-        // const filtered = response.data.results.filter((album) => album.master_id);
-        // response.data.results = filtered;
         res.send(response.data);
       })
       .catch((err) => {
@@ -40,8 +31,6 @@ module.exports = {
   searchAlbumCategory: (req, res) => {
     axios.get(`https://api.discogs.com/database/search?q=&type=master&${req.query.category}=${req.query.search}&key=${consumerKey}&secret=${consumerSecret}&page=${req.query.page}&per_page=10`)
       .then((response) => {
-        // const filtered = response.data.results.filter((album) => album.master_id);
-        // response.data.results = filtered;
         res.send(response.data);
       })
       .catch((err) => {
@@ -49,14 +38,4 @@ module.exports = {
         res.sendStatus(500);
       });
   },
-  // getReleaseInfo: (req, res) => {
-  //   axios.get(`https://api.discogs.com/releases/${response.data.main_release}?token=${token}`)
-  //     .then((result) => {
-  //       res.send(result.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       res.sendStatus(500);
-  //     });
-  // },
 };
