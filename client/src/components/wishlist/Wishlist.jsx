@@ -55,7 +55,6 @@ export default function Wishlist({ route }) {
   const getWishListData = function () {
     axios.get('http://localhost:3000/api/wishlist', { params: { user_id: route.params.uid } }).then(({ data }) => {
       setWishList(data);
-      console.log('data', data);
     }).catch((error) => {
       console.log('Wishlist data cannot be retrieved from the server', error);
     });
@@ -63,8 +62,7 @@ export default function Wishlist({ route }) {
 
   const removeFromWishList = function (id) {
     axios.delete('http://localhost:3000/api/wishlist', { data: { user_id: route.params.uid, id } })
-      .then(({ data }) => {
-        console.log('Server response after remove operation', data);
+      .then(() => {
         getWishListData();
       }).catch((error) => {
         console.log('Unable to remove album from the wishlist', error);

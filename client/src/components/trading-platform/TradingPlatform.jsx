@@ -50,6 +50,7 @@ export default function TradingPlatform({ route }) {
   const [openTrades, setOpenTrades] = useState([]);
 
   useEffect(() => {
+    console.log('I AM INSIDE TRADING PLATFORM');
     axios
       // .get(`https://api.discogs.com/masters/${master_id}`, {
       //   params: {
