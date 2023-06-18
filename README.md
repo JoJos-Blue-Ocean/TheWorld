@@ -36,12 +36,13 @@ The World is a vinyl record exchange app. The target audience for this app is at
 3. Create a copy of example.env file & rename copy as .env
 4. `npm run start` will run a local expo server (install an iOS or android emulator for full experience)
 
-## USAGE
+## FUNCTIONALITIES
 1. Sign-up and setup your profile
 2. Navigate to the Record Catalog page
-3. You can look at the listings available for the vinyl you would like to get
-4. You can create a listing or look at your trading history
-5. Chat with the user who posted the listing or by clicking on someone's profile.
+3. Look at the listings available for the vinyl you would like to get
+4. Add records and remove them from your wishlist and browse other users' wishlists
+5. Look at your trading history
+6. Chat with the user who posted the listing by clicking on someone's profile
 
 https://github.com/JoJos-Blue-Ocean/TheWorld/assets/126213473/866ea628-7e4e-41b7-85f6-b19044840c09
 
