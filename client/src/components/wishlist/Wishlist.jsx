@@ -38,11 +38,7 @@ export default function Wishlist({ route }) {
     container: {
       paddingTop: 40,
       paddingBottom: 20,
-      // paddingLeft: 10,
-      // flexWrap: 'wrap',
-      // alignItems: 'center',
       width: '100%',
-      // borderWidth: 1,
       backgroundColor: '#F5F5F5',
     },
     albumNameText: {
