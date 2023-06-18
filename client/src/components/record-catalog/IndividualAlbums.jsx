@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import {
-  StyleSheet, Text, View, Button, Image, Modal, TouchableOpacity, ScrollView,
+  StyleSheet, Text, View, Image, Modal, TouchableOpacity, ScrollView,
 } from 'react-native';
 import Constants from 'expo-constants';
 import { WebView } from 'react-native-webview';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import { useNavigation } from '@react-navigation/core';
-import { AntDesign } from '@expo/vector-icons'; // Import the required icon
+import { AntDesign } from '@expo/vector-icons';
 import UserContext from '../UserContext';
 
 export default function IndividualAlbums({ album }) {
@@ -18,9 +18,6 @@ export default function IndividualAlbums({ album }) {
   const [uid, setUid] = useContext(UserContext);
   const [youtubeId, setYoutubeId] = useState('');
   const navigation = useNavigation();
-
-  // console.log('this is ModalVisible', modalVisible);
-  // console.log('this is info', info);
 
   const splitTitle = album.title.split(' - ');
   const collectionTitle = splitTitle[1] || '';
@@ -74,14 +71,12 @@ export default function IndividualAlbums({ album }) {
   };
 
   const closeModal = () => {
-    // e.stopPropagation();
     setModalVisible(false);
   };
 
   const addWishlist = () => {
     axios.post('http://localhost:3000/api/wishlist/add', info)
       .then((response) => {
-        // console.log('Successfully posted', response);
         setEnableWishlist(true);
       })
       .catch((err) => {
@@ -100,7 +95,7 @@ export default function IndividualAlbums({ album }) {
     alignItems: 'center',
     justifyContent: 'center',
     width: 160,
-    alignSelf: 'center', // Center horizontally
+    alignSelf: 'center',
   });
 
   return (
@@ -114,7 +109,6 @@ export default function IndividualAlbums({ album }) {
           <View style={styles.modalContent}>
             <ScrollView>
               <Image source={{ uri: album.cover_image }} style={styles.modalImage} />
-              {/* {youtubeId.length > 0 ? <iframe src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`} title="Tracklist Player" /> : null } */}
               {youtubeId.length > 0
                 ? (
                   <YoutubePlayer
@@ -295,7 +289,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 160,
-    alignSelf: 'center', // Center horizontally
+    alignSelf: 'center',
   },
   closeButton: {
     position: 'absolute',
