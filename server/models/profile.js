@@ -23,7 +23,7 @@ module.exports = {
       WHERE users.uid=$1
       AND trades.status='completed')
     FROM users
-    JOIN ratings on users.uid=recipient_id
+    LEFT JOIN ratings on users.uid=recipient_id
     WHERE users.uid=$1
     GROUP BY
     users.uid,
@@ -33,10 +33,11 @@ module.exports = {
     users.location;`;
     const values = [useruid];
     return pool.query(query, values)
-    .then((results) => {
+      .then((results) => {
         console.log('im here', results);
         return results.rows;
-      });
+      })
+      .catch((err) => console.log('ERROR IN MODELS'));
   },
   updateProfile(user) {
     const query = ` UPDATE

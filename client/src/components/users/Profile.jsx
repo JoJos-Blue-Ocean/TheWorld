@@ -91,7 +91,7 @@ export default function Profile({ route }) {
               },
             })
             .then((results) => {
-              navigation.navigate('Messages', { user: results.data });
+              navigation.navigate('Messages', { user: results.data, roomId: results.data.id });
             });
         } else {
           console.log('IN ELSE STATEMENT');
@@ -108,6 +108,7 @@ export default function Profile({ route }) {
   const retrieveStats = () => {
   //  QUERY DATABASE FOR STATS
     if (route.params) {
+      console.log('INSIDE RETRIEVE STATS');
       axios.get(`http://localhost:3000/api/profile/${route.params.uid}`)
         .then((results) => {
           console.log('RETRIEVE STATS', results.data);
@@ -208,11 +209,11 @@ export default function Profile({ route }) {
                       style={styles.modalBioInput}
                       multiline
                       numberOfLines={4}
-                      maxLength={150}
+                      maxLength={400}
                       placeholder={curUser.biography}
                       onChangeText={(newText) => setBio(newText)}
                     />
-                    <Text style={{ fontSize: 15, marginLeft: '60%', color: '#757575' }}>Max 150 chars</Text>
+                    <Text style={{ fontSize: 15, marginLeft: '60%', color: '#757575' }}>Max 400 chars</Text>
                   </View>
                   <TouchableOpacity
                     style={styles.confButton}
@@ -295,9 +296,9 @@ export default function Profile({ route }) {
           <View  style={styles.list}>
           <FlatList
           data={[
-            {key:'Likes long walks on the beach'},
-            {key:'Loves Dogs'},
-            {key:'Hates vampires'},
+            {key:'Okay with traveling for trades'},
+            {key:'Loves Animals'},
+            {key:'Based in Los Angeles area'},
           ]}
           renderItem={({item}) => <Text style={{fontSize: 18, marginVertical: '3%'}}>·{item.key}</Text>}
           />
