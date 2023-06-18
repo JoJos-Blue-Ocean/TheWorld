@@ -11,10 +11,11 @@ module.exports = {
     });
   },
   removeFromWishList(req, res) {
-    models.removeFromWishList(req.body).then(() => {
+    models.removeFromWishList(req.body).then((response) => {
+      console.log('response', response);
       res.sendStatus(202);
     }).catch((err) => {
-      console.log('Error in db when removing wishlist', err);
+      console.log('Error in db when getting wishlist', err);
       res.sendStatus(500);
     });
   },
