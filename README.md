@@ -42,7 +42,6 @@ The World is a vinyl record exchange app. The target audience for this app is at
 3. You can look at the listings available for the vinyl you would like to get
 4. You can create a listing or look at your trading history
 5. Chat with the user who posted the listing or by clicking on someone's profile.
-6. 
 https://github.com/JoJos-Blue-Ocean/TheWorld/assets/126213473/866ea628-7e4e-41b7-85f6-b19044840c09
 
 <img src="https://github.com/JoJos-Blue-Ocean/TheWorld/assets/126213473/c417f505-314e-4e25-85bb-049d4113199f" width=25% height=25%>
