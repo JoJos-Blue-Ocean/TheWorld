@@ -36,20 +36,22 @@ export default function NavigationPane({ children }) {
   return (
     <View style={styles.container}>
       {children}
-      <View style={styles.navBar}>
-        <TouchableOpacity onPress={() => handlePress('RecordCatalog')} color="#e0e0e0">
-          <AntDesign name="book" size={40} color={activeButton === 'RecordCatalog' ? '#800000' : '#808080'} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handlePress('TradingHistory')} color="#e0e0e0">
-          <MaterialIcons name="history" size={45} color={activeButton === 'TradingHistory' ? '#800000' : '#808080'} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handlePress('Messages')} color="#e0e0e0">
-          <AntDesign name="message1" size={35} color={activeButton === 'Messages' ? '#800000' : '#808080'} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handlePress('Profile')} color="#e0e0e0">
-          <Ionicons name="person-circle-outline" size={44} color={activeButton === 'Profile' ? '#800000' : '#808080'} />
-        </TouchableOpacity>
-      </View>
+      {!uid ? null : ( // do not show buttons if user has not logged in
+        <View style={styles.navBar}>
+          <TouchableOpacity onPress={() => handlePress('RecordCatalog')} color="#e0e0e0">
+            <AntDesign name="book" size={40} color={activeButton === 'RecordCatalog' ? '#800000' : '#808080'} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handlePress('TradingHistory')} color="#e0e0e0">
+            <MaterialIcons name="history" size={45} color={activeButton === 'TradingHistory' ? '#800000' : '#808080'} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handlePress('Messages')} color="#e0e0e0">
+            <AntDesign name="message1" size={35} color={activeButton === 'Messages' ? '#800000' : '#808080'} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handlePress('Profile')} color="#e0e0e0">
+            <Ionicons name="person-circle-outline" size={44} color={activeButton === 'Profile' ? '#800000' : '#808080'} />
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
