@@ -26,7 +26,6 @@ export default function Login({ route }) {
           uid: user.uid,
         };
         console.log('NEW USER OBJ:', newUser);
-        // console.log(`${process.env.API_URL}/api/register`);
         axios.post('http://localhost:3000/api/register', newUser)
           .then(() => {
             alert('You have been registered!');
@@ -147,7 +146,6 @@ const styles = StyleSheet.create({
   },
   buttonOutline: {
     backgroundColor: '#C0C0C0',
-    // marginTop: 30,
     borderColor: '#800000',
     borderWidth: 1,
   },
@@ -165,3 +163,4 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 });
+
