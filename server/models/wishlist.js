@@ -3,6 +3,7 @@ const pool = require('../database/db');
 module.exports = {
 
   getWishList(userid) {
+    console.log('I am in model wishlist', userid);
     const wishListQuery = {
       text: `SELECT id, user_id, artist_name, album_name, genre, image FROM wishlist
       WHERE user_id =$1`,
@@ -11,12 +12,13 @@ module.exports = {
     return pool.query(wishListQuery).then((results) => results.rows).catch((err) => console.log('cannot get wishlist data from db', err));
   },
   removeFromWishList(req) {
+    console.log('req for remove in model', req.id, req.user_id);
     const wishListQuery = {
       text: `DELETE FROM wishlist
       WHERE id =$1 AND user_id=$2`,
       values: [req.id, req.user_id],
     };
-    return pool.query(wishListQuery).then((results) => results.rows).catch((err) => console.log('cannot remove wishlist data from db', err));
+    return pool.query(wishListQuery).then((results) => results.rows).catch((err) => console.log('cannot get wishlist data from db', err));
   },
   addWishlist(request) {
     const values = [request.user_id, request.album_id,

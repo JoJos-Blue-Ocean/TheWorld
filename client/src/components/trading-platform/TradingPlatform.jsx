@@ -49,7 +49,6 @@ export default function TradingPlatform({ route }) {
   const [openTrades, setOpenTrades] = useState([]);
 
   useEffect(() => {
-    console.log('I AM INSIDE TRADING PLATFORM');
     axios
       .get('http://localhost:3000/api/record-catalog/individualAlbum', {
         params: {
