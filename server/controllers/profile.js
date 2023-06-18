@@ -2,9 +2,13 @@ const models = require('../models/profile');
 
 module.exports = {
   getProfile(req, res) {
+    console.log('REQ PARAMS', req.params);
     const user = req.params.user_id;
     models.getProfile(user)
-      .then((results) => res.json(results));
+      .then((results) => {
+        console.log('PROFILE RESULTS', results);
+        res.json(results);
+      });
   },
   updateProfile(req, res) {
     const { user } = req.body;

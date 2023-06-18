@@ -70,10 +70,15 @@ export default function SellerTile({ trade, master }) {
   console.log('USERNAME', trade.username);
   useEffect(() => {
     axios
-      .get(`https://api.discogs.com/masters/${trade.want_album_id}`, {
+      // .get(`https://api.discogs.com/masters/${trade.want_album_id}`, {
+      //   params: {
+      //     key: Constants.expoConfig.extra.discogsKey,
+      //     secret: Constants.expoConfig.extra.discogsSecret,
+      //   },
+      // })
+      .get('http://localhost:3000/api/record-catalog/individualAlbum', {
         params: {
-          key: Constants.expoConfig.extra.discogsKey,
-          secret: Constants.expoConfig.extra.discogsSecret,
+          id: trade.want_album_id,
         },
       })
       .then(({ data }) => {
