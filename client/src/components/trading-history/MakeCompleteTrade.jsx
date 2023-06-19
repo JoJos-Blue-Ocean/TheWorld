@@ -253,13 +253,7 @@ export default function MakeCompleteTrade({
           {id}
         </Text>
       </View>
-      {/* <View style={styles.statusContainer}>
-        <Text style={{
-          textAlign: 'center',
-        }}>
-          {status}
-        </Text>
-      </View> */}
+
       <Swipeable
         style={styles.swipeableContainer}
         useNativeDriver={false}

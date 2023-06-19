@@ -1,11 +1,11 @@
 import axios from 'axios';
 import React from 'react';
 import {
-  StyleSheet, Text, View, Image, Dimensions, Pressable,
+  StyleSheet, Text, View, Image, Dimensions, Button,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { Rating } from 'react-native-ratings';
-import { Entypo } from '@expo/vector-icons';
+import Constants from 'expo-constants';
+import StarRating from '../StarRating';
 
 const { useState, useEffect } = React;
 
@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
   },
   profilePicture: {
     borderRadius: 50,
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     borderWidth: 2,
     borderColor: '#333333',
     marginRight: 5,
@@ -30,8 +30,7 @@ const styles = StyleSheet.create({
   },
   leftSection: {
     flexDirection: 'column',
-    width: 50,
-    marginRight: 10,
+    width: '90%',
   },
   topRow: {
     flexDirection: 'row',
@@ -39,18 +38,10 @@ const styles = StyleSheet.create({
   bottomRow: {
 
   },
-  openDetails: {
+  rightSection: {
     justifyContent: 'center',
     height: '100%',
     width: '10%',
-  },
-  starRatings: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    gap: 5,
-  },
-  rightSection: {
-    width: '75%',
   },
 });
 
@@ -60,9 +51,10 @@ export default function SellerTile({ trade, master }) {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/api/record-catalog/individualAlbum', {
+      .get(`https://api.discogs.com/masters/${trade.want_album_id}`, {
         params: {
-          id: trade.want_album_id,
+          key: Constants.expoConfig.extra.discogsKey,
+          secret: Constants.expoConfig.extra.discogsSecret,
         },
       })
       .then(({ data }) => {
@@ -74,38 +66,32 @@ export default function SellerTile({ trade, master }) {
   return (
     <View style={styles.tileContainer}>
       <View style={styles.leftSection}>
-        <Image
-          style={styles.profilePicture}
-          source={{ uri: trade.profile_picture }}
-        />
-      </View>
-      <View style={styles.rightSection}>
-        <Text style={styles.username}>{trade.username}</Text>
-        <View>
-          <View style={styles.starRatings}>
-            <Rating
-              type="custom"
-              startingValue={trade.average_rating ? trade.average_rating : 0}
-              readonly
-              imageSize={20}
-              fractions={2}
-              tintColor="#F5F5F5"
-              ratingBackgroundColor="#C0C0C0"
+        <View style={styles.topRow}>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <Image
+              style={styles.profilePicture}
+              source={{ uri: trade.profile_picture }}
             />
-            <Text>{`${trade.average_rating ? trade.average_rating.slice(0, 4) : '0'} (${trade.ratings_count} ratings)`}</Text>
+          </View>
+          <View>
+            <Text style={styles.username}>{trade.username}</Text>
+            <StarRating rating={trade.average_rating} />
           </View>
         </View>
-        <Text numberOfLines={2}>{trade.description ? trade.description : 'N/A'}</Text>
+        <View style={styles.bottomRow}>
+          <Text>{`${trade.description.slice(0, 90)}...`}</Text>
+        </View>
       </View>
-
-      <View style={styles.openDetails}>
+      <View style={styles.rightSection}>
         {
           wantMaster
             ? (
-              <Pressable onPress={() => navigation.navigate('ActiveTradeDetails', { trade, master, wantMaster })}>
-                <Entypo name="chevron-right" size={24} color="black" />
-              </Pressable>
-            ) : null
+              <Button
+                title=">"
+                onPress={() => navigation.navigate('ActiveTradeDetails', { trade, master, wantMaster })}
+              />
+            )
+            : null
         }
       </View>
     </View>
