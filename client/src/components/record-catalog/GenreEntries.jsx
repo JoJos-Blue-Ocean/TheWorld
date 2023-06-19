@@ -26,9 +26,6 @@ export default function GenreEntries({ genre }) {
         setPage((prevPage) => prevPage + 1);
         setLoading(false);
       })
-      .then(() => {
-        // console.log(`${genre} :`, albums);
-      })
       .catch((err) => {
         console.log(err);
         setLoading(false);

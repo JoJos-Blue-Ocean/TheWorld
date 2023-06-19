@@ -1,14 +1,13 @@
 import axios from 'axios';
 import React from 'react';
 import {
-  StyleSheet, Text, View, Image, Dimensions, ScrollView, Button, Alert, TextInput, Pressable, TouchableOpacity
+  StyleSheet, Text, View, Image, Dimensions, ScrollView, Pressable, TouchableOpacity,
 } from 'react-native';
-import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/core';
 import { Rating } from 'react-native-ratings';
 import UserContext from '../UserContext';
 
-const { useState, useEffect, useContext } = React;
+const { useContext } = React;
 
 const styles = StyleSheet.create({
   headerContainer: {

@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React from 'react';
 import {
-  StyleSheet, Text, View, Image, Dimensions, Button, Pressable,
+  StyleSheet, Text, View, Image, Dimensions, Pressable,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import Constants from 'expo-constants';
 import { Rating } from 'react-native-ratings';
 import { Entypo } from '@expo/vector-icons';
+
 const { useState, useEffect } = React;
 
 const styles = StyleSheet.create({
@@ -51,9 +51,6 @@ const styles = StyleSheet.create({
   },
   rightSection: {
     width: '75%',
-    // overflow: 'hidden',
-    // whiteSpace: 'nowrap',
-    // textOverflow: 'ellipsis',
   },
 });
 
@@ -61,19 +58,11 @@ export default function SellerTile({ trade, master }) {
   const [wantMaster, setWantMaster] = useState(null);
   const navigation = useNavigation();
 
-  // let descriptionDisplay = 'N/A';
-  // if (trade.description.length > 50) {
-  //   descriptionDisplay = `${trade.description.slice(0, 50)}...`;
-  // } else if (trade.description.length > 0) {
-  //   descriptionDisplay = trade.description;
-  // }
-  console.log('USERNAME', trade.username);
   useEffect(() => {
     axios
-      .get(`https://api.discogs.com/masters/${trade.want_album_id}`, {
+      .get('http://localhost:3000/api/record-catalog/individualAlbum', {
         params: {
-          key: Constants.expoConfig.extra.discogsKey,
-          secret: Constants.expoConfig.extra.discogsSecret,
+          id: trade.want_album_id,
         },
       })
       .then(({ data }) => {

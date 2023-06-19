@@ -5,7 +5,6 @@ import {
   StyleSheet, Text, View, ScrollView, Image, Dimensions,
 } from 'react-native';
 import Constants from 'expo-constants';
-import NavigationPane from '../NavigationPane';
 import SellerList from './SellerList';
 
 const styles = StyleSheet.create({
@@ -51,10 +50,9 @@ export default function TradingPlatform({ route }) {
 
   useEffect(() => {
     axios
-      .get(`https://api.discogs.com/masters/${master_id}`, {
+      .get('http://localhost:3000/api/record-catalog/individualAlbum', {
         params: {
-          key: Constants.expoConfig.extra.discogsKey,
-          secret: Constants.expoConfig.extra.discogsSecret,
+          id: master_id,
         },
       })
       .then(({ data }) => setMaster(data))
