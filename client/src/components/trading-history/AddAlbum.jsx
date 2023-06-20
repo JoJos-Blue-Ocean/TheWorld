@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, Text, View, Image, Pressable, TextInput, ScrollView,
+  StyleSheet, View, TextInput, ScrollView,
 } from 'react-native';
 import axios from 'axios';
 import MakeAlbum from './MakeAlbum';
@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
     zIndex: 1,
     backgroundColor: 'white',
     borderRadius: '8%',
-    borderWidth: 1,  // Add border width
-    borderColor: 'gray',  // Add border color
+    borderWidth: 1,
+    borderColor: 'gray',
   },
   search: {
     position: 'absolute',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, Text, View, Image, Pressable, TouchableHighlight,
+  StyleSheet, Text, View, Image, TouchableHighlight,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import Swipeable from 'react-native-swipeable';
@@ -10,7 +10,6 @@ import { FontAwesome } from '@expo/vector-icons';
 const styles = StyleSheet.create({
   trade: {
     height: 225,
-    // flex: 1
     width: '100%',
     backgroundColor: 'white',
   },
@@ -22,7 +21,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tradeId: {
-    // left: '40%',
     fontSize: 20,
   },
   albumsContainer: {
@@ -42,7 +40,6 @@ const styles = StyleSheet.create({
     width: '80%',
     borderRadius: '5%',
     left: '10%',
-    // backgroundColor: 'blue',
   },
   albumImage: {
     left: '7%',
@@ -52,16 +49,13 @@ const styles = StyleSheet.create({
     borderRadius: '5%',
   },
   albumInfo: {
-    // backgroundColor: 'red',
-    // textAlign: 'start',
     left: '15%',
     height: '35%',
     width: '80%',
     overflow: 'hidden',
   },
   albumSongName: {
-    textAlign: 'start',
-    // textAlign: 'center',
+    textAlign: 'left',
     fontSize: 14,
     marginBottom: '3%',
     fontWeight: 'bold',
@@ -71,8 +65,7 @@ const styles = StyleSheet.create({
     whiteSpace: 'nowrap',
   },
   albumArtist: {
-    textAlign: 'start',
-    // textAlign: 'center',
+    textAlign: 'left',
     fontSize: 10,
     width: '80%',
     overflow: 'hidden',
@@ -82,7 +75,6 @@ const styles = StyleSheet.create({
   },
   date: {
     position: 'absolute',
-    // top: '60%',
     right: '5%',
     fontSize: 12,
   },
@@ -137,14 +129,7 @@ const styles = StyleSheet.create({
 
 export default function MakeListingTrade({
   id,
-  sellingAlbumImage,
-  sellingAlbumSongName,
-  sellingAlbumArtist,
-  desiredAlbumImage,
-  desiredAlbumSongName,
-  desiredAlbumArtist,
   date,
-  status,
   tradingAlbumId,
   desiredAlbumId,
   userId,
@@ -237,13 +222,7 @@ export default function MakeListingTrade({
           {id}
         </Text>
       </View>
-      {/* <View style={styles.statusContainer}>
-        <Text style={{
-          textAlign: 'center',
-        }}>
-          {status}
-        </Text>
-      </View> */}
+
       <Swipeable
         rightButtons={rightButtons}
         useNativeDriver={false}
@@ -256,11 +235,16 @@ export default function MakeListingTrade({
             </View>
             <View style={styles.albumInfo}>
               <Text style={styles.albumSongName} numberOfLines={1}>{tradingAlbum.title}</Text>
-              <Text style={styles.albumArtist} numberOfLines={1}>{tradingAlbum.artists[0].name}</Text>
+              <Text
+                style={styles.albumArtist}
+                numberOfLines={1}
+              >
+                {tradingAlbum.artists[0].name}
+              </Text>
             </View>
           </View>
 
-          <FontAwesome name="exchange" size={35} color="black" style={styles.arrows}/>
+          <FontAwesome name="exchange" size={35} color="black" style={styles.arrows} />
 
           <View style={styles.albumContainer}>
             <View style={styles.albumImageContainer}>
@@ -268,7 +252,12 @@ export default function MakeListingTrade({
             </View>
             <View style={styles.albumInfo}>
               <Text style={styles.albumSongName} numberOfLines={1}>{desiredAlbum.title}</Text>
-              <Text style={styles.albumArtist} numberOfLines={1}>{desiredAlbum.artists[0].name}</Text>
+              <Text
+                style={styles.albumArtist}
+                numberOfLines={1}
+              >
+                {desiredAlbum.artists[0].name}
+              </Text>
             </View>
           </View>
         </View>

@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
-  StyleSheet, Text, View, Image, Pressable,
+  StyleSheet, Text, View, Image,
 } from 'react-native';
 import Swipeable from 'react-native-swipeable';
 import axios from 'axios';
-import { FontAwesome } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
+import { FontAwesome, Entypo } from '@expo/vector-icons';
 import UserContext from '../UserContext';
-
 
 const styles = StyleSheet.create({
   trade: {
     height: 225,
-    // flex: 1
     width: '100%',
     backgroundColor: 'white',
   },
@@ -24,7 +21,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tradeId: {
-    // left: '40%',
     fontSize: 20,
   },
   albumsContainer: {
@@ -44,7 +40,6 @@ const styles = StyleSheet.create({
     width: '80%',
     borderRadius: '5%',
     left: '10%',
-    // backgroundColor: 'blue',
   },
   albumImage: {
     left: '7%',
@@ -54,8 +49,6 @@ const styles = StyleSheet.create({
     borderRadius: '5%',
   },
   albumInfo: {
-    // backgroundColor: 'red',
-    // textAlign: 'start',
     left: '15%',
     height: '35%',
     width: '80%',
@@ -63,7 +56,6 @@ const styles = StyleSheet.create({
   },
   albumSongName: {
     textAlign: 'start',
-    // textAlign: 'center',
     fontSize: 14,
     marginBottom: '3%',
     fontWeight: 'bold',
@@ -74,7 +66,6 @@ const styles = StyleSheet.create({
   },
   albumArtist: {
     textAlign: 'start',
-    // textAlign: 'center',
     fontSize: 10,
     width: '80%',
     overflow: 'hidden',
@@ -84,7 +75,6 @@ const styles = StyleSheet.create({
   },
   date: {
     position: 'absolute',
-    // top: '60%',
     right: '5%',
     fontSize: 12,
   },
@@ -153,16 +143,8 @@ const styles = StyleSheet.create({
 
 export default function MakeCompleteTrade({
   id,
-  sellingAlbumImage,
-  sellingAlbumSongName,
-  sellingAlbumArtist,
-  desiredAlbumImage,
-  desiredAlbumSongName,
-  desiredAlbumArtist,
   date,
-  status,
   buyerName,
-  buyerImage,
   tradingAlbumId,
   desiredAlbumId,
   userId,
@@ -196,24 +178,16 @@ export default function MakeCompleteTrade({
   useEffect(() => {
     const retrieveStats = () => {
       //  QUERY DATABASE FOR STATS
-        axios.get(`http://localhost:3000/api/profile/${uid}`)
-          .then((results) => {
-            console.log('RETRIEVE STATS', results.data[0]);
-            setCurUser(results.data[0].username);
-          })
-          .catch((err) => console.log('username error: ', err));
-      };
-      retrieveStats();
+      axios.get(`http://localhost:3000/api/profile/${uid}`)
+        .then((results) => {
+          console.log('RETRIEVE STATS', results.data[0]);
+          setCurUser(results.data[0].username);
+        })
+        .catch((err) => console.log('username error: ', err));
+    };
+    retrieveStats();
   }, [id]);
 
-  const params = {
-    sellingAlbumImage,
-    sellingAlbumSongName,
-    sellingAlbumArtist,
-    desiredAlbumImage,
-    desiredAlbumSongName,
-    desiredAlbumArtist,
-  };
   useEffect(() => {
     async function fetchData() {
       try {
@@ -253,13 +227,7 @@ export default function MakeCompleteTrade({
           {id}
         </Text>
       </View>
-      {/* <View style={styles.statusContainer}>
-        <Text style={{
-          textAlign: 'center',
-        }}>
-          {status}
-        </Text>
-      </View> */}
+
       <Swipeable
         style={styles.swipeableContainer}
         useNativeDriver={false}
@@ -267,30 +235,41 @@ export default function MakeCompleteTrade({
       >
         <View style={styles.albumsContainer}>
           <View style={styles.albumContainer}>
-          <View style={styles.buyerContainer}>
-          <Text style={styles.buyerName}>{curUser}</Text>
-        </View>
+            <View style={styles.buyerContainer}>
+              <Text style={styles.buyerName}>{curUser}</Text>
+            </View>
             <View style={styles.albumImageContainer}>
               <Image source={{ uri: tradingAlbum.images[0].uri }} style={styles.albumImage} />
             </View>
             <View style={styles.albumInfo}>
               <Text style={styles.albumSongName} numberOfLines={1}>{tradingAlbum.title}</Text>
-              <Text style={styles.albumArtist} numberOfLines={1}>{tradingAlbum.artists[0].name}</Text>
+              <Text
+                style={styles.albumArtist}
+                numberOfLines={1}
+              >
+                {tradingAlbum.artists[0].name}
+              </Text>
             </View>
           </View>
 
-            <FontAwesome name="exchange" size={35} color="black" style={styles.arrows} />
+          <FontAwesome name="exchange" size={35} color="black" style={styles.arrows} />
 
           <View style={styles.albumContainer}>
-          <View style={styles.buyerContainer}>
-          <Text style={styles.buyerName}>{buyerName}</Text>
-        </View>
+            <View style={styles.buyerContainer}>
+              <Text style={styles.buyerName}>{buyerName}</Text>
+            </View>
             <View style={styles.albumImageContainer}>
               <Image source={{ uri: desiredAlbum.images[0].uri }} style={styles.albumImage} />
             </View>
             <View style={styles.albumInfo}>
               <Text style={styles.albumSongName} numberOfLines={1}>{desiredAlbum.title}</Text>
-              <Text style={styles.albumArtist} numberOfLines={1}>{desiredAlbum.artists[0].name}</Text>
+              <Text
+                style={styles.albumArtist}
+                numberOfLines={1}
+              >
+                {desiredAlbum.artists[0].name}
+
+              </Text>
             </View>
           </View>
         </View>
