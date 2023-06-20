@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
 import {
-  StyleSheet, Text, View, Image, Pressable, TextInput, ScrollView, TouchableOpacity,
+  StyleSheet, Text, View, Image, TextInput, TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
+import { MaterialIcons } from '@expo/vector-icons';
 import AddAlbum from './AddAlbum';
 import UserContext from '../UserContext';
-import { MaterialIcons } from '@expo/vector-icons';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -60,11 +61,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   submitButton: {
-    // top: '75%',
-    // width: '30%',
-    // left: '35%',
-    // backgroundColor: 'grey',
-    // height: '6%',
     marginTop: 20,
     backgroundColor: '#800000',
     paddingVertical: 10,
@@ -79,10 +75,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-
-    // textAlign: 'center',
-    // fontSize: 18,
-    // color: 'white',
   },
   tradingAlbumContainer: {
     position: 'absolute',
@@ -167,7 +159,6 @@ export default function AddTrade({ route }) {
           style={styles.addTradingAlbumButton}
           onPress={() => { toggleShowAddTradingAlbum(true); }}
         >
-          {/* <Text style={styles.addText}>+</Text> */}
           <MaterialIcons name="add-to-photos" size={24} color="black" />
         </TouchableOpacity>
       )}
@@ -189,7 +180,11 @@ export default function AddTrade({ route }) {
         </TouchableOpacity>
       )}
       <Text style={styles.descriptionPrompt}>Description</Text>
-      <TextInput style={styles.descriptionBox} onChangeText={(e) => { setDescription(e); }} multiline={true} />
+      <TextInput
+        style={styles.descriptionBox}
+        onChangeText={(e) => { setDescription(e); }}
+        multiline
+      />
       <TouchableOpacity
         style={styles.submitButton}
         onPress={() => axios.post('http://localhost:3000/api/trade-history/add-trade', {

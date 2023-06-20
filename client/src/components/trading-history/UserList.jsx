@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   ScrollView,
 } from 'react-native';
@@ -31,8 +30,6 @@ export default function UserList({
   setBuyerSelected,
 }) {
   const [list, setList] = useState([]);
-  const [typing, setTyping] = useState(false);
-  const [timeoutId, setTimeoutId] = useState(null);
 
   useEffect(() => {
     async function fetch() {

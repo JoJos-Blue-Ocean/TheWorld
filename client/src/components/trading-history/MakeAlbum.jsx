@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React åfrom 'react';
 import {
-  StyleSheet, Text, View, Image, Pressable, TextInput,
+  StyleSheet, Text, View, Image, Pressable,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -52,5 +52,5 @@ export default function MakeAlbum({ album, selectAlbum, toggleShowAddAlbum, togg
         </View>
       </View>
     </Pressable>
-  )
+  );
 }

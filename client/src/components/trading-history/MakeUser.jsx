@@ -1,9 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
-  View,
-  ScrollView,
   Image,
   Pressable,
 } from 'react-native';

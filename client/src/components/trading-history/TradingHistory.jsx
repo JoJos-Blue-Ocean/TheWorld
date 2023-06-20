@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
-  StyleSheet, Text, View, Pressable, TouchableOpacity,
+  StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
-import Draggable from 'react-native-draggable';
 import YourListing from './YourListing';
 import TransactionHistory from './TransactionHistory';
 import UserContext from '../UserContext';
@@ -15,39 +14,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   tabs: {
-    // position: 'absolute',
-    // display: 'flex',
-    // flexDirection: 'row',
-    // height: '10%',
-    // position: 'absolute',
-    // display: 'flex',
-    // flexDirection: 'row',
-    // height: '10%',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
     justifyContent: 'flex-start',
     alignItems: 'center',
     height: '10%',
     paddingHorizontal: 16,
     backgroundColor: '#FFFFFF',
-    paddingHorizontal: 16,
-    backgroundColor: '#FFFFFF',
   },
   tab: {
-    // position: 'relative',
-    // padding: '5%',
-    // borderWidth: 1,
-    // borderColor: 'black',
-    // marginRight: '5%',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    // position: 'relative',
-    // padding: '5%',
-    // borderWidth: 1,
-    // borderColor: 'black',
-    // marginRight: '5%',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -55,10 +29,8 @@ const styles = StyleSheet.create({
     borderColor: '#000000',
     marginRight: 10,
   },
-  // added
   activeTab: {
-    // backgroundColor: '#C0C0C0',
-      color: '#800000',
+    color: '#800000',
   },
   activeTabText: {
     color: '#800000',
@@ -69,19 +41,7 @@ const styles = StyleSheet.create({
     borderColor: '#000000',
     marginRight: 5,
   },
-  // added
-  // activeTab: {
-  //   color: '#800000',
-  // },
-  // tabText: {
-  //   fontSize: 16,
-  //   color: '#000000',
-  // },
   tradesHistoryMain: {
-    // position: 'absolute',
-    // top: '15%',
-    // height: '80%',
-    // width: '100%',
     flex: 1,
   },
   addListing: {
